@@ -1,0 +1,24 @@
+.form-control {
+    border-radius: 0rem;
+	border: 1px solid rgba(151,151,151,0.16);
+	background-color: rgba(216,216,216,0.1);
+
+	color: #0B5B96;
+	letter-spacing: 1.09px;
+
+    font-size: 2rem;
+    line-height: 1.5;
+
+	@include placeholder(#0B5B96,0.3);
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(3.7rem + 2px);
+}
+
+// [mck] ahhhh ugly but anyhow
+.navbar{
+    font-size: 1rem;
+    font-weight: 400;
+    height: 60px;
+}

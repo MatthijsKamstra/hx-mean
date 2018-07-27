@@ -1,0 +1,10 @@
+# Uncomment (#) more build scripts if you need more
+-cmd echo '\n----- build all (projectname: HxMean) -----'
+-cmd echo '> build target node server (build_server.hxml)'
+-cmd haxe build_server.hxml
+
+-cmd echo '> build target js client (build_client.hxml)'
+-cmd haxe build_client.hxml
+
+
+-cmd echo '> build done'

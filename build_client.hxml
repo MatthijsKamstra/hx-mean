@@ -1,0 +1,6 @@
+# -lib js-kit
+# -lib hxnodejs
+-cp src
+-main MainClient
+-js bin/client.js
+-dce full

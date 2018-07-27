@@ -1,0 +1,156 @@
+.container-homepage {
+
+	.h3{
+		color: #028985;
+		@include font($body, normal, 600);
+		// color: $blue;
+		font-size: 64px;
+		line-height: 76px;
+		text-align: center;
+	}
+	.font-color-red{
+		color: $red;
+	}
+
+	.header{
+		// height: 650px;
+		height: 85vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		.psf-logo{
+			height: 83px;
+			width: 195px;
+			position: absolute;
+
+			left: 25px;
+			top: 25px;
+			@include breakpoint(md) {
+				top: 50px;
+			}
+		}
+		.trash-hunters-logo {
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+			@include breakpoint(md) {
+				height: 315px;
+				width: 393px;
+			}
+		}
+	}
+
+	.container-blue {
+		padding: 90px 0;
+
+		background-color: #D6F3FD;
+		background-image: url('/img/bg/blanket.png');
+		background-position: top center;
+		background-repeat: no-repeat;
+		background-size: 100%;
+
+		.trashdata-count{
+			color: $red;
+			@include font($heading, normal, 700);
+			letter-spacing: -2.05px;
+			font-size: 100px;
+			line-height: 168px;
+			@include breakpoint(md) {
+				font-size: 132px;
+			}
+		}
+		#map{
+			margin-top: 125px;
+		}
+	}
+
+	.container-list {
+		padding-top: 90px;
+		padding-bottom: 90px;
+
+		@include breakpoint(lg) {
+			.row-colom-bounce > .col:nth-child(2) {
+				padding-top: 80px;
+			}
+		}
+
+		.h3{
+			padding: 60px 0;
+		}
+		.container-plastic,
+		.container-counter {
+			padding: 20px 0;
+			text-align: center;
+			img{
+				border-radius: 100%;
+				box-sizing: border-box;
+				border: 10px solid #028985;
+				background-color: #FFFFFF;
+
+				height: 80%;
+				width: 80%;
+				@include breakpoint(md) {
+					height: 285px;
+					width: 285px;
+				}
+			}
+			.count {
+				@include font($heading, normal, 700);
+				color: $red;
+				font-size: 66px;
+				letter-spacing: -1.02px;
+				line-height: 84px;
+				display: block;
+			}
+			.description {
+				color: #2E2E2E;
+				font-size: 56px;
+				line-height: 66px;
+			}
+		}
+		.container-counter {
+			.count {
+				margin: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				border-radius: 100%;
+				box-sizing: border-box;
+				height: 159px;
+				width: 159px;
+				border: 10px solid #028985;
+				background-color: #FFFFFF;
+
+				margin-bottom: 50px;
+			}
+		}
+	}
+
+	.container-calltoaction {
+		text-align: center;
+		h2{
+			color: $red;
+			@include font($heading, normal, 700);
+			letter-spacing: -0.99px;
+			padding-bottom: 60px;
+
+		    font-size: 40px;
+			line-height: 50px;
+			@include breakpoint(sm) {
+				font-size: 64px;
+				line-height: 81px;
+			}
+		}
+
+
+		a{
+			color: #028985;
+			font-size: 64px;
+			line-height: 76px;
+			padding-bottom: 60px;
+			text-decoration: underline;
+
+		}
+	}
+}

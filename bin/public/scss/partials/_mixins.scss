@@ -1,0 +1,243 @@
+/**
+
+767px wide and below
+768px wide and up
+992px wide and up
+1200px wide and up
+
+@include breakpoint(sm) {
+    float: none;
+    width: 100%;
+}
+**/
+@mixin breakpoint($class) {
+  @if $class == xs {
+    @media (max-width: 576px) { @content; }
+  }
+
+  @else if $class == sm {
+    @media (min-width: 576px) { @content; }
+  }
+
+  @else if $class == md {
+    @media (min-width: 768px) { @content; }
+  }
+
+  @else if $class == lg {
+    @media (min-width: 992px) { @content; }
+  }
+
+  @else if $class == xl {
+    @media (min-width: 1200px) { @content; }
+  }
+
+  @else {
+    @warn "Breakpoint mixin supports: xs, sm, md, lg, xl";
+  }
+}
+
+
+
+//  Clearfix
+@mixin clear-float {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+// Text
+@mixin font-smoothing {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin font($name, $style: normal, $weight: normal) {
+    font-family: $name;
+    font-style: $style;
+    font-weight: $weight;
+}
+
+@mixin font-size($size: 1.6) {
+    font-size: ($size * 1) + px;
+    font-size: ($size / 10) + rem;
+}
+
+@mixin line-height($size: 1.6) {
+    line-height: ($size * 1) + px;
+    line-height: ($size / 10) + rem;
+}
+
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  //white-space: nowrap;
+}
+
+@mixin text-shadow($x-offset: 0, $y-offset: 0, $blur: 0px, $color: #000) {
+    text-shadow: $x-offset $y-offset $blur $color;
+}
+
+//  Border radius
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+}
+
+//  Transform
+@mixin transform($property...) {
+    -moz-transform: $property;
+    -ms-transform: $property;
+    -o-transform: $property;
+    -webkit-transform: $property;
+    transform: $property;
+}
+
+@mixin transform-origin ($origin...) {
+    -moz-transform-origin: $origin;
+    -o-transform-origin: $origin;
+    -ms-transform-origin: $origin;
+    -webkit-transform-origin: $origin;
+    transform-origin: $origin;
+}
+
+//  Transition
+@mixin transition($args...) {
+    -webkit-transition: $args;
+    -moz-transition: $args;
+    -o-transition: $args;
+    transition: $args;
+}
+
+//  Box Sizing
+@mixin box-sizing($value) {
+    -moz-box-sizing: $value;
+    -webkit-box-sizing: $value;
+    box-sizing: $value;
+}
+
+//  Box shadow
+@mixin box-shadow($args...) {
+    -webkit-box-shadow: $args;
+    -moz-box-shadow: $args;
+    box-shadow: $args;
+}
+
+//  Opacity
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+//  Center content horzontal, vertical, both
+//  - @include centre(y);
+//  - @include centre(x);
+//  - @include centre();
+@mixin centre($axis: "both", $top: 50%, $left: 50%) {
+    position: absolute;
+
+    @if $axis == "y" {
+        top: $top;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+
+    @if $axis == "x" {
+        left: $left;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+
+    @if $axis == "both" {
+        top: $top;
+        left: $left;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+//  Placeholder
+@mixin placeholder($color, $opacity) {
+    &::-webkit-input-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+
+    &:-moz-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+
+    &::-moz-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+
+    &:-ms-input-placeholder {
+        color: $color;
+        opacity: $opacity;
+    }
+}
+
+// Gradients
+//  Linear Gradient
+@mixin linear-gradient($top, $bottom, $stop: 100%) {
+    background: -moz-linear-gradient(top, $top 0, $bottom $stop); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0,$top), color-stop($stop,$bottom)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, $top 0,$bottom $stop); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, $top 0,$bottom $stop); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, $top 0,$bottom $stop); /* IE10+ */
+    background: linear-gradient(to bottom, $top 0,$bottom $stop); /* W3C */
+}
+
+
+// Easings
+// Cubic
+$easeInCubic     :  cubic-bezier(0.550, 0.055, 0.675, 0.190);
+$easeOutCubic    :  cubic-bezier(0.215, 0.610, 0.355, 1.000);
+$easeInOutCubic  :  cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+// Circ
+$easeInCirc      :  cubic-bezier(0.600, 0.040, 0.980, 0.335);
+$easeOutCirc     :  cubic-bezier(0.075, 0.820, 0.165, 1.000);
+$easeInOutCirc   :  cubic-bezier(0.785, 0.135, 0.150, 0.860);
+
+// Expo
+$easeInExpo      :  cubic-bezier(0.950, 0.050, 0.795, 0.035);
+$easeOutExpo     :  cubic-bezier(0.190, 1.000, 0.220, 1.000);
+$easeInOutExpo   :  cubic-bezier(1.000, 0.000, 0.000, 1.000);
+
+// Quad
+$easeInQuad      :  cubic-bezier(0.550, 0.085, 0.680, 0.530);
+$easeOutQuad     :  cubic-bezier(0.250, 0.460, 0.450, 0.940);
+$easeInOutQuad   :  cubic-bezier(0.455, 0.030, 0.515, 0.955);
+
+// Quart
+$easeInQuart     :  cubic-bezier(0.895, 0.030, 0.685, 0.220);
+$easeOutQuart    :  cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$easeInOutQuart  :  cubic-bezier(0.770, 0.000, 0.175, 1.000);
+
+// Quint
+$easeInQuint     :  cubic-bezier(0.755, 0.050, 0.855, 0.060);
+$easeOutQuint    :  cubic-bezier(0.230, 1.000, 0.320, 1.000);
+$easeInOutQuint  :  cubic-bezier(0.860, 0.000, 0.070, 1.000);
+
+// Sine
+$easeInSine      :  cubic-bezier(0.470, 0.000, 0.745, 0.715);
+$easeOutSine     :  cubic-bezier(0.390, 0.575, 0.565, 1.000);
+$easeInOutSine   :  cubic-bezier(0.445, 0.050, 0.550, 0.950);
+
+// Back
+$easeInBack      :  cubic-bezier(0.600, -0.280, 0.735, 0.045);
+$easeOutBack     :  cubic-bezier(0.175,  0.885, 0.320, 1.275);
+$easeInOutBack   :  cubic-bezier(0.680, -0.550, 0.265, 1.550);

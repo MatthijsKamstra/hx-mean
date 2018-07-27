@@ -1,0 +1,45 @@
+// .mx-auto{
+// 	text-align: center;
+// 	.btn-register{
+// 		border-radius: 5px;
+// 		color: #028985;
+// 		background-color: #9CCFD0;
+// 		border-color: #9CCFD0;
+// 		padding-left: 50px;
+// 		padding-right: 50px;
+// 	}
+// }
+
+// based upon "http://www.plasticsoupjunior.org/"
+// with some minor adjustments
+.btn-green-big {
+    outline: none;
+	height: 57px;
+    width: 274px;
+    border-radius: 5px;
+    font-size: 24px;
+    letter-spacing: 1px;
+	@include font($body, normal, 600);
+    transition: box-shadow ease 0.4s;
+
+    color: white;
+    box-shadow: 0 4px 0px 0px #aedbee;
+    background-color: #028985;
+    border-color: #028985;
+
+    &:hover{
+        color: white;
+        box-shadow: 0 4px 0px 0px #82B3D0;
+        background-color: #09605D;
+        border-color: #09605D;
+    }
+
+    &.disabled {
+        color: #028985;
+        box-shadow: 0 4px 0px 0px #F5FAFD;
+        background-color: #9CCFD0;
+        border-color: #9CCFD0;
+        pointer-events: inherit!important;
+        cursor: not-allowed!important;
+	}
+}
