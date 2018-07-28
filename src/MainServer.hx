@@ -90,12 +90,12 @@ class MainServer {
 		// });
 
 		app.use(function (req:Request,res:Response, next) {
-			res.sendFile( Path.resolve(Node.__dirname , 'public/404.html'));
+			res.sendFile( Path.resolve(Node.__dirname , 'public/400.html'));
 		});
 
-		// app.use(function (err, req, res, next) {
-		// 	res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
-		// });
+		app.use(function (err, req, res, next) {
+			res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
+		});
 
 
 		app.listen(config.PORT, function(){

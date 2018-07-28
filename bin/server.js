@@ -35,7 +35,11 @@ var MainServer = function() {
 		res3.send("username: " + username);
 	});
 	app["use"](function(req4,res4,next) {
-		res4.sendFile(js_node_Path.resolve(__dirname,"public/404.html"));
+		res4.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	});
+	app["use"](function(err,req5,res5,next1) {
+		var tmp = js_node_Path.resolve(__dirname,"public/500.html");
+		res5.sendFile(tmp);
 	});
 	app.listen(this.config.PORT,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
