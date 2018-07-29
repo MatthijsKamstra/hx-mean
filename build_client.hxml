@@ -2,5 +2,5 @@
 # -lib hxnodejs
 -cp src
 -main MainClient
--js bin/client.js
+-js bin/public/js/client.js
 -dce full

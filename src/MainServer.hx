@@ -19,6 +19,8 @@ class MainServer {
 
 	function new() {
 
+		trace(Test.template('mmt'));
+
 		var isDev = config.ENVIRONMENT == 'development';
 		console.log('isDev: ${isDev}');
 
@@ -56,6 +58,10 @@ class MainServer {
 
 		app.get('/remote', function (req:Request,res:Response) {
 			res.sendFile(Node.__dirname + '/public/remote_intermediate.html');
+		});
+
+		app.get('/jade', function (req:Request,res:Response) {
+			res.render('index',{title:'Home',h1:'Title'});
 		});
 
 		app.get('/jade', function (req:Request,res:Response) {
@@ -101,7 +107,6 @@ class MainServer {
 		app.listen(config.PORT, function(){
 			// trace('Express server listening on port ' + app.get('port'));
 			console.info('>>> 🌎 Open http://localhost:${config.PORT}/ in your browser.');
-
 		});
 
 

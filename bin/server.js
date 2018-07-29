@@ -12,6 +12,7 @@ HxOverrides.cca = function(s,index) {
 var MainServer = function() {
 	this.config = new config_Config();
 	var _gthis = this;
+	Test.template("mmt");
 	var isDev = this.config.ENVIRONMENT == "development";
 	console.log("isDev: " + (isDev == null ? "null" : "" + isDev));
 	var app = new js_npm_Express();
@@ -30,16 +31,19 @@ var MainServer = function() {
 	app.get("/jade",function(req2,res2) {
 		res2.render("index",{ title : "Home", h1 : "Title"});
 	});
-	app.get("/api/users",function(req3,res3) {
-		var username = req3.param("username");
-		res3.send("username: " + username);
+	app.get("/jade",function(req3,res3) {
+		res3.render("index",{ title : "Home", h1 : "Title"});
 	});
-	app["use"](function(req4,res4,next) {
-		res4.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	app.get("/api/users",function(req4,res4) {
+		var username = req4.param("username");
+		res4.send("username: " + username);
 	});
-	app["use"](function(err,req5,res5,next1) {
+	app["use"](function(req5,res5,next) {
+		res5.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	});
+	app["use"](function(err,req6,res6,next1) {
 		var tmp = js_node_Path.resolve(__dirname,"public/500.html");
-		res5.sendFile(tmp);
+		res6.sendFile(tmp);
 	});
 	app.listen(this.config.PORT,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
@@ -58,6 +62,14 @@ Std.parseInt = function(x) {
 		return null;
 	}
 	return v;
+};
+var Test = function() { };
+Test.template = function(templateName) {
+	if(templateName == "mtt") {
+		console.log("mtt");
+	} else {
+		console.log("case '" + templateName + "': trace ('" + templateName + "');");
+	}
 };
 var config_Config = function() {
 	this.ENVIRONMENT = Object.prototype.hasOwnProperty.call(process.env,"ENVIRONMENT") ? process.env["ENVIRONMENT"] : "development";
