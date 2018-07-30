@@ -12,7 +12,6 @@ HxOverrides.cca = function(s,index) {
 var MainServer = function() {
 	this.config = new config_Config();
 	var _gthis = this;
-	Test.template("mmt");
 	var isDev = this.config.ENVIRONMENT == "development";
 	console.log("isDev: " + (isDev == null ? "null" : "" + isDev));
 	var app = new js_npm_Express();
@@ -62,14 +61,6 @@ Std.parseInt = function(x) {
 		return null;
 	}
 	return v;
-};
-var Test = function() { };
-Test.template = function(templateName) {
-	if(templateName == "mtt") {
-		console.log("mtt");
-	} else {
-		console.log("case '" + templateName + "': trace ('" + templateName + "');");
-	}
 };
 var config_Config = function() {
 	this.ENVIRONMENT = Object.prototype.hasOwnProperty.call(process.env,"ENVIRONMENT") ? process.env["ENVIRONMENT"] : "development";

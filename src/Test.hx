@@ -1,21 +1,26 @@
-import js.node.Fs
+package;
+
+import js.node.Fs;
 
 class Test {
 	public function new(arg) {
 		// your code
 	}
 
-	public static function template(templateName:String) : Void
+	public static function template(templateName:String) : String
 	{
 		switch (templateName) {
 			case 'mtt':
 				trace ('mtt');
-				Test.mtt();
+				return Test.mtt();
 			default : trace ("case '"+templateName+"': trace ('"+templateName+"');");
+				return "xx";
 		}
+
+
 	}
 
-	public static function mtt() : Void
+	public static function mtt() : String
 	{
 		// Fs.readFile('/views/mtt/_layout', function (err, content) {
 		// 	if (err) return callback(err)
@@ -24,6 +29,8 @@ class Test {
 		// 	.replace('#message#', '<h1>' + options.message + '</h1>')
 		// 	return callback(null, rendered)
 		// })
+
+		return 'mtt';
 	}
 
 

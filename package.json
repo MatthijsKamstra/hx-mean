@@ -8,7 +8,7 @@
     "watch": "onchange '/src/*'  -v -- haxe build_all.hxml & nodemon bin/server.js & livereload bin/"
   },
   "devDependencies": {
-    "livereload": "^0.3.7",
+    "livereload": "^0.7.0",
     "nodemon": "^1.11.0",
     "onchange": "^2.0.0"
   }

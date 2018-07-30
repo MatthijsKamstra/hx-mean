@@ -19,7 +19,7 @@ class MainServer {
 
 	function new() {
 
-		trace(Test.template('mmt'));
+		// trace(Test.template('mmt'));
 
 		var isDev = config.ENVIRONMENT == 'development';
 		console.log('isDev: ${isDev}');
