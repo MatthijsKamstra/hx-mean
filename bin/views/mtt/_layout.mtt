@@ -17,11 +17,11 @@
     <!-- custom css -->
     <link rel="stylesheet" href="css/main.css">
 
-    <title>Haxe default templating | ::title::</title>
+    <title>HxMean | ::title::</title>
 
   </head>
 
-<body id="page-::title::">
+<body>
 
   	::content::
 

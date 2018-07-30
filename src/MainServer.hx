@@ -7,6 +7,7 @@ import js.Node.console;
 
 import js.npm.Express;
 import js.npm.express.*;
+// import js.npm.
 
 import config.Config;
 
@@ -19,13 +20,13 @@ class MainServer {
 
 	function new() {
 
-		// trace(Test.template('mmt'));
+		// trace(Test.template('mtt'));
 
 		var isDev = config.ENVIRONMENT == 'development';
 		console.log('isDev: ${isDev}');
 
 		// start server
-		var app : Express   = new Express();
+		var app : Express = new Express();
 
 		// Don't touch this if you don't know it
 		// We are using this for the express-rate-limit middleware
@@ -39,6 +40,8 @@ class MainServer {
 		app.use(BodyParser.json());
 		app.use(BodyParser.urlencoded({ extended: true }));
 
+		app.use(new Morgan('dev'));
+
 		// Enable cross-origin access through the CORS middleware
 		// NOTICE: For React development server only!
 		// if (process.env.CORS) {
@@ -47,21 +50,51 @@ class MainServer {
 
 		// all environments
 		app.set('port', config.PORT);
-		app.set('views', Node.__dirname + '/public/views');
-		// app.set('view engine', 'jade');
-		app.use(new Morgan('dev'));
+		app.set('views', Node.__dirname + '/public/');
+		// trace(app.get('views'));
 
-		//Routes
+		// Templating
+
+		// Haxe templating
+		app.engine('mtt', template.Mtt.engine);
+		app.set('views', [app.get('views') , (Node.__dirname + '/views/mtt')]); // specify the views directory (add old one first)
+		trace(app.get('views'));
+		app.set('view engine', 'mtt'); // register the template engine
+		app.get('/mtt', function (req:Request,res:Response) {
+			res.render('_index',{title:'Home'});
+		});
+
+
+		// Jade templating
+		// app.set('view engine', 'jade');
+
+		/*
+		// Swig templating
+		app.engine('html', swig.renderFile);
+		app.set('view engine', 'html');
+		app.set('views', path.resolve(__dirname , '../views'));
+		// Swig will cache templates for you, but you can disable
+		// that and use Express's caching instead, if you like:
+		app.set('view cache', !isDev); // false
+		// To disable Swig's cache, do the following:
+		// console.log((isDev) ? false : 'memory');
+		// swig.setDefaults({ cache: false  }); // false
+		swig.setDefaults({ cache: (isDev) ? false : 'memory' }); // false
+		// NOTE: You should always cache templates in a production environment.
+		// Don't leave both of these to `false` in production!
+
+		// create a global value `_ext.{whatever}`
+		swig.setExtension('isDev', isDev );     // `_ext.isDev` you can use to show/hide stuff in developers mode
+		swig.setExtension('now', new Date() );  // `_ext.now` is the current date
+		*/
+
+		// Routes
 		app.get('/', function (req:Request,res:Response) {
-			res.sendFile(Node.__dirname + '/public/index_advanced.html');
+			res.sendFile(Node.__dirname + '/public/index.html');
 		});
 
 		app.get('/remote', function (req:Request,res:Response) {
 			res.sendFile(Node.__dirname + '/public/remote_intermediate.html');
-		});
-
-		app.get('/jade', function (req:Request,res:Response) {
-			res.render('index',{title:'Home',h1:'Title'});
 		});
 
 		app.get('/jade', function (req:Request,res:Response) {
@@ -82,12 +115,6 @@ class MainServer {
 		// 	res.send('_username: ' + _username);
 		// });
 
-
-		// var sample = "My name is <strong>::name::</strong>, <em>::age::</em> years old";
-		// var user = {name:"Mark", age:30};
-		// var template = new haxe.Template(sample);
-		// var output = template.execute(user);
-		// trace(output);
 
 
 		// app.use(function(req, res, next) {
