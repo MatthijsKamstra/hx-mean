@@ -7,7 +7,8 @@ import js.Node.console;
 
 import js.npm.Express;
 import js.npm.express.*;
-// import js.npm.
+
+import js.npm.Swig;
 
 import config.Config;
 
@@ -56,37 +57,44 @@ class MainServer {
 		// Templating
 
 		// Haxe templating
-		app.engine('mtt', template.Mtt.engine);
-		app.set('views', [app.get('views') , (Node.__dirname + '/views/mtt')]); // specify the views directory (add old one first)
-		trace(app.get('views'));
-		app.set('view engine', 'mtt'); // register the template engine
-		app.get('/mtt', function (req:Request,res:Response) {
-			res.render('_index',{title:'Home'});
-		});
+		// app.engine('mtt', template.Mtt.engine);
+		// app.set('views', [app.get('views') , (Node.__dirname + '/views/mtt')]); // specify the views directory (add old one first)
+		// trace(app.get('views'));
+		// app.set('view engine', 'mtt'); // register the template engine
+		// app.get('/mtt', function (req:Request,res:Response) {
+		// 	res.render('_index',{title:'Home'});
+		// });
 
 
 		// Jade templating
 		// app.set('view engine', 'jade');
 
-		/*
+
 		// Swig templating
-		app.engine('html', swig.renderFile);
+		app.engine('html', Swig.renderFile);
 		app.set('view engine', 'html');
-		app.set('views', path.resolve(__dirname , '../views'));
+		// app.set('views', Path.resolve(Node.__dirname , '/views/swig'));
+		app.set('views', (Node.__dirname  + '/views/swig'));
 		// Swig will cache templates for you, but you can disable
 		// that and use Express's caching instead, if you like:
 		app.set('view cache', !isDev); // false
 		// To disable Swig's cache, do the following:
 		// console.log((isDev) ? false : 'memory');
-		// swig.setDefaults({ cache: false  }); // false
-		swig.setDefaults({ cache: (isDev) ? false : 'memory' }); // false
+		Swig.setDefaults({ cache: false  }); // false
+		// Swig.setDefaults({ cache: (isDev) ? false : 'memory' }); // false
 		// NOTE: You should always cache templates in a production environment.
 		// Don't leave both of these to `false` in production!
 
 		// create a global value `_ext.{whatever}`
-		swig.setExtension('isDev', isDev );     // `_ext.isDev` you can use to show/hide stuff in developers mode
-		swig.setExtension('now', new Date() );  // `_ext.now` is the current date
-		*/
+		Swig.setExtension('isDev', isDev );     // `_ext.isDev` you can use to show/hide stuff in developers mode
+		Swig.setExtension('now', Date.now() );  // `_ext.now` is the current date
+
+		app.get('/swig', function (req:Request,res:Response) {
+			var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
+			res.render('_index', { title:'Home', users:users });
+		});
+
+
 
 		// Routes
 		app.get('/', function (req:Request,res:Response) {

@@ -4,11 +4,17 @@ import js.Node;
 import js.node.Fs;
 import js.node.Path;
 
+import js.Node.console;
+
 class Mtt {
 
 	public function new(arg) {
 		// your code
 	}
+
+	// public static function promise(filePath : String, options : {}, callback:haxe.Constraints.Function) : String {
+
+	// }
 
 	/**
 	 * [Description]
@@ -28,6 +34,35 @@ class Mtt {
 		var users : Array<Dynamic> = [{name:"Mark", age:30}, {name:"John", age:45}];
 		var layout : String = Fs.readFileSync(Path.join(Node.__dirname, '/views/mtt/_layout.mtt'), 'utf8');
 		var index : String = Fs.readFileSync(Path.join(Node.__dirname, '/views/mtt/_index.mtt'), 'utf8');
+
+
+		// Fs.readFile(Path.join(Node.__dirname, '/views/mtt/_layout.mtt'), {encoding:'utf8'}, function (err, data) {
+		// 	if(err != null) throw err;
+		// 	var layout = (data);
+		// 	Fs.readFile(Path.join(Node.__dirname, '/views/mtt/_index.mtt'), {encoding:'utf8'}, function (err, data)  {
+		// 		if(err != null) throw err;
+		// 		var index = (data);
+
+		// 		var indexTemplate = new haxe.Template(index);
+		// 		var userOutput = indexTemplate.execute({users: users});
+
+		// 		// var userTemplate = new haxe.Template("::foreach users:: ::name::(::age::) ::end::");
+		// 		// var userOutput = userTemplate.execute({users: _users});
+
+		// 		var obj = {
+		// 		content : userOutput
+		// 		};
+
+		// 		for( ff in Reflect.fields(obj) ){
+		// 		Reflect.setField (options, ff, Reflect.field(obj, ff));
+		// 		}
+
+		// 		var layoutTemplate = new haxe.Template(layout);
+		// 		var output = layoutTemplate.execute(options);
+
+		// 		return output;
+		// 	});
+		// });
 		// var index : String = Fs.readFileSync(filePath, 'utf8');
 
 		var indexTemplate = new haxe.Template(index);

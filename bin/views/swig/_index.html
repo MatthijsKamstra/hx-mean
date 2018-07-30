@@ -1,0 +1,37 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+
+<main role="main" class="container">
+
+	<div class="starter-template">
+		<h1>Bootstrap starter template</h1>
+		<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+	</div>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Age</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			<tr>
+				<th scope="row">{{ loop.index }}</th>
+				<td>{{ user.name }}</td>
+				<td>{{ user.age }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+</main>
+{% endblock %}
+
+
+{% block js %}
+<script src="js/homepage.js"></script>
+{% endblock %}
