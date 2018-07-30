@@ -36,14 +36,22 @@ Use templates to generate them on the server and t
 
 # Server generated templates
 
-- <http://api.haxe.org/haxe/Template.html>
-- Swig
-- Jade (is now called Pug)
-- ejs
+- Swig [docs](http://node-swig.github.io/swig-templates/docs/) [Haxe](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Swig.hx)
+- Jade (is now called Pug) [Haxe](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Jade.hx)
+- ejs [Haxe](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Ejs.hx)
 - Mustache
 
-# Client generated Templating +
+# Client generated Templating
 
 - react
 - vue.js
 - (Angular)
+
+
+# Haxe specific templating
+
+- Haxe default templating <http://api.haxe.org/haxe/Template.html>
+- https://github.com/nadako/hxmustache
+- https://github.com/haxetink/tink_template
+- https://github.com/benmerckx/ithril
+- https://github.com/ciscoheat/mithril-hx
