@@ -31,10 +31,9 @@ Some prefer a different templating system.
 - Server generated templates
 - Client generated templates
 
-
-Use templates to generate them on the server and t
-
 # Server generated templates
+
+Use templates to generate them on the server and send the template to the client
 
 - Swig [docs](http://node-swig.github.io/swig-templates/docs/) [Haxe](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Swig.hx)
 - Jade (is now called Pug) [Haxe](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Jade.hx)
@@ -46,6 +45,7 @@ Use templates to generate them on the server and t
 - react
 - vue.js
 - (Angular)
+
 
 
 # Haxe specific templating

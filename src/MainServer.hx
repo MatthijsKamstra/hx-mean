@@ -112,6 +112,16 @@ class MainServer {
 			res.sendFile(Node.__dirname + '/public/remote_intermediate.html');
 		});
 
+		/**
+		 * repeating visual test should be done here
+		 */
+		app.get('/test', function (req:Request,res:Response) {
+			// res.sendFile( path.resolve(__dirname , '../public/test.html'));
+			res.render('_test' , {
+				title:"Test"
+			});
+		});
+
 
 		// http://localhost:3000/api/users?username=foobar
 		// routes will go here
@@ -141,7 +151,6 @@ class MainServer {
 		app.use(function (err, req, res, next) {
 			res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
 		});
-
 
 		app.listen(config.PORT, function(){
 			// trace('Express server listening on port ' + app.get('port'));
