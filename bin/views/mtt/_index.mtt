@@ -5,19 +5,24 @@
 		<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
 	</div>
 
-	<div>
-		<table>
+	<table class="table table-hover">
+		<thead>
 			<tr>
-				<th>Name</th>
-				<th>Age</th>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Age</th>
 			</tr>
+		</thead>
+		<tbody>
 			::foreach users::
-				<tr>
-					<td>::name::</td>
-					<td>::age::</td>
-				</tr>
+			<tr>
+				<th scope="row"></th>
+				<td>::name::</td>
+				<td>::age::</td>
+			</tr>
 			::end::
-		</table>
-	</div>
+		</tbody>
+	</table>
+
 
 </main>

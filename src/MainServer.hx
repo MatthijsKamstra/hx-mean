@@ -19,6 +19,9 @@ class MainServer {
 
 	var config : Config = new Config();
 
+	// dummy template data
+	var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
+
 	function new() {
 
 		// trace(Test.template('mtt'));
@@ -57,13 +60,13 @@ class MainServer {
 		// Templating
 
 		// Haxe templating
-		// app.engine('mtt', template.Mtt.engine);
-		// app.set('views', [app.get('views') , (Node.__dirname + '/views/mtt')]); // specify the views directory (add old one first)
-		// trace(app.get('views'));
-		// app.set('view engine', 'mtt'); // register the template engine
-		// app.get('/mtt', function (req:Request,res:Response) {
-		// 	res.render('_index',{title:'Home'});
-		// });
+		app.engine('mtt', template.Mtt.engine);
+		app.set('views', [app.get('views') , (Node.__dirname + '/views/mtt')]); // specify the views directory (add old one first)
+		trace(app.get('views'));
+		app.set('view engine', 'mtt'); // register the template engine
+		app.get('/mtt', function (req:Request,res:Response) {
+			res.render('_index', { title:'Home', users:users });
+		});
 
 
 		// Jade templating
@@ -71,6 +74,7 @@ class MainServer {
 
 
 		// Swig templating
+		/*
 		app.engine('html', Swig.renderFile);
 		app.set('view engine', 'html');
 		// app.set('views', Path.resolve(Node.__dirname , '/views/swig'));
@@ -90,10 +94,9 @@ class MainServer {
 		Swig.setExtension('now', Date.now() );  // `_ext.now` is the current date
 
 		app.get('/swig', function (req:Request,res:Response) {
-			var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
 			res.render('_index', { title:'Home', users:users });
 		});
-
+		*/
 
 
 		// Routes
