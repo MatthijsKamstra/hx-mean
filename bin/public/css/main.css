@@ -1,3 +1,29 @@
 .admin{
 	border-top: 10px solid yellow;
 }
+
+/* .admin{
+	background-color: yellow;
+	background-image: repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 35px,
+		rgba(0,0,0,1) 35px,
+		rgba(0,0,0,1) 70px
+	);
+}
+
+
+.container-debug{
+	background-color: silver;
+	border-radius: 10px;
+	padding: 10px;
+	background-color: yellow;
+	background-image: repeating-linear-gradient(
+		45deg,
+		transparent,
+		transparent 35px,
+		rgba(0,0,0,1) 35px,
+		rgba(0,0,0,1) 70px
+	);
+} */

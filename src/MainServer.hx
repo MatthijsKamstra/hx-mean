@@ -5,10 +5,11 @@ import js.node.Http;
 import js.node.Path;
 import js.Node.console;
 
+// externs
 import js.npm.Express;
 import js.npm.express.*;
-
 import js.npm.Swig;
+import js.npm.SocketIo;
 
 import config.Config;
 
@@ -30,7 +31,9 @@ class MainServer {
 		console.log('isDev: ${isDev}');
 
 		// start server
-		var app : Express = new Express();
+		var app : Express 	= new Express();
+		// var server 			= js.node.Http.createServer( cast app );
+		// var io     			= new js.npm.socketio.Server(server);
 
 		// Don't touch this if you don't know it
 		// We are using this for the express-rate-limit middleware
@@ -109,7 +112,7 @@ class MainServer {
 		});
 
 		app.get('/remote', function (req:Request,res:Response) {
-			res.sendFile(Node.__dirname + '/public/remote_intermediate.html');
+			res.sendFile(Node.__dirname + '/public/remote.html');
 		});
 
 		/**
@@ -152,11 +155,41 @@ class MainServer {
 			res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
 		});
 
-		app.listen(config.PORT, function(){
+		var server = app.listen(config.PORT, function(){
 			// trace('Express server listening on port ' + app.get('port'));
 			console.info('>>> 🌎 Open http://localhost:${config.PORT}/ in your browser.');
 		});
 
+		// Set up socket.io
+		var io = js.npm.SocketIo.listen(server);
+		var online = 0;
+
+		io.on('connection', function (socket) {
+
+			// trace('connect');
+
+			socket.emit('message', { message: 'welcome to the chat' });
+			socket.on('send', function (data) {
+				io.sockets.emit('message', data);
+			});
+
+			online++;
+			console.log('Socket ${socket.id} connected.');
+			console.log('Online: ${online}');
+			io.emit('visitor enters', online);
+
+			// socket.on('add', data => socket.broadcast.emit('add', data));
+			// socket.on('update', data => socket.broadcast.emit('update', data));
+			// socket.on('delete', data => socket.broadcast.emit('delete', data));
+			// socket.on('message', data => console.log( data ));
+
+			socket.on('disconnect', function (socket) {
+				online--;
+				console.log('Socket ${socket.id} disconnected.');
+				console.log('Online: ${online}');
+				io.emit('visitor exits', online);
+			});
+		});
 
 	}
 

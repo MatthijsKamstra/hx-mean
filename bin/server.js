@@ -36,7 +36,7 @@ var MainServer = function() {
 		res1.sendFile(__dirname + "/public/index.html");
 	});
 	app.get("/remote",function(req2,res2) {
-		res2.sendFile(__dirname + "/public/remote_intermediate.html");
+		res2.sendFile(__dirname + "/public/remote.html");
 	});
 	app.get("/test",function(req3,res3) {
 		res3.render("_test",{ title : "Test"});
@@ -52,8 +52,26 @@ var MainServer = function() {
 		var tmp = js_node_Path.resolve(__dirname,"public/500.html");
 		res6.sendFile(tmp);
 	});
-	app.listen(this.config.PORT,function() {
+	var server = app.listen(this.config.PORT,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
+	});
+	var io = js_npm_SocketIo.listen(server);
+	var online = 0;
+	io.on("connection",function(socket) {
+		socket.emit("message",{ message : "welcome to the chat"});
+		socket.on("send",function(data) {
+			io.sockets.emit("message",data);
+		});
+		online += 1;
+		console.log("Socket " + socket.id + " connected.");
+		console.log("Online: " + online);
+		io.emit("visitor enters",online);
+		socket.on("disconnect",function(socket1) {
+			online -= 1;
+			console.log("Socket " + socket1.id + " disconnected.");
+			console.log("Online: " + online);
+			io.emit("visitor exits",online);
+		});
 	});
 };
 MainServer.main = function() {
@@ -87,6 +105,7 @@ var haxe_io_Bytes = function(data) {
 var js_node_Path = require("path");
 var js_node_buffer_Buffer = require("buffer").Buffer;
 var js_npm_Express = require("express");
+var js_npm_SocketIo = require("socket.io");
 var js_npm_Swig = require("swig-templates");
 var js_npm_express_BodyParser = require("body-parser");
 var js_npm_express_Morgan = require("morgan");

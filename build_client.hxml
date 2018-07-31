@@ -1,6 +1,7 @@
-# -lib js-kit
+-lib js-kit
 # -lib hxnodejs
 -cp src
 -main MainClient
 -js bin/public/js/client.js
 -dce full
+-D hxnodejs_no_version_warning
