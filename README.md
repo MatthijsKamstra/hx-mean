@@ -69,7 +69,11 @@ haxelib git vue https://github.com/MatthijsKamstra/Vue.hx.git
 ```
 
 
+# run
 
+```
+npm run watch
+```
 
 
 
