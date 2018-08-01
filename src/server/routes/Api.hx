@@ -24,7 +24,7 @@ class Api {
 		});
 
 		// read (one)
-		router.get('/:id', function(req:Request, res:Response) {
+		router.get('/id/:id', function(req:Request, res:Response) {
 			var id = req.params.id;
 			var json = { id : id, status:'ok'}
 			res.json(json);
