@@ -5,7 +5,7 @@ var MainClient = function() {
 	div.id = "visitors";
 	div.className = "container";
 	window.document.body.appendChild(div);
-	var socket = io.connect();
+	var socket = io();
 	socket.emit("message","hi");
 	socket.on("visitor enters",function(msg) {
 		window.console.log("current number of visitors (enters): " + msg);

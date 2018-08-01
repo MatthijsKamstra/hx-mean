@@ -17,7 +17,8 @@ class MainClient {
 		document.body.appendChild(div);
 
 		// var socket = untyped io();
-		var socket = js.browser.SocketIo.connect();
+		// var socket = js.browser.SocketIo.connect();
+		var socket = js.browser.SocketIo.io();
 		socket.emit("message", "hi");
 		socket.on("visitor enters", function(msg) {
 			console.log('current number of visitors (enters): ' + msg);
