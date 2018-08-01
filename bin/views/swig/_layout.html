@@ -23,7 +23,8 @@
 
 {# check if this is developers mode, if there is an admin bar at the bottom of the page #}
 {# to have more CSS controle we use the title to create an page id  #}
-<body class="{% if _ext.isDev %}admin{% endif %}" id="page-{{ title|lower }}">
+<body class="{% if _ext.isDev %}admin{% endif %}" id="page-{{ title|lower|replace(' ', '-', 'g') }}">
+
     {% block content %}
 
       <div class="container">
