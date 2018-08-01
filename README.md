@@ -24,7 +24,7 @@ I wanted to build my MEAN stack in Haxe. So I build this example project to see 
 - [sass](http://sass-lang.com/) CSS with superpowers
 - [LiveReload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
 - [hx-html](https://github.com/MatthijsKamstra/hx-html) experimental html template creation
-
+- Swig [docs](http://node-swig.github.io/swig-templates/docs/) [Haxe extern](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Swig.hx)
 
 
 
