@@ -175,18 +175,13 @@ class MainServer {
 		var online = 0;
 
 		io.on('connection', function (socket) {
-
 			// trace('connect');
-
-			socket.emit('message', { message: 'welcome to the chat' });
-			socket.on('send', function (data) {
-				io.sockets.emit('message', data);
-			});
 
 			online++;
 			console.log('Socket ${socket.id} connected.');
 			console.log('Online: ${online}');
 			io.emit('visitor enters', online);
+			socket.emit('message', { message: 'welcome to the chat' });
 
 			// socket.on('add', data => socket.broadcast.emit('add', data));
 			// socket.on('update', data => socket.broadcast.emit('update', data));
@@ -198,6 +193,9 @@ class MainServer {
 				console.log('Socket ${socket.id} disconnected.');
 				console.log('Online: ${online}');
 				io.emit('visitor exits', online);
+			});
+			socket.on('send', function (data) {
+				io.sockets.emit('message', data);
 			});
 		});
 

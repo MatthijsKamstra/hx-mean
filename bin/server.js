@@ -63,19 +63,19 @@ var MainServer = function() {
 	var io = js_npm_SocketIo.listen(server1);
 	var online = 0;
 	io.on("connection",function(socket) {
-		socket.emit("message",{ message : "welcome to the chat"});
-		socket.on("send",function(data) {
-			io.sockets.emit("message",data);
-		});
 		online += 1;
 		console.log("Socket " + socket.id + " connected.");
 		console.log("Online: " + online);
 		io.emit("visitor enters",online);
+		socket.emit("message",{ message : "welcome to the chat"});
 		socket.on("disconnect",function(socket1) {
 			online -= 1;
 			console.log("Socket " + socket1.id + " disconnected.");
 			console.log("Online: " + online);
 			io.emit("visitor exits",online);
+		});
+		socket.on("send",function(data) {
+			io.sockets.emit("message",data);
 		});
 	});
 };
@@ -253,7 +253,7 @@ var server_routes_Api = function() {
 		haxe_Log.trace(req2.body.name,{ fileName : "Api.hx", lineNumber : 22, className : "server.routes.Api", methodName : "new"});
 		res2.redirect("/api/test");
 	});
-	this.router.get("/:id",function(req3,res3) {
+	this.router.get("/id/:id",function(req3,res3) {
 		var id = req3.params.id;
 		var json = { id : id, status : "ok"};
 		res3.json(json);
