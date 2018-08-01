@@ -11,6 +11,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Chelsea+Market" rel="stylesheet">
 
@@ -38,6 +41,59 @@
       </div>
 
     {% endblock %}
+
+	{# http://node-swig.github.io/swig-templates/docs/api/#setExtension #}
+	{% if _ext.isDev %}
+	<nav class="navbar navbar-expand-sm fixed-bottom navbar-dark bg-dark">
+		<a class="navbar-brand" href="/"><img src="/img/logo/logo_white.png" height="30" alt=""></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+		 aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="/"><i class="fas fa-home"></i></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/swig">swig</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/test">test</a>
+				</li>
+        <li class="nav-item dropup">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Api
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/api">/api</a>
+            <a class="dropdown-item" href="/api/test">/api/test</a>
+            <a class="dropdown-item" href="/api/superheros">/api/superheros</a>
+            <a class="dropdown-item" href="/api/id/henk">/api/id/henk</a>
+            <a class="dropdown-item" href="/register/all">/register/all</a>
+          </div>
+        </li>
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="/start?teacherToken={{ _ext.now|date('Y-m-d_His') }}&isTeacher=true">Start/Register random</a>
+				</li> -->
+				<!-- <li class="nav-item">
+					<a class="nav-link" href="/editor?uid=123456nav&isteacher=true">Editor</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/start?teacherToken=123456nav&isTeacher=false">student</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/test">test</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/iframe?uid={{ _ext.now|date('Y-m-d_His') }}&isteacher=true">iframe</a>
+				</li> -->
+
+			</ul>
+		</div>
+	</nav>
+	{% endif %}
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
