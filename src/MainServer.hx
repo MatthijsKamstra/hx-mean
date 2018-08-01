@@ -12,6 +12,7 @@ import js.npm.Swig;
 import js.npm.SocketIo;
 
 import config.Config;
+import server.routes.*;
 
 /**
  * @author Matthijs Kamstra aka [mck]
@@ -101,9 +102,18 @@ class MainServer {
 		Swig.setExtension('now', Date.now() );  // `_ext.now` is the current date
 
 		app.get('/swig', function (req:Request,res:Response) {
-			res.render('_index', { title:'Home', users:users });
+			res.render('_index', {
+				title:'Template Example Swig',
+				users:users
+			});
 		});
 
+
+		// Initialize routes middleware
+		app.use('/index', new Index().router);
+		app.use('/api', new Api().router);
+		app.use('/endpoint', new Endpoint().router);
+		app.use('/users', new Users().router);
 
 
 		// Routes

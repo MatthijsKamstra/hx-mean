@@ -2,6 +2,7 @@
 if (process.version < "v4.0.0") console.warn("Module " + (typeof(module) == "undefined" ? "" : module.filename) + " requires node.js version 4.0.0 or higher");
 (function () { "use strict";
 var HxOverrides = function() { };
+HxOverrides.__name__ = true;
 HxOverrides.cca = function(s,index) {
 	var x = s.charCodeAt(index);
 	if(x != x) {
@@ -30,8 +31,12 @@ var MainServer = function() {
 	js_npm_Swig.setExtension("isDev",isDev);
 	js_npm_Swig.setExtension("now",new Date());
 	app.get("/swig",function(req,res) {
-		res.render("_index",{ title : "Home", users : _gthis.users});
+		res.render("_index",{ title : "Template Example Swig", users : _gthis.users});
 	});
+	app["use"]("/index",new server_routes_Index().router);
+	app["use"]("/api",new server_routes_Api().router);
+	app["use"]("/endpoint",new server_routes_Endpoint().router);
+	app["use"]("/users",new server_routes_Users().router);
 	app.get("/",function(req1,res1) {
 		res1.sendFile(__dirname + "/public/index.html");
 	});
@@ -52,10 +57,10 @@ var MainServer = function() {
 		var tmp = js_node_Path.resolve(__dirname,"public/500.html");
 		res6.sendFile(tmp);
 	});
-	var server = app.listen(this.config.PORT,function() {
+	var server1 = app.listen(this.config.PORT,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
 	});
-	var io = js_npm_SocketIo.listen(server);
+	var io = js_npm_SocketIo.listen(server1);
 	var online = 0;
 	io.on("connection",function(socket) {
 		socket.emit("message",{ message : "welcome to the chat"});
@@ -74,10 +79,13 @@ var MainServer = function() {
 		});
 	});
 };
+MainServer.__name__ = true;
 MainServer.main = function() {
 	var main = new MainServer();
 };
+Math.__name__ = true;
 var Std = function() { };
+Std.__name__ = true;
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
 	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) {
@@ -95,12 +103,134 @@ var config_Config = function() {
 	this.MONGO_USER = Object.prototype.hasOwnProperty.call(process.env,"MONGO_USER") ? process.env["MONGO_USER"] : "";
 	this.MONGO_PASS = Object.prototype.hasOwnProperty.call(process.env,"MONGO_PASS") ? process.env["MONGO_PASS"] : "";
 };
+config_Config.__name__ = true;
+var haxe_Log = function() { };
+haxe_Log.__name__ = true;
+haxe_Log.trace = function(v,infos) {
+	js_Boot.__trace(v,infos);
+};
 var haxe_io_Bytes = function(data) {
 	this.length = data.byteLength;
 	this.b = new Uint8Array(data);
 	this.b.bufferValue = data;
 	data.hxBytes = this;
 	data.bytes = this.b;
+};
+haxe_io_Bytes.__name__ = true;
+var js_Boot = function() { };
+js_Boot.__name__ = true;
+js_Boot.__unhtml = function(s) {
+	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+};
+js_Boot.__trace = function(v,i) {
+	var msg = i != null ? i.fileName + ":" + i.lineNumber + ": " : "";
+	msg += js_Boot.__string_rec(v,"");
+	if(i != null && i.customParams != null) {
+		var _g = 0;
+		var _g1 = i.customParams;
+		while(_g < _g1.length) {
+			var v1 = _g1[_g];
+			++_g;
+			msg += "," + js_Boot.__string_rec(v1,"");
+		}
+	}
+	var d;
+	var tmp;
+	if(typeof(document) != "undefined") {
+		d = document.getElementById("haxe:trace");
+		tmp = d != null;
+	} else {
+		tmp = false;
+	}
+	if(tmp) {
+		d.innerHTML += js_Boot.__unhtml(msg) + "<br/>";
+	} else if(typeof console != "undefined" && console.log != null) {
+		console.log(msg);
+	}
+};
+js_Boot.__string_rec = function(o,s) {
+	if(o == null) {
+		return "null";
+	}
+	if(s.length >= 5) {
+		return "<...>";
+	}
+	var t = typeof(o);
+	if(t == "function" && (o.__name__ || o.__ename__)) {
+		t = "object";
+	}
+	switch(t) {
+	case "function":
+		return "<function>";
+	case "object":
+		if(o instanceof Array) {
+			if(o.__enum__) {
+				if(o.length == 2) {
+					return o[0];
+				}
+				var str = o[0] + "(";
+				s += "\t";
+				var _g1 = 2;
+				var _g = o.length;
+				while(_g1 < _g) {
+					var i = _g1++;
+					if(i != 2) {
+						str += "," + js_Boot.__string_rec(o[i],s);
+					} else {
+						str += js_Boot.__string_rec(o[i],s);
+					}
+				}
+				return str + ")";
+			}
+			var l = o.length;
+			var i1;
+			var str1 = "[";
+			s += "\t";
+			var _g11 = 0;
+			var _g2 = l;
+			while(_g11 < _g2) {
+				var i2 = _g11++;
+				str1 += (i2 > 0 ? "," : "") + js_Boot.__string_rec(o[i2],s);
+			}
+			str1 += "]";
+			return str1;
+		}
+		var tostr;
+		try {
+			tostr = o.toString;
+		} catch( e ) {
+			return "???";
+		}
+		if(tostr != null && tostr != Object.toString && typeof(tostr) == "function") {
+			var s2 = o.toString();
+			if(s2 != "[object Object]") {
+				return s2;
+			}
+		}
+		var k = null;
+		var str2 = "{\n";
+		s += "\t";
+		var hasp = o.hasOwnProperty != null;
+		for( var k in o ) {
+		if(hasp && !o.hasOwnProperty(k)) {
+			continue;
+		}
+		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__" || k == "__properties__") {
+			continue;
+		}
+		if(str2.length != 2) {
+			str2 += ", \n";
+		}
+		str2 += s + k + " : " + js_Boot.__string_rec(o[k],s);
+		}
+		s = s.substring(1);
+		str2 += "\n" + s + "}";
+		return str2;
+	case "string":
+		return o;
+	default:
+		return String(o);
+	}
 };
 var js_node_Path = require("path");
 var js_node_buffer_Buffer = require("buffer").Buffer;
@@ -109,6 +239,70 @@ var js_npm_SocketIo = require("socket.io");
 var js_npm_Swig = require("swig-templates");
 var js_npm_express_BodyParser = require("body-parser");
 var js_npm_express_Morgan = require("morgan");
+var js_npm_express_Router = require("express").Router;
 var js_npm_express_Static = require("express").static;
+var server_routes_Api = function() {
+	this.router = js_npm_express_Router();
+	this.router.get("/",function(req,res) {
+		res.end("Api");
+	});
+	this.router.get("/test",function(req1,res1) {
+		res1.end("Api/test");
+	});
+	this.router.get("/superheros",function(req2,res2) {
+		haxe_Log.trace(req2.body.name,{ fileName : "Api.hx", lineNumber : 22, className : "server.routes.Api", methodName : "new"});
+		res2.redirect("/api/test");
+	});
+	this.router.get("/:id",function(req3,res3) {
+		var id = req3.params.id;
+		var json = { id : id, status : "ok"};
+		res3.json(json);
+	});
+	this.router.post("/register",function(req4,res4) {
+		var json1 = JSON.parse(JSON.stringify(req4.body));
+		haxe_Log.trace("body: ",{ fileName : "Api.hx", lineNumber : 37, className : "server.routes.Api", methodName : "new", customParams : [json1]});
+		res4.status(500).json({ success : false, msg : "hello"});
+		return;
+	});
+	this.router["delete"]("/:id",function(req5,res5) {
+		var id1 = req5.params.id;
+		var json2 = { id : id1, status : "ok"};
+		res5.json(json2);
+	});
+	this.router.put("/:id",function(req6,res6) {
+		var id2 = req6.params.id;
+		var json3 = { id : id2, status : "ok"};
+		res6.json(json3);
+	});
+	this.router.get("/register/all",function(req7,res7) {
+		var json4 = { total : 100, status : "ok"};
+		res7.json(json4);
+	});
+};
+server_routes_Api.__name__ = true;
+var server_routes_Endpoint = function() {
+	this.router = js_npm_express_Router();
+	this.router.get("/",function(req,res) {
+		res.end("Endpoint");
+	});
+};
+server_routes_Endpoint.__name__ = true;
+var server_routes_Index = function() {
+	this.router = js_npm_express_Router();
+	this.router.get("/",function(req,res) {
+		res.end("Index");
+	});
+};
+server_routes_Index.__name__ = true;
+var server_routes_Users = function() {
+	this.router = js_npm_express_Router();
+	this.router.get("/",function(req,res) {
+		res.end("Users");
+	});
+};
+server_routes_Users.__name__ = true;
+String.__name__ = true;
+Array.__name__ = true;
+Date.__name__ = ["Date"];
 MainServer.main();
 })();
