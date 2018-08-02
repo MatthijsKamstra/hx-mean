@@ -4,12 +4,30 @@
   "author": "Matthijs Kamstra aka [mck]",
   "private": true,
   "scripts": {
+    "start": "node server/server.js",
+    "start:lazy": "npm-run-all --parallel watch launch:mongodb launch:mongobooster launch:browser",
+    "node": "node server/server.js",
+    "nodemon": "nodemon --inspect=9229 server/server.js",
+    "livereload": "livereload ./ -w 500",
     "prewatch": "haxe build_all.hxml",
-    "watch": "onchange 'src/*.hx' 'src/**/*.hx' 'src/**/**/*.hx'  -v -- haxe build_all.hxml & nodemon bin/server.js & livereload bin/"
+    "watch": "npm-run-all --parallel livereload nodemon watch:css",
+    "watch:css": "onchange 'public/scss' -- run-s build:scss",
+    "build:nodescss:compile": "node-sass public/scss public/css",
+    "build:nodescss:compilesourcemap": "node-sass assets/scss/main.scss bin/public/css/main.css --source-map true",
+    "build:scss": "node-sass -o public/css public/scss",
+    "build:_scss": "node-sass --output-style compressed -o public/css public/scss",
+    "launch:browser": "open http://localhost:8000",
+    "launch:mongobooster": "open -a MongoBooster",
+    "launch:mongodb": "mongod",
+    "launch:sourcetree": "open -a sourcetree",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "_watch": "onchange 'src/*.hx' 'src/**/*.hx' 'src/**/**/*.hx'  -v -- haxe build_all.hxml & nodemon bin/server.js & livereload bin/"
   },
   "devDependencies": {
     "livereload": "^0.7.0",
-    "nodemon": "^1.11.0",
-    "onchange": "^2.0.0"
+    "nodemon": "^1.18.2",
+    "onchange": "^2.0.0",
+    "node-sass": "^4.9.2",
+    "npm-run-all": "^4.1.3"
   }
 }
