@@ -71,10 +71,44 @@ haxelib git vue https://github.com/MatthijsKamstra/Vue.hx.git
 
 # run
 
+
+This will start:
+
+- mongodb
+- open mongobooster
+- open browswer
+- watch css/hx
+- nodemon
+
+```
+npm run start:lazy
+```
+
+
 ```
 npm run watch
 ```
 
+
+
+# misc
+
+```
+→ mongod --version
+db version v3.6.3
+git version: 9586e557d54ef70f9ca4b43c26892cd55257e1a5
+OpenSSL version: OpenSSL 1.0.2o  27 Mar 2018
+allocator: system
+modules: none
+build environment:
+    distarch: x86_64
+    target_arch: x86_64
+```
+
+http://mongoosejs.com/docs/compatibility.html
+
+-  MongoDB Server 3.6.x: mongoose 5.x, or >=4.11.0 with useMongoClient and usePushEach
+- MongoDB Server 4.0.x: mongoose >=5.2.0
 
 
 # How does it work?

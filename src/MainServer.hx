@@ -10,6 +10,10 @@ import js.npm.Express;
 import js.npm.express.*;
 import js.npm.Swig;
 import js.npm.SocketIo;
+import js.npm.Mongoose;
+// import js.npm.mongoose.Mongoose;
+// import js.npm.mongoose.macro.Model;
+// import js.npm.Mongoose.mongoose;
 
 import config.Config;
 import server.routes.*;
@@ -40,6 +44,26 @@ class MainServer {
 			mongoConnect = '${config.MONGO_URL}';
 		}
 		console.log(mongoConnect);
+
+
+		var mongoose = new js.npm.mongoose.Mongoose();
+		// Use Node's default promise instead of Mongoose's promise library
+		untyped mongoose.Promise = untyped global.Promise;
+
+		var db = mongoose.connect(mongoConnect, { useNewUrlParser: true });
+
+		var db = mongoose.connection.db;
+		// db.connection.on('open', function() {
+		db.on('open', function() {
+			console.log('Connected to the database "${mongoConnect}".');
+			// feed some dummy data in DB.
+			if (isDev) dummyData.registerUsers();
+			if (isDev) dummyData.trashCollection();
+		});
+
+		db.on('error', function (err) {
+			console.log('Database error: ${err}');
+		});
 
 
 		// start server

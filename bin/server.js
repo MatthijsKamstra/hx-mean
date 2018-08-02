@@ -24,6 +24,22 @@ var MainServer = function() {
 		mongoConnect = "" + this.config.MONGO_URL;
 	}
 	console.log(mongoConnect);
+	var mongoose = new js_npm_mongoose_Mongoose();
+	mongoose.Promise = global.Promise;
+	var db = mongoose.connect(mongoConnect,{ useNewUrlParser : true});
+	var db1 = mongoose.connection.db;
+	db1.on("open",function() {
+		console.log("Connected to the database \"" + mongoConnect + "\".");
+		if(isDev) {
+			dummyData.registerUsers();
+		}
+		if(isDev) {
+			dummyData.trashCollection();
+		}
+	});
+	db1.on("error",function(err) {
+		console.log("Database error: " + err);
+	});
 	var app = new js_npm_Express();
 	app["use"](new js_npm_express_Static(js_node_Path.join(__dirname,"public")));
 	app["use"](js_npm_express_BodyParser.json());
@@ -61,7 +77,7 @@ var MainServer = function() {
 	app["use"](function(req5,res5,next) {
 		res5.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
 	});
-	app["use"](function(err,req6,res6,next1) {
+	app["use"](function(err1,req6,res6,next1) {
 		var tmp = js_node_Path.resolve(__dirname,"public/500.html");
 		res6.sendFile(tmp);
 	});
@@ -250,13 +266,25 @@ var js_npm_express_BodyParser = require("body-parser");
 var js_npm_express_Morgan = require("morgan");
 var js_npm_express_Router = require("express").Router;
 var js_npm_express_Static = require("express").static;
+var js_npm_mongoose_Mongoose = require("mongoose").Mongoose;
 var server_DummyData = function(isDev) {
+	if(isDev == null) {
+		isDev = false;
+	}
 	faker.locale = "nl";
 	var randomName = faker.name.findName();
 	var randomEmail = faker.internet.email();
 	var randomCard = faker.helpers.createCard();
 };
 server_DummyData.__name__ = true;
+server_DummyData.prototype = {
+	registerUsers: function() {
+		haxe_Log.trace("registerUsers",{ fileName : "DummyData.hx", lineNumber : 18, className : "server.DummyData", methodName : "registerUsers"});
+	}
+	,trashCollection: function() {
+		haxe_Log.trace("trashCollection",{ fileName : "DummyData.hx", lineNumber : 21, className : "server.DummyData", methodName : "trashCollection"});
+	}
+};
 var server_routes_Api = function() {
 	this.router = js_npm_express_Router();
 	this.router.get("/",function(req,res) {

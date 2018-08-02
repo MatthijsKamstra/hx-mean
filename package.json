@@ -7,11 +7,14 @@
     "start": "node server/server.js",
     "start:lazy": "npm-run-all --parallel watch launch:mongodb launch:mongobooster launch:browser",
     "node": "node server/server.js",
-    "nodemon": "nodemon --inspect=9229 server/server.js",
-    "livereload": "livereload ./ -w 500",
+    "nodemon:debug": "nodemon --inspect=9229 bin/server.js",
+    "nodemon": "nodemon bin/server.js",
+    "livereload:delay": "livereload bin/ -w 500",
+    "livereload": "livereload bin",
     "prewatch": "haxe build_all.hxml",
-    "watch": "npm-run-all --parallel livereload nodemon watch:css",
+    "watch": "npm-run-all --parallel livereload:delay nodemon watch:css watch:haxe",
     "watch:css": "onchange 'public/scss' -- run-s build:scss",
+    "watch:haxe": "onchange 'src/*.hx' 'src/**/*.hx' 'src/**/**/*.hx'  -v -- haxe build_all.hxml",
     "build:nodescss:compile": "node-sass public/scss public/css",
     "build:nodescss:compilesourcemap": "node-sass assets/scss/main.scss bin/public/css/main.css --source-map true",
     "build:scss": "node-sass -o public/css public/scss",
@@ -20,8 +23,7 @@
     "launch:mongobooster": "open -a MongoBooster",
     "launch:mongodb": "mongod",
     "launch:sourcetree": "open -a sourcetree",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "_watch": "onchange 'src/*.hx' 'src/**/*.hx' 'src/**/**/*.hx'  -v -- haxe build_all.hxml & nodemon bin/server.js & livereload bin/"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
     "livereload": "^0.7.0",
