@@ -1,4 +1,5 @@
 -lib js-kit
+-lib hxexterns
 # -lib hxnodejs
 -cp src
 -main MainClient
