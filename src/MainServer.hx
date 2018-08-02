@@ -25,11 +25,22 @@ class MainServer {
 	var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
 
 	function new() {
-
-		// trace(Test.template('mtt'));
-
+		// set isDev var based upon ENVIRONMENT
 		var isDev = config.ENVIRONMENT == 'development';
 		console.log('isDev: ${isDev}');
+
+		// use dummy data (if needed)
+		var dummyData = new server.DummyData(isDev);
+
+		// connect to the MongoDB
+		var mongoConnect = config.MONGO_URL;
+		if (config.MONGO_URL != '' && config.MONGO_USER != '' && config.MONGO_PASS != '') {
+			mongoConnect = 'mongodb://${config.MONGO_USER}:${config.MONGO_PASS}@${config.MONGO_URL}';
+		} else if (config.MONGO_URL != '') {
+			mongoConnect = '${config.MONGO_URL}';
+		}
+		console.log(mongoConnect);
+
 
 		// start server
 		var app : Express 	= new Express();

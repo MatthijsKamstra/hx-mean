@@ -16,6 +16,14 @@ var MainServer = function() {
 	var _gthis = this;
 	var isDev = this.config.ENVIRONMENT == "development";
 	console.log("isDev: " + (isDev == null ? "null" : "" + isDev));
+	var dummyData = new server_DummyData(isDev);
+	var mongoConnect = this.config.MONGO_URL;
+	if(this.config.MONGO_URL != "" && this.config.MONGO_USER != "" && this.config.MONGO_PASS != "") {
+		mongoConnect = "mongodb://" + this.config.MONGO_USER + ":" + this.config.MONGO_PASS + "@" + this.config.MONGO_URL;
+	} else if(this.config.MONGO_URL != "") {
+		mongoConnect = "" + this.config.MONGO_URL;
+	}
+	console.log(mongoConnect);
 	var app = new js_npm_Express();
 	app["use"](new js_npm_express_Static(js_node_Path.join(__dirname,"public")));
 	app["use"](js_npm_express_BodyParser.json());
@@ -235,12 +243,20 @@ js_Boot.__string_rec = function(o,s) {
 var js_node_Path = require("path");
 var js_node_buffer_Buffer = require("buffer").Buffer;
 var js_npm_Express = require("express");
+var faker = require("faker");
 var js_npm_SocketIo = require("socket.io");
 var js_npm_Swig = require("swig-templates");
 var js_npm_express_BodyParser = require("body-parser");
 var js_npm_express_Morgan = require("morgan");
 var js_npm_express_Router = require("express").Router;
 var js_npm_express_Static = require("express").static;
+var server_DummyData = function(isDev) {
+	faker.locale = "nl";
+	var randomName = faker.name.findName();
+	var randomEmail = faker.internet.email();
+	var randomCard = faker.helpers.createCard();
+};
+server_DummyData.__name__ = true;
 var server_routes_Api = function() {
 	this.router = js_npm_express_Router();
 	this.router.get("/",function(req,res) {
