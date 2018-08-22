@@ -7,7 +7,7 @@ var MainClient = function() {
 		div.className = "container";
 		window.document.body.appendChild(div);
 	}
-	var socket = io();
+	var socket = typeof io == 'undefined' ? require('socket.io-client') : io();
 	socket.emit("message","hi");
 	socket.emit("send",{ message : "text", username : "_inputName.value"});
 	socket.on("visitor enters",function(msg) {

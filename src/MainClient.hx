@@ -7,6 +7,8 @@ import js.html.*;
 
 import js.jquery.JQuery;
 
+import externs.js.node.socketio.Client;
+
 class MainClient {
 
 	public function new () {
@@ -21,7 +23,7 @@ class MainClient {
 
 		// var socket = untyped io();
 		// var socket = js.browser.SocketIo.connect();
-		var socket = js.browser.SocketIo.io();
+		var socket = new Client();
 		socket.emit("message", "hi");
 		socket.emit('send', { message: 'text', username: '_inputName.value' });
 		socket.on("visitor enters", function(msg) {
