@@ -3,6 +3,14 @@ package externs.js.npm.express;
 import externs.js.npm.express.Middleware;
 import haxe.extern.Rest;
 
+/**
+ * Haxe externs for express.js 4.16.3 (4.x)
+ * Project: http://expressjs.com/
+ * Definitions by:  Franco Ponticelli <https://github.com/fponticelli>
+ *                  Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions:     <https://github.com/abedev/hxexpress>
+ *                  <https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("express")
 extern class Express extends Route {
   @:selfCall function new() : Void;
