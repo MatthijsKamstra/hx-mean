@@ -25,9 +25,12 @@ typedef TemplateLoader = {
 
 typedef CompiledSwig = ?{} -> String;
 
+
 /**
- * @url https://github.com/node-swig/swig-templates
- * v2.0.2
+ * Haxe externs for Swig v2.0.2
+ * Project: https://github.com/node-swig/swig-templates
+ * Definitions by: 	Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions:     <https://github.com/matthijskamstra/hx-mean>
  */
 @:native('swig')
 @:jsRequire("swig-templates")

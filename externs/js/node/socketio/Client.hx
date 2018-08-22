@@ -1,7 +1,7 @@
 package externs.js.node.socketio;
 
 /**
- * Externs for Socket.io 2.0
+ * Haxe externs for Socket.io 2.0
  * Project: https://socket.io/docs/server-api/
  * Definitions by: 	Gauthier Billot <https://github.com/gogoprog>
  * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
