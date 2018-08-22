@@ -155,3 +155,56 @@ Use templates to generate them on the server and send the template to the client
 
 
 
+
+
+
+# externs
+
+https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/mongoose
+
+
+https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/socketio
+
+
+https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/express
+
+
+
+
+
+https://github.com/MatthijsKamstra/hxexterns
+
+
+
+https://github.com/wiggin77/HxMongoNode
+
+
+
+
+https://github.com/abedev/hxexpress
+
+
+# ts
+
+https://www.npmjs.com/package/@types/express
+
+https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/express
+
+
+
+
+https://microsoft.github.io/TypeSearch/
+
+
+
+
+
+https://www.npmjs.com/package/@types/mongoose
+
+
+https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mongoose
+
+
+
+
+
