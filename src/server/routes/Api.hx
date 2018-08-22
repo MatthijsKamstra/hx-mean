@@ -1,8 +1,8 @@
 package server.routes;
 
-import js.npm.express.Request;
-import js.npm.express.Response;
-import js.npm.express.Router;
+import externs.js.npm.express.Request;
+import externs.js.npm.express.Response;
+import externs.js.npm.express.Router;
 
 class Api {
 
@@ -25,7 +25,7 @@ class Api {
 
 		// read (one)
 		router.get('/id/:id', function(req:Request, res:Response) {
-			var id = req.params.id;
+			var id = untyped req.params.id;
 			var json = { id : id, status:'ok'}
 			res.json(json);
 		});
@@ -41,14 +41,14 @@ class Api {
 
 		// DELETE
 		router.delete('/:id', function(req:Request, res:Response) {
-			var id = req.params.id;
+			var id = untyped req.params.id;
 			var json = { id : id, status:'ok'}
 			res.json(json);
 		});
 
 		// UPDATE
 		router.put('/:id', function(req:Request, res:Response) {
-			var id = req.params.id;
+			var id = untyped req.params.id;
 			var json = { id : id, status:'ok'}
 			res.json(json);
 		});

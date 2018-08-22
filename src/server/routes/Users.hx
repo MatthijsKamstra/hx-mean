@@ -1,8 +1,8 @@
 package server.routes;
 
-import js.npm.express.Request;
-import js.npm.express.Response;
-import js.npm.express.Router;
+import externs.js.npm.express.Request;
+import externs.js.npm.express.Response;
+import externs.js.npm.express.Router;
 
 class Users {
 
