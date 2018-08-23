@@ -6,14 +6,15 @@ import js.node.Path;
 import js.Node.console;
 
 // externs
-import js.npm.Express;
-import js.npm.express.*;
-import js.npm.Swig;
-import js.npm.SocketIo;
-import js.npm.Mongoose;
-// import js.npm.mongoose.Mongoose;
-// import js.npm.mongoose.macro.Model;
-// import js.npm.Mongoose.mongoose;
+import externs.js.npm.express.*;
+import externs.js.npm.mw.*;
+import externs.js.npm.Swig;
+import externs.js.node.socketio.*;
+import externs.js.node.mongoose.Mongoose;
+
+import externs.js.node.mongoose.Schema;
+import externs.js.node.mongoose.Model;
+import externs.js.node.mongoose.Mongoose;
 
 import config.Config;
 import server.routes.*;
@@ -25,8 +26,81 @@ class MainServer {
 
 	var config : Config = new Config();
 
+	public static var mongoose : Mongoose;
+
 	// dummy template data
 	var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
+
+	function testMongoose(){
+		// connect to the MongoDB
+		var mongoConnect = config.MONGO_URL;
+		if (config.MONGO_URL != '' && config.MONGO_USER != '' && config.MONGO_PASS != '') {
+			mongoConnect = 'mongodb://${config.MONGO_USER}:${config.MONGO_PASS}@${config.MONGO_URL}';
+		} else if (config.MONGO_URL != '') {
+			mongoConnect = '${config.MONGO_URL}';
+		}
+		mongoConnect = 'mongodb://localhost/test';
+		console.log(mongoConnect);
+
+
+		mongoose = new Mongoose();
+		// Use Node's default promise instead of Mongoose's promise library
+		// untyped mongoose.Promise = untyped global.Promise;
+
+		mongoose.connect(mongoConnect, {
+			useNewUrlParser: true,
+			// useMongoClient: true,
+		});
+
+		var db = mongoose.connection;
+		db.on('error', function (err) {
+			console.log('Database error: ${err}');
+		});
+
+		db.once('open', function() {
+			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
+
+			// var kittySchema = new Schema({
+			// 	name: String,
+			// 	age: untyped Number
+			// });
+
+			// var Kitten = mongoose.model('Kitten', kittySchema);
+
+			// var silence = { name: 'Silence' };
+			// console.log(silence.name); // 'Silence'
+
+
+			// // fluffy.save(function (err, fluffy) {
+			// // 	if (err) return console.error(err);
+			// // 	fluffy.speak();
+			// // });
+
+
+			var kittySchema = new Schema({
+				name: String,
+				date: 'number'
+			});
+
+			var Kitten = mongoose.model('Kitten', kittySchema);
+
+			var silence = untyped __js__ ('new Kitten({ name: \'Silence\' })');
+			console.log(silence.name); // 'Silence'
+
+			var fluffy = untyped __js__ ('new Kitten({ name: \'fluffy\' })');
+
+			fluffy.save(function (err, fluffy) {
+				if (err) return console.error(err);
+				// fluffy.speak();
+			});
+
+
+			Kitten.create({ name: 'jelly beans', date: '133' }, function (err, _created){
+				console.log(_created);
+			});
+		});
+
+	}
 
 	function new() {
 		// set isDev var based upon ENVIRONMENT
@@ -46,19 +120,33 @@ class MainServer {
 		console.log(mongoConnect);
 
 
-		var mongoose = new js.npm.mongoose.Mongoose();
+		mongoose = new Mongoose();
 		// Use Node's default promise instead of Mongoose's promise library
 		untyped mongoose.Promise = untyped global.Promise;
 
-		var db = mongoose.connect(mongoConnect, { useNewUrlParser: true });
+		mongoose.connect(mongoConnect, {
+			useNewUrlParser: true,
+			// useMongoClient: true,
+		});
 
-		var db = mongoose.connection.db;
-		// db.connection.on('open', function() {
+		var db = mongoose.connection;
 		db.on('open', function() {
-			console.log('Connected to the database "${mongoConnect}".');
+			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
+
+			// console.log('Connected to the database "${mongoConnect}".');
 			// feed some dummy data in DB.
-			if (isDev) dummyData.registerUsers();
-			if (isDev) dummyData.trashCollection();
+			if (isDev) dummyData.registerUsers(mongoose);
+			// if (isDev) dummyData.trashCollection();
+
+			// var schema = new Schema({
+			// 	uid : String,
+			// 	street_number : 'Number',
+			// 	postal_code : String
+			// });
+			// var model = mongoose.model( 'RegisterUsers', schema );
+			// model.create({ uid: 'jelly beans', street_number: '133', postal_code: '1234AA' }, function (err, _created){
+			// 	console.log(_created);
+			// });
 		});
 
 		db.on('error', function (err) {
@@ -66,10 +154,10 @@ class MainServer {
 		});
 
 
-		// start server
+		// Instantiate express
 		var app : Express 	= new Express();
 		// var server 			= js.node.Http.createServer( cast app );
-		// var io     			= new js.npm.socketio.Server(server);
+		// var io     			= new externs.js.npm.socketio.Server(server);
 
 		// Don't touch this if you don't know it
 		// We are using this for the express-rate-limit middleware
@@ -77,13 +165,13 @@ class MainServer {
 		// app.enable('trust proxy');
 
 		// Set public folder using built-in express.static middleware
-		app.use(new Static(Path.join(Node.__dirname, 'public')));
+		app.use(Express.serveStatic(Path.join(Node.__dirname, 'public')));
 
 		// Set body parser middleware
 		app.use(BodyParser.json());
 		app.use(BodyParser.urlencoded({ extended: true }));
 
-		app.use(new Morgan('dev'));
+		app.use (Morgan.create('dev'));
 
 		// Enable cross-origin access through the CORS middleware
 		// NOTICE: For React development server only!
@@ -138,7 +226,7 @@ class MainServer {
 
 		app.get('/swig', function (req:Request,res:Response) {
 			res.render('_index', {
-				title:'Template Example Swig',
+				title:'Swig Template Example',
 				users:users
 			});
 		});
@@ -173,7 +261,7 @@ class MainServer {
 
 		// http://localhost:3000/api/users?username=foobar
 		// routes will go here
-		app.get('/api/users', function(req, res) {
+		app.get('/api/users', function(req:Request,res:Response) {
 			var username = req.param('username');
 			res.send('username: ' + username );
 		});
@@ -196,9 +284,9 @@ class MainServer {
 			res.sendFile( Path.resolve(Node.__dirname , 'public/400.html'));
 		});
 
-		app.use(function (err, req, res, next) {
-			res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
-		});
+		// app.use(function (err, req, res, next) {
+		// 	res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
+		// });
 
 		var server = app.listen(config.PORT, function(){
 			// trace('Express server listening on port ' + app.get('port'));
@@ -206,10 +294,11 @@ class MainServer {
 		});
 
 		// Set up socket.io
-		var io = js.npm.SocketIo.listen(server);
+		var io = new Server();
+		io.listen(server);
 		var online = 0;
 
-		io.on('connection', function (socket) {
+		io.on('connection', function (socket:Socket) {
 			// trace('connect');
 
 			online++;

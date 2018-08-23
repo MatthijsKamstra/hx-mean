@@ -24,38 +24,36 @@ var MainServer = function() {
 		mongoConnect = "" + this.config.MONGO_URL;
 	}
 	console.log(mongoConnect);
-	var mongoose = new js_npm_mongoose_Mongoose();
-	mongoose.Promise = global.Promise;
-	var db = mongoose.connect(mongoConnect,{ useNewUrlParser : true});
-	var db1 = mongoose.connection.db;
-	db1.on("open",function() {
-		console.log("Connected to the database \"" + mongoConnect + "\".");
+	MainServer.mongoose = new externs_js_node_mongoose_Mongoose();
+	MainServer.mongoose.Promise = global.Promise;
+	MainServer.mongoose.connect(mongoConnect,{ useNewUrlParser : true});
+	var db = MainServer.mongoose.connection;
+	db.on("open",function() {
+		console.log("Connected to the database \"mongodb://" + MainServer.mongoose.connection.host + ":" + MainServer.mongoose.connection.port + "/" + MainServer.mongoose.connection.name + "\".");
 		if(isDev) {
-			dummyData.registerUsers();
-		}
-		if(isDev) {
-			dummyData.trashCollection();
+			dummyData.registerUsers(MainServer.mongoose);
 		}
 	});
-	db1.on("error",function(err) {
+	db.on("error",function(err) {
 		console.log("Database error: " + err);
 	});
-	var app = new js_npm_Express();
-	app["use"](new js_npm_express_Static(js_node_Path.join(__dirname,"public")));
-	app["use"](js_npm_express_BodyParser.json());
-	app["use"](js_npm_express_BodyParser.urlencoded({ extended : true}));
-	app["use"](new js_npm_express_Morgan("dev"));
+	var app = externs_js_npm_express_Express();
+	var root = js_node_Path.join(__dirname,"public");
+	app["use"](externs_js_npm_express_Express["static"](root,null));
+	app["use"](externs_js_npm_mw_BodyParser.json());
+	app["use"](externs_js_npm_mw_BodyParser.urlencoded({ extended : true}));
+	app["use"](externs_js_npm_mw_Morgan("dev"));
 	app.set("port",this.config.PORT);
 	app.set("views",__dirname + "/public/");
-	app.engine("html",js_npm_Swig.renderFile);
+	app.engine("html",swig.renderFile);
 	app.set("view engine","html");
 	app.set("views",__dirname + "/views/swig");
 	app.set("view cache",!isDev);
-	js_npm_Swig.setDefaults({ cache : false});
-	js_npm_Swig.setExtension("isDev",isDev);
-	js_npm_Swig.setExtension("now",new Date());
+	swig.setDefaults({ cache : false});
+	swig.setExtension("isDev",isDev);
+	swig.setExtension("now",new Date());
 	app.get("/swig",function(req,res) {
-		res.render("_index",{ title : "Template Example Swig", users : _gthis.users});
+		res.render("_index",{ title : "Swig Template Example", users : _gthis.users});
 	});
 	app["use"]("/index",new server_routes_Index().router);
 	app["use"]("/api",new server_routes_Api().router);
@@ -77,14 +75,11 @@ var MainServer = function() {
 	app["use"](function(req5,res5,next) {
 		res5.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
 	});
-	app["use"](function(err1,req6,res6,next1) {
-		var tmp = js_node_Path.resolve(__dirname,"public/500.html");
-		res6.sendFile(tmp);
-	});
-	var server1 = app.listen(this.config.PORT,function() {
+	var server1 = app.listen(this.config.PORT,null,null,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
 	});
-	var io = js_npm_SocketIo.listen(server1);
+	var io = new externs_js_node_socketio_Server();
+	io.listen(server1);
 	var online = 0;
 	io.on("connection",function(socket) {
 		online += 1;
@@ -128,6 +123,14 @@ var config_Config = function() {
 	this.MONGO_PASS = Object.prototype.hasOwnProperty.call(process.env,"MONGO_PASS") ? process.env["MONGO_PASS"] : "";
 };
 config_Config.__name__ = true;
+var externs_js_node_mongoose_Mongoose = require("mongoose").Mongoose;
+var externs_js_node_mongoose_Schema = require("mongoose").Schema;
+var externs_js_node_socketio_Server = require("socket.io");
+var swig = require("swig-templates");
+var externs_js_npm_express_Express = require("express");
+var externs_js_npm_express_Router = require("express").Router;
+var externs_js_npm_mw_BodyParser = require("body-parser");
+var externs_js_npm_mw_Morgan = require("morgan");
 var haxe_Log = function() { };
 haxe_Log.__name__ = true;
 haxe_Log.trace = function(v,infos) {
@@ -258,15 +261,7 @@ js_Boot.__string_rec = function(o,s) {
 };
 var js_node_Path = require("path");
 var js_node_buffer_Buffer = require("buffer").Buffer;
-var js_npm_Express = require("express");
 var faker = require("faker");
-var js_npm_SocketIo = require("socket.io");
-var js_npm_Swig = require("swig-templates");
-var js_npm_express_BodyParser = require("body-parser");
-var js_npm_express_Morgan = require("morgan");
-var js_npm_express_Router = require("express").Router;
-var js_npm_express_Static = require("express").static;
-var js_npm_mongoose_Mongoose = require("mongoose").Mongoose;
 var server_DummyData = function(isDev) {
 	if(isDev == null) {
 		isDev = false;
@@ -275,18 +270,52 @@ var server_DummyData = function(isDev) {
 	var randomName = faker.name.findName();
 	var randomEmail = faker.internet.email();
 	var randomCard = faker.helpers.createCard();
+	if(isDev) {
+		haxe_Log.trace("" + randomName + ", " + randomEmail,{ fileName : "DummyData.hx", lineNumber : 21, className : "server.DummyData", methodName : "new"});
+	}
 };
 server_DummyData.__name__ = true;
 server_DummyData.prototype = {
-	registerUsers: function() {
-		haxe_Log.trace("registerUsers",{ fileName : "DummyData.hx", lineNumber : 18, className : "server.DummyData", methodName : "registerUsers"});
+	registerUsers: function(mongoose) {
+		var r = new server_models_RegisterUsers(mongoose);
+		r.count(function(count) {
+			if(count == 0) {
+				var _g = 0;
+				while(_g < 10) {
+					var i = _g++;
+					var obj = { uid : faker.random.uuid(), street_number : faker.random.number(), postal_code : faker.address.zipCode(), ismember : faker.random["boolean"]()};
+					r.add(obj,function() {
+						haxe_Log.trace("done",{ fileName : "DummyData.hx", lineNumber : 39, className : "server.DummyData", methodName : "registerUsers"});
+					});
+				}
+			}
+		});
 	}
-	,trashCollection: function() {
-		haxe_Log.trace("trashCollection",{ fileName : "DummyData.hx", lineNumber : 21, className : "server.DummyData", methodName : "trashCollection"});
+};
+var server_models_RegisterUsers = function(pMongoose) {
+	if(pMongoose == null) {
+		pMongoose = MainServer.mongoose;
+	}
+	this.mongoose = pMongoose;
+	this.schema = new externs_js_node_mongoose_Schema({ uid : String, street_number : "Number", postal_code : String, ismember : "Boolean"});
+	this.model = this.mongoose.model("RegisterUsers",this.schema);
+};
+server_models_RegisterUsers.__name__ = true;
+server_models_RegisterUsers.prototype = {
+	add: function(obj,callback) {
+		this.model.create(obj,function(err,_created) {
+			callback(_created);
+			haxe_Log.trace(_created,{ fileName : "RegisterUsers.hx", lineNumber : 51, className : "server.models.RegisterUsers", methodName : "add"});
+		});
+	}
+	,count: function(callback) {
+		this.model.countDocuments({ },function(err,count) {
+			callback(count);
+		});
 	}
 };
 var server_routes_Api = function() {
-	this.router = js_npm_express_Router();
+	this.router = externs_js_npm_express_Router();
 	this.router.get("/",function(req,res) {
 		res.end("Api");
 	});
@@ -305,8 +334,7 @@ var server_routes_Api = function() {
 	this.router.post("/register",function(req4,res4) {
 		var json1 = JSON.parse(JSON.stringify(req4.body));
 		haxe_Log.trace("body: ",{ fileName : "Api.hx", lineNumber : 37, className : "server.routes.Api", methodName : "new", customParams : [json1]});
-		res4.status(500).json({ success : false, msg : "hello"});
-		return;
+		return res4.status(500).json({ success : false, msg : "hello"});
 	});
 	this.router["delete"]("/:id",function(req5,res5) {
 		var id1 = req5.params.id;
@@ -325,21 +353,21 @@ var server_routes_Api = function() {
 };
 server_routes_Api.__name__ = true;
 var server_routes_Endpoint = function() {
-	this.router = js_npm_express_Router();
+	this.router = externs_js_npm_express_Router();
 	this.router.get("/",function(req,res) {
 		res.end("Endpoint");
 	});
 };
 server_routes_Endpoint.__name__ = true;
 var server_routes_Index = function() {
-	this.router = js_npm_express_Router();
+	this.router = externs_js_npm_express_Router();
 	this.router.get("/",function(req,res) {
 		res.end("Index");
 	});
 };
 server_routes_Index.__name__ = true;
 var server_routes_Users = function() {
-	this.router = js_npm_express_Router();
+	this.router = externs_js_npm_express_Router();
 	this.router.get("/",function(req,res) {
 		res.end("Users");
 	});

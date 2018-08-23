@@ -15,6 +15,13 @@ class ChatLog {
 			color : String
 		});
 		model = js.npm.Mongoose._.model( 'ChatLog', schema );
+
+
+		// add({ccc}, function (){
+		// 	trace('hi');
+		// })
+
+
 	}
 
 	public function add( log : Dynamic , cb ){
