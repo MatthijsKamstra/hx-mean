@@ -1,31 +1,63 @@
 package externs.js.node.mongoose;
 
+import haxe.extern.EitherType;
 import haxe.Constraints.Function;
 import js.node.events.EventEmitter;
 
 typedef SchemaOptions = {
-	?strict : Bool,
-	?bufferCommands : Bool,
-	?capped : Bool, // { size, max, autoIndexId }
-	?versionKey : String,
-	?discriminatorKey : String,
-	?minimize : Bool,
-	?autoIndex : Bool,
-	?shardKey : Bool,
-	?read : js.node.mongodb.ReadPreference,
-	?validateBeforeSave : Bool,
+	?autoIndex: Bool, // - defaults to null (which means use the connection's autoIndex option)
+	?bufferCommands: Bool, // - defaults to true
+	?capped: Bool, // - defaults to false
+	?collection: String, // - no default
+	?id: Bool, // - defaults to true
+	?_id: Bool, // - defaults to true
+	?minimize: Bool, // - controls document#toObject behavior when called manually - defaults to true
+	?read: EitherType<String, js.node.mongodb.ReadPreference>, //
+	?writeConcern: Dynamic, // - defaults to null, use to override the MongoDB server's default write concern settings
+	?shardKey: Bool, // - defaults to null
+	?strict: Bool, // - defaults to true
+	?toJSON : Dynamic, // - no default
+	?toObject : Dynamic, // - no default
+	?typeKey : String, // - defaults to 'type'
+	?useNestedStrict : Bool, //ean - defaults to false
+	?validateBeforeSave : Bool, // - defaults to true
+	?versionKey: String, // - defaults to "__v"
+	?collation: Dynamic, // - defaults to null (which means use no collation)
+
+
+	// ?strict : Bool,
+	// ?bufferCommands : Bool,
+	// ?capped : Bool, // { size, max, autoIndexId }
+	// ?versionKey : String,
+	// ?discriminatorKey : String,
+	// ?minimize : Bool,
+	// ?autoIndex : Bool,
+	// ?shardKey : Bool,
+	// ?read : js.node.mongodb.ReadPreference,
+	// ?validateBeforeSave : Bool,
 	// the following are only applied at construction time
-	?_id : Bool,
-	?id : Bool
+	// ?_id : Bool,
+	// ?id : Bool,
+
+
+
 }
 
-
+/**
+ * Haxe externs for mongoose.js v5.2.9
+ * Project: https://mongoosejs.com/
+ * Definitions by:	wiggin77 <https://github.com/wiggin77>
+ * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions: 	<https://github.com/wiggin77/HxMongoNode> (2.0)
+ * 					<https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("mongoose", "Schema")
+// @:jsRequire("Schema")
 extern class Schema extends EventEmitter<Schema>
 {
 	public var indexTypes(default,null) : Array<String>;
 
-
+	// https://mongoosejs.com/docs/api.html#Schema
 	/**
 	 * Schema constructor.
 	 *
@@ -88,7 +120,6 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {String} prefix
 	 * @api public
 	 */
-
 	public function add(obj:{}, ?prefix:String) : Void;
 
 	/**

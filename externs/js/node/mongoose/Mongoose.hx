@@ -1,8 +1,24 @@
 package externs.js.node.mongoose;
 
+/**
+ * Haxe externs for mongoose.js v5.2.9
+ * Project: https://mongoosejs.com/
+ * Definitions by:	wiggin77 <https://github.com/wiggin77>
+ * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions: 	<https://github.com/wiggin77/HxMongoNode> (2.0)
+ * 					<https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("mongoose", "Mongoose")
 extern class Mongoose
 {
+
+	// https://mongoosejs.com/docs/api.html#mongoose_Mongoose
+	// public static var mongoose : Mongoose;
+
+	// static function __init__() : Void
+	// 	mongoose = untyped require("mongoose").Mongoose;
+
+
 	public var connection (default,null) : Connection;
 	public var connections (default,null) : Array<Connection>;
 	public var version (default,null) : String;
@@ -98,6 +114,8 @@ extern class Mongoose
 	public function createConnection() : Connection;
 
 	/**
+	 * https://mongoosejs.com/docs/api.html#mongoose_Mongoose-connect
+	 *
 	 * Opens the default mongoose connection.
 	 *
 	 * If arguments are passed, they are proxied to either [Connection#open](#connection_Connection-open) or

@@ -346,6 +346,31 @@ extern class Model
 	public function count(conditions:{}, callback:Error->Int->Void) : Query;
 
 	/**
+	 * https://mongoosejs.com/docs/api.html#model_Model.countDocuments
+	 *
+	 * Model.countDocuments()
+Parameters
+filter «Object»
+[callback] «Function»
+Returns:
+«Query»
+Counts number of documents matching filter in a database collection.
+
+If you want to count all documents in a large collection, use the estimatedDocumentCount() function instead. If you call countDocuments({}), MongoDB will always execute a full collection scan and not use any indexes.
+
+Example:
+Adventure.countDocuments({ type: 'jungle' }, function (err, count) {
+  console.log('there are %d jungle adventures', count);
+});
+
+	 */
+	@:overload(function (conditions:{}) : Query {})
+	@:overload(function (callback:Error->Int->Void) : Query {})
+	@:overload(function () : Query {})
+	public function countDocuments(conditions:{}, callback:Error->Int->Void) : Query;
+
+
+	/**
 	 * Creates a Query for a `distinct` operation.
 	 *
 	 * Passing a `callback` immediately executes the query.

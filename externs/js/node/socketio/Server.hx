@@ -14,7 +14,6 @@ extern class Namespace extends Socket
  *                  <https://github.com/matthijskamstra/hx-mean>
  */
 @:jsRequire("socket.io")
-// @:native("require('socket.io')")
 extern class Server extends Namespace
 {
     public var sockets:Namespace;

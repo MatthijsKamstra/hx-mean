@@ -2,9 +2,31 @@ package externs.js.node.mongoose;
 
 import js.node.events.EventEmitter;
 
+/**
+ * Haxe externs for mongoose.js v5.2.9
+ * Project: https://mongoosejs.com/
+ * Definitions by:	wiggin77 <https://github.com/wiggin77>
+ * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions: 	<https://github.com/wiggin77/HxMongoNode> (2.0)
+ * 					<https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("mongoose", "Connection")
 extern class Connection extends EventEmitter<Connection>
 {
+
+	public var host:String;
+	public var port:String;
+	public var name:String;
+	public var pass:String;
+	public var user:String;
+
+
+	public var collections:Dynamic;
+	public var config:Dynamic;
+	public var db:Dynamic;
+	public var readyState:String;
+
+
 	/**
 	 * Connection constructor
 	 *
