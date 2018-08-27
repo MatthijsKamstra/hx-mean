@@ -23,6 +23,7 @@
     "launch:mongobooster": "open -a MongoBooster",
     "launch:mongodb": "mongod",
     "launch:sourcetree": "open -a sourcetree",
+    "launch:docsify": "docsify serve ./docs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
