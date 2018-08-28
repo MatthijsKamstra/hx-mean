@@ -5,6 +5,7 @@
 - Vue.js
 - Swig
 - Jade
+- Ember.js
 
 
 
