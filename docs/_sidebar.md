@@ -4,11 +4,17 @@
 * Getting started
 
 	* [Quick start](quickstart.md)
-	* [Writing more pages](more-pages.md)
-	* [Custom navbar](custom-navbar.md)
-	* [Cover page](cover.md)
 
 * [Guide](guide.md)
+
+
+
+* [MEAN stack](mean.md)
+
+	* [MongoDB](mean_mongodb.md)
+	* [Express](mean_express.md)
+	* [Angular](mean_angular.md)
+	* [NodeJS](mean_nodejs.md)
 
 * Mongoose
 
