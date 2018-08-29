@@ -18,16 +18,22 @@ The components of the MEAN stack are as follows:
 
 A number of variations on the traditional MEAN stack are available by replacing one or more of the components with similar (typically Javascript-based) frameworks. For example: In a MEEN stack, the JavaScript MVC framework Ember.js is used instead of Angular, and likewise for the MERN stack, where React.JS is used as a substitute.
 
-<https://en.wikipedia.org/wiki/MEAN_(software_bundle)>
+Source: <https://en.wikipedia.org/wiki/MEAN_(software_bundle)>
 
 ## variants
 
 Some popular alternatives includes MERN with React.js, MEVN with Vue.js, or MEN with Vanilla JS.
 
 
-##
+### MEN
 
-- MEAN, which is short for
+- <https://github.com/greenpioneersolutions/menstackjs>
+- <https://medium.com/@EffingKay/build-a-single-page-men-stack-app-with-user-login-and-authentication-4d6456022d97>
+
+## another explain
+
+MEAN, which is short for
+
 - Mongo DB (database system)
 - Express (back-end web framework)
 - Angular.js (front-end framework)

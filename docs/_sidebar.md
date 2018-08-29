@@ -15,14 +15,18 @@
 
 * [Guide](guide.md)
 
+* [Templates](templates/index.md)
+
+* [Haxe externs](externs/index.md)
 
 
-* [MEAN stack](mean.md)
 
-	* [MongoDB](mean_mongodb.md)
-	* [Express](mean_express.md)
-	* [Angular](mean_angular.md)
-	* [NodeJS](mean_nodejs.md)
+* [MEAN stack](mean/mean.md)
+
+	* [MongoDB](mean/mean_mongodb.md)
+	* [Express](mean/mean_express.md)
+	* [Angular](mean/mean_angular.md)
+	* [NodeJS](mean/mean_nodejs.md)
 
 * Mongoose
 
