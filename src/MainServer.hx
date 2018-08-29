@@ -96,7 +96,7 @@ class MainServer {
 		// if (process.env.CORS) {
 		//   app.use(cors());
 		// }
-		app.use(new Cors());
+		app.use(Cors.create());
 
 		// all environments
 		app.set('port', config.PORT);
@@ -124,7 +124,6 @@ class MainServer {
 
 
 		// Swig templating
-
 		app.engine('html', Swig.renderFile);
 		app.set('view engine', 'html');
 		// app.set('views', Path.resolve(Node.__dirname , '/views/swig'));
@@ -146,6 +145,13 @@ class MainServer {
 		app.get('/swig', function (req:Request,res:Response) {
 			res.render('_index', {
 				title:'Swig Template Example',
+				users:users
+			});
+		});
+
+		app.get('/jquery', function (req:Request,res:Response) {
+			res.render('_jquery', {
+				title:'Swig/jquery Template Example',
 				users:users
 			});
 		});

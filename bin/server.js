@@ -43,6 +43,7 @@ var MainServer = function() {
 	app["use"](externs_js_npm_mw_BodyParser.json());
 	app["use"](externs_js_npm_mw_BodyParser.urlencoded({ extended : true}));
 	app["use"](externs_js_npm_mw_Morgan("dev"));
+	app["use"](externs_js_npm_mw_Cors());
 	app.set("port",this.config.PORT);
 	app.set("views",__dirname + "/public/");
 	app.engine("html",swig.renderFile);
@@ -55,25 +56,28 @@ var MainServer = function() {
 	app.get("/swig",function(req,res) {
 		res.render("_index",{ title : "Swig Template Example", users : _gthis.users});
 	});
+	app.get("/jquery",function(req1,res1) {
+		res1.render("_jquery",{ title : "Swig/jquery Template Example", users : _gthis.users});
+	});
 	app["use"]("/index",new server_routes_Index().router);
 	app["use"]("/api",new server_routes_Api().router);
 	app["use"]("/endpoint",new server_routes_Endpoint().router);
 	app["use"]("/users",new server_routes_Users().router);
-	app.get("/",function(req1,res1) {
-		res1.sendFile(__dirname + "/public/index.html");
+	app.get("/",function(req2,res2) {
+		res2.sendFile(__dirname + "/public/index.html");
 	});
-	app.get("/remote",function(req2,res2) {
-		res2.sendFile(__dirname + "/public/remote.html");
+	app.get("/remote",function(req3,res3) {
+		res3.sendFile(__dirname + "/public/remote.html");
 	});
-	app.get("/test",function(req3,res3) {
-		res3.render("_test",{ title : "Test"});
+	app.get("/test",function(req4,res4) {
+		res4.render("_test",{ title : "Test"});
 	});
-	app.get("/api/users",function(req4,res4) {
-		var username = req4.param("username");
-		res4.send("username: " + username);
+	app.get("/api/users",function(req5,res5) {
+		var username = req5.param("username");
+		res5.send("username: " + username);
 	});
-	app["use"](function(req5,res5,next) {
-		res5.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	app["use"](function(req6,res6,next) {
+		res6.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
 	});
 	var server1 = app.listen(this.config.PORT,null,null,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
@@ -130,6 +134,7 @@ var swig = require("swig-templates");
 var externs_js_npm_express_Express = require("express");
 var externs_js_npm_express_Router = require("express").Router;
 var externs_js_npm_mw_BodyParser = require("body-parser");
+var externs_js_npm_mw_Cors = require("cors");
 var externs_js_npm_mw_Morgan = require("morgan");
 var haxe_Log = function() { };
 haxe_Log.__name__ = true;
@@ -271,7 +276,7 @@ var server_DummyData = function(isDev) {
 	var randomEmail = faker.internet.email();
 	var randomCard = faker.helpers.createCard();
 	if(isDev) {
-		haxe_Log.trace("" + randomName + ", " + randomEmail,{ fileName : "DummyData.hx", lineNumber : 21, className : "server.DummyData", methodName : "new"});
+		haxe_Log.trace("" + randomName + ", " + randomEmail,{ fileName : "DummyData.hx", lineNumber : 23, className : "server.DummyData", methodName : "new"});
 	}
 };
 server_DummyData.__name__ = true;
@@ -285,7 +290,7 @@ server_DummyData.prototype = {
 					var i = _g++;
 					var obj = { uid : faker.random.uuid(), street_number : faker.random.number(), postal_code : faker.address.zipCode(), ismember : faker.random["boolean"]()};
 					r.add(obj,function() {
-						haxe_Log.trace("done",{ fileName : "DummyData.hx", lineNumber : 39, className : "server.DummyData", methodName : "registerUsers"});
+						haxe_Log.trace("done",{ fileName : "DummyData.hx", lineNumber : 41, className : "server.DummyData", methodName : "registerUsers"});
 					});
 				}
 			}
@@ -356,6 +361,17 @@ var server_routes_Endpoint = function() {
 	this.router = externs_js_npm_express_Router();
 	this.router.get("/",function(req,res) {
 		res.end("Endpoint");
+	});
+	this.router.get("/test",function(req1,res1) {
+		var arr = [];
+		var json = arr;
+		var _g = 0;
+		while(_g < 10) {
+			var i = _g++;
+			var obj = { uid : faker.random.uuid(), card : faker.helpers.createCard()};
+			arr.push(obj);
+		}
+		res1.json(json);
 	});
 };
 server_routes_Endpoint.__name__ = true;

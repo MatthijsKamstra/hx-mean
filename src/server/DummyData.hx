@@ -1,13 +1,15 @@
 package server;
 
-import js.npm.Faker;
 import js.Node.console;
 
+import server.models.RegisterUsers;
+
+// Haxe externs
+import js.npm.Faker;
 import externs.js.node.mongoose.Schema;
 import externs.js.node.mongoose.Model;
 import externs.js.node.mongoose.Mongoose;
 
-import server.models.RegisterUsers;
 
 class DummyData {
 	public function new(isDev:Bool = false) {
