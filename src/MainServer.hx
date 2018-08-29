@@ -5,7 +5,7 @@ import js.node.Http;
 import js.node.Path;
 import js.Node.console;
 
-// externs
+// local externs
 import externs.js.npm.express.*;
 import externs.js.npm.mw.*;
 import externs.js.npm.Swig;
@@ -30,77 +30,6 @@ class MainServer {
 
 	// dummy template data
 	var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
-
-	function testMongoose(){
-		// connect to the MongoDB
-		var mongoConnect = config.MONGO_URL;
-		if (config.MONGO_URL != '' && config.MONGO_USER != '' && config.MONGO_PASS != '') {
-			mongoConnect = 'mongodb://${config.MONGO_USER}:${config.MONGO_PASS}@${config.MONGO_URL}';
-		} else if (config.MONGO_URL != '') {
-			mongoConnect = '${config.MONGO_URL}';
-		}
-		mongoConnect = 'mongodb://localhost/test';
-		console.log(mongoConnect);
-
-
-		mongoose = new Mongoose();
-		// Use Node's default promise instead of Mongoose's promise library
-		// untyped mongoose.Promise = untyped global.Promise;
-
-		mongoose.connect(mongoConnect, {
-			useNewUrlParser: true,
-			// useMongoClient: true,
-		});
-
-		var db = mongoose.connection;
-		db.on('error', function (err) {
-			console.log('Database error: ${err}');
-		});
-
-		db.once('open', function() {
-			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
-
-			// var kittySchema = new Schema({
-			// 	name: String,
-			// 	age: untyped Number
-			// });
-
-			// var Kitten = mongoose.model('Kitten', kittySchema);
-
-			// var silence = { name: 'Silence' };
-			// console.log(silence.name); // 'Silence'
-
-
-			// // fluffy.save(function (err, fluffy) {
-			// // 	if (err) return console.error(err);
-			// // 	fluffy.speak();
-			// // });
-
-
-			var kittySchema = new Schema({
-				name: String,
-				date: 'number'
-			});
-
-			var Kitten = mongoose.model('Kitten', kittySchema);
-
-			var silence = untyped __js__ ('new Kitten({ name: \'Silence\' })');
-			console.log(silence.name); // 'Silence'
-
-			var fluffy = untyped __js__ ('new Kitten({ name: \'fluffy\' })');
-
-			fluffy.save(function (err, fluffy) {
-				if (err) return console.error(err);
-				// fluffy.speak();
-			});
-
-
-			Kitten.create({ name: 'jelly beans', date: '133' }, function (err, _created){
-				console.log(_created);
-			});
-		});
-
-	}
 
 	function new() {
 		// set isDev var based upon ENVIRONMENT
@@ -132,21 +61,10 @@ class MainServer {
 		var db = mongoose.connection;
 		db.on('open', function() {
 			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
-
 			// console.log('Connected to the database "${mongoConnect}".');
 			// feed some dummy data in DB.
 			if (isDev) dummyData.registerUsers(mongoose);
 			// if (isDev) dummyData.trashCollection();
-
-			// var schema = new Schema({
-			// 	uid : String,
-			// 	street_number : 'Number',
-			// 	postal_code : String
-			// });
-			// var model = mongoose.model( 'RegisterUsers', schema );
-			// model.create({ uid: 'jelly beans', street_number: '133', postal_code: '1234AA' }, function (err, _created){
-			// 	console.log(_created);
-			// });
 		});
 
 		db.on('error', function (err) {
@@ -178,6 +96,7 @@ class MainServer {
 		// if (process.env.CORS) {
 		//   app.use(cors());
 		// }
+		app.use(new Cors());
 
 		// all environments
 		app.set('port', config.PORT);
@@ -320,6 +239,78 @@ class MainServer {
 			});
 			socket.on('send', function (data) {
 				io.sockets.emit('message', data);
+			});
+		});
+
+	}
+
+
+	function testMongoose(){
+		// connect to the MongoDB
+		var mongoConnect = config.MONGO_URL;
+		if (config.MONGO_URL != '' && config.MONGO_USER != '' && config.MONGO_PASS != '') {
+			mongoConnect = 'mongodb://${config.MONGO_USER}:${config.MONGO_PASS}@${config.MONGO_URL}';
+		} else if (config.MONGO_URL != '') {
+			mongoConnect = '${config.MONGO_URL}';
+		}
+		mongoConnect = 'mongodb://localhost/test';
+		console.log(mongoConnect);
+
+
+		mongoose = new Mongoose();
+		// Use Node's default promise instead of Mongoose's promise library
+		// untyped mongoose.Promise = untyped global.Promise;
+
+		mongoose.connect(mongoConnect, {
+			useNewUrlParser: true,
+			// useMongoClient: true,
+		});
+
+		var db = mongoose.connection;
+		db.on('error', function (err) {
+			console.log('Database error: ${err}');
+		});
+
+		db.once('open', function() {
+			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
+
+			// var kittySchema = new Schema({
+			// 	name: String,
+			// 	age: untyped Number
+			// });
+
+			// var Kitten = mongoose.model('Kitten', kittySchema);
+
+			// var silence = { name: 'Silence' };
+			// console.log(silence.name); // 'Silence'
+
+
+			// // fluffy.save(function (err, fluffy) {
+			// // 	if (err) return console.error(err);
+			// // 	fluffy.speak();
+			// // });
+
+
+			var kittySchema = new Schema({
+				name: String,
+				date: 'number'
+			});
+
+			var Kitten = mongoose.model('Kitten', kittySchema);
+
+			var silence = untyped __js__ ('new Kitten({ name: \'Silence\' })');
+			console.log(silence.name); // 'Silence'
+
+			var fluffy = untyped __js__ ('new Kitten({ name: \'fluffy\' })');
+
+			fluffy.save(function (err, fluffy) {
+				if (err) return console.error(err);
+				// fluffy.speak();
+			});
+
+
+			Kitten.create({ name: 'jelly beans', date: '133' }, function (err, _created){
+				console.log(_created);
 			});
 		});
 
