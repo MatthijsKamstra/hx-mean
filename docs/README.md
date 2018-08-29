@@ -2,20 +2,11 @@
 
 ![](img/banner.png)
 
-
 I wanted to build my MEAN stack in Haxe. So I build this example project to see if its doable.
 
+But during my simple exercise I ran into a couple of other ideas.
 
-- [Haxe](http://www.haxe.org) The Cross-platform Toolkit for transpiling to javascript [more](READ_HAXE.MD)
-- [Bootstrap v4.1](https://getbootstrap.com/) for css framework
-- [Fontawesome v5](https://fontawesome.com) for nice icons
-- [Vue.js](https://vuejs.org/) a progressive framework for building user interfaces.
-- [Vue router](https://github.com/vuejs/vue-router) The official router for Vue.js
-- [sass](http://sass-lang.com/) CSS with superpowers
-- [LiveReload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
-- [hx-html](https://github.com/MatthijsKamstra/hx-html) experimental html template creation
-- Swig [docs](http://node-swig.github.io/swig-templates/docs/) [Haxe extern](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Swig.hx)
-
+So more or less this is a Hx-MEN stack, and I let you choose your own templating.
 
 ## About MEAN
 
@@ -23,7 +14,7 @@ I wanted to build my MEAN stack in Haxe. So I build this example project to see 
 MEAN is a free and open-source JavaScript software stack for building dynamic web sites and web applications.
 
 The MEAN stack is MongoDB, Express.js, AngularJS (or Angular), and Node.js. Because all components of the MEAN stack support programs are written in JavaScript, MEAN applications can be written in one language for both server-side and client-side execution environments.
->>
+>
 
 MEAN was coined by Valeri Karpov, a MongoDB developer. He introduced the term in a 2013 blog post.
 
@@ -39,6 +30,13 @@ The components of the MEAN stack are as follows:
 A number of variations on the traditional MEAN stack are available by replacing one or more of the components with similar (typically Javascript-based) frameworks. For example: In a MEEN stack, the JavaScript MVC framework Ember.js is used instead of Angular, and likewise for the MERN stack, where React.JS is used as a substitute.
 
 
+
+>
+Pre-requisites
+You need to have a basic understanding of all the four technologies that make up the MERN stack. You should also have npm (Node Package Manager) installed. This is NOT a tutorial on MongoDB, Express, React or NodeJS.
+
+
+
 | (M) | (E) | (A) | (N) |
 | --- | --- | --- | --- |
 | MongoDB | Express | Angular | NodeJS |
@@ -47,10 +45,26 @@ A number of variations on the traditional MEAN stack are available by replacing 
 |  |  | Swig | |
 |  |  | Jade | |  |
 
+## Batteries included
 
->
-Pre-requisites
-You need to have a basic understanding of all the four technologies that make up the MERN stack. You should also have npm (Node Package Manager) installed. This is NOT a tutorial on MongoDB, Express, React or NodeJS.
+There is some stuff I use regular so that is all in here
+
+- [Haxe](http://www.haxe.org) The Cross-platform Toolkit for transpiling to javascript [more](READ_HAXE.MD)
+- [Bootstrap v4.1](https://getbootstrap.com/) for css framework
+- [Fontawesome v5](https://fontawesome.com) for nice icons
+- [Vue.js](https://vuejs.org/) a progressive framework for building user interfaces.
+- [Vue router](https://github.com/vuejs/vue-router) The official router for Vue.js
+- [sass](http://sass-lang.com/) CSS with superpowers
+- [LiveReload chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
+
+
+
+- [hx-html](https://github.com/MatthijsKamstra/hx-html) experimental html template creation
+- Swig [docs](http://node-swig.github.io/swig-templates/docs/) [Haxe extern](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Swig.hx)
+
+
+
+JavaScript framework
 
 
 
@@ -183,51 +197,23 @@ Use templates to generate them on the server and send the template to the client
 
 
 
-# externs
+# Haxe externs
 
-https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/mongoose
-
-
-https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/socketio
-
-
-https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/express
-
+- https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/mongoose
+- https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/socketio
+- https://github.com/clemos/haxe-js-kit/tree/develop/js/npm/express
+- https://github.com/MatthijsKamstra/hxexterns
+- https://github.com/wiggin77/HxMongoNode
+- https://github.com/abedev/hxexpress
 
 
+# Typescript
 
-
-https://github.com/MatthijsKamstra/hxexterns
-
-
-
-https://github.com/wiggin77/HxMongoNode
-
-
-
-
-https://github.com/abedev/hxexpress
-
-
-# ts
-
-https://www.npmjs.com/package/@types/express
-
-https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/express
-
-
-
-
-https://microsoft.github.io/TypeSearch/
-
-
-
-
-
-https://www.npmjs.com/package/@types/mongoose
-
-
-https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mongoose
+- https://www.npmjs.com/package/@types/express
+- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/express
+- https://microsoft.github.io/TypeSearch/
+- https://www.npmjs.com/package/@types/mongoose
+- https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/mongoose
 
 
 

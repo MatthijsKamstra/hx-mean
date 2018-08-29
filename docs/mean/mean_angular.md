@@ -1,44 +1,16 @@
 # ME(A)N
 
-- Angular
-- React
-- Vue.js
-- Swig
-- Jade
-- Ember.js
+The original MEAN stack was with [Angular](https://angular.io/).
 
+I have really no interests in Angular.
+So check out the [templating](../templates/index.md) chapter.
 
+## Haxe Externs
 
-# Templating
+It looks like there are some attempts for Haxe externs, but they are between 3 and 4 years old
 
-- Use static files
-- Server generated templates
-- Client generated templates
+- https://github.com/blackjyn/Angular2-Haxe
+- https://github.com/kmshi/haxejs-angular
+- https://github.com/frabbit/angular.haxe
 
-# Server generated templates
-
-Use templates to generate them on the server and send the template to the client
-
-- Swig [docs](http://node-swig.github.io/swig-templates/docs/) [Haxe extern](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Swig.hx)
-- Jade (is now called Pug) [Haxe extern](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Jade.hx)
-- ejs [Haxe extern](https://github.com/clemos/haxe-js-kit/blob/develop/js/npm/Ejs.hx)
-- Mustache
-
-# Client generated Templating
-
-- react
-- vue.js
-- (Angular)
-
-
-
-# Haxe specific templating
-
-- Haxe default templating <http://api.haxe.org/haxe/Template.html>
-- https://github.com/nadako/hxmustache
-- https://github.com/haxetink/tink_template
-- https://github.com/benmerckx/ithril
-- https://github.com/ciscoheat/mithril-hx
-
-
-
+Use if you want to, but I am not going to work with Angular anyway.

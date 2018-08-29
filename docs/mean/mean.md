@@ -25,7 +25,9 @@ Source: <https://en.wikipedia.org/wiki/MEAN_(software_bundle)>
 Some popular alternatives includes MERN with React.js, MEVN with Vue.js, or MEN with Vanilla JS.
 
 
-### MEN
+### MEN-stack
+
+examples
 
 - <https://github.com/greenpioneersolutions/menstackjs>
 - <https://medium.com/@EffingKay/build-a-single-page-men-stack-app-with-user-login-and-authentication-4d6456022d97>

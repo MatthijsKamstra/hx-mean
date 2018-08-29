@@ -9,11 +9,13 @@
    * [Hello world](haxe/hello-world.md)
    * [Learn Haxe](haxe/learn-haxe.md)
 
-* Getting started
+* [Guide](guide.md)
+	* [start](guide/index.md)
 
+
+* Getting started
 	* [Quick start](quickstart.md)
 
-* [Guide](guide.md)
 
 * [Templates](templates/index.md)
 
