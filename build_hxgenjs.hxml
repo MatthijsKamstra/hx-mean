@@ -1,0 +1,9 @@
+-lib hxgenjs
+-D js_es=6
+
+-lib hxexterns
+-lib hxnodejs
+-cp src
+-main MainServer
+-js bin_gen/server.js
+-dce full
