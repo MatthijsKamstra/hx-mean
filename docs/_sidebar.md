@@ -34,8 +34,11 @@
 
 * [Haxe externs](externs/index.md)
 
-* [Export](export.js.md)
+* [Export](export/js.md)
 
+* [Help](help/index.md)
+	* [Mongoose/schema](help/mongoose_schema.md)
+	* [Express/request](help/request.md)
 
 
 * [MEAN stack](mean/mean.md)
