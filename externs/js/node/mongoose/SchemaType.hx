@@ -2,6 +2,14 @@ package externs.js.node.mongoose;
 
 import haxe.Constraints.Function;
 
+/**
+ * Haxe externs for mongoose.js v5.2.9
+ * Project: https://mongoosejs.com/
+ * Definitions by:	wiggin77 <https://github.com/wiggin77>
+ * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions: 	<https://github.com/wiggin77/HxMongoNode> (2.0)
+ * 					<https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("mongoose", "SchemaType")
 extern class SchemaType
 {
@@ -369,6 +377,7 @@ extern class SchemaType
 	@:overload(function(obj:Function, message:String, type:String) : SchemaType {})
 	@:overload(function(obj:Function, message:String) : SchemaType {})
 	@:overload(function(obj:Function, type:String) : SchemaType {})
+	@:overload(function(obj:Function) : SchemaType {})
 	@:overload(function(obj:{}, message:String) : SchemaType {})
 	@:overload(function(obj:{}, type:String) : SchemaType {})
 	public function validate(obj:{}, message:String, type:String) : SchemaType;

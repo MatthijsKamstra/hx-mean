@@ -302,6 +302,25 @@ extern class Schema extends EventEmitter<Schema>
 	}
 
 	/**
+	 * Creates a virtual type with the given name.
+	 *
+	 * @url 		https://mongoosejs.com/docs/api.html#schema_Schema-virtual
+	 *
+	 * @param name
+	 * @param options
+	 * @return VirtualType
+	 */
+	public function virtual(name:String, ?options : Dynamic):VirtualType;
+
+	/**
+	 * Returns the virtual type with the given `name`.
+
+	 * @param name
+	 * @return VirtualType
+	 */
+	public function virtualpath(name:String):VirtualType;
+
+	/**
 	 * Defines an index (most likely compound) for this schema.
 	 *
 	 * ####Example
