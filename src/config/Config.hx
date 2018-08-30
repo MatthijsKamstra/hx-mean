@@ -12,7 +12,8 @@ class Config {
 	public var MONGO_PASS : String;
 
   	// extra variables
-	public var API_KEY : String;
+	static public var API_KEY : String;
+	static public var SECRET : String = 'something top secret, Haxe related and MEAN';
 
 	public function new () {
 		ENVIRONMENT 	= process.env.exists("ENVIRONMENT") 	? process.env["ENVIRONMENT"]		: 'development';
