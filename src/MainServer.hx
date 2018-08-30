@@ -33,6 +33,9 @@ class MainServer {
 	var users = [{name:"Mark", age:30}, {name:"John", age:45}, {name:"Leo", age: 100}];
 
 	function new() {
+
+		Test.bcrypt();
+
 		// set isDev var based upon ENVIRONMENT
 		var isDev = config.ENVIRONMENT == 'development';
 		console.log('isDev: ${isDev}');
@@ -51,6 +54,7 @@ class MainServer {
 
 
 		mongoose = new Mongoose();
+		Global.MONGOOSE = mongoose;
 		// Use Node's default promise instead of Mongoose's promise library
 		untyped mongoose.Promise = untyped global.Promise;
 
@@ -64,7 +68,8 @@ class MainServer {
 			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
 			// console.log('Connected to the database "${mongoConnect}".');
 			// feed some dummy data in DB.
-			if (isDev) dummyData.registerUsers(mongoose);
+			if (isDev) dummyData.init();
+			// if (isDev) dummyData.registerUsers();
 			// if (isDev) dummyData.trashCollection();
 		});
 
@@ -171,7 +176,7 @@ class MainServer {
 		app.use('/users', new Users().router);
 
 
-		// Routes
+		// Statics routes
 		app.get('/', function (req:Request,res:Response) {
 			res.sendFile(Node.__dirname + '/public/index.html');
 		});
@@ -261,77 +266,6 @@ class MainServer {
 
 	}
 
-
-	function testMongoose(){
-		// connect to the MongoDB
-		var mongoConnect = config.MONGO_URL;
-		if (config.MONGO_URL != '' && config.MONGO_USER != '' && config.MONGO_PASS != '') {
-			mongoConnect = 'mongodb://${config.MONGO_USER}:${config.MONGO_PASS}@${config.MONGO_URL}';
-		} else if (config.MONGO_URL != '') {
-			mongoConnect = '${config.MONGO_URL}';
-		}
-		mongoConnect = 'mongodb://localhost/test';
-		console.log(mongoConnect);
-
-
-		mongoose = new Mongoose();
-		// Use Node's default promise instead of Mongoose's promise library
-		// untyped mongoose.Promise = untyped global.Promise;
-
-		mongoose.connect(mongoConnect, {
-			useNewUrlParser: true,
-			// useMongoClient: true,
-		});
-
-		var db = mongoose.connection;
-		db.on('error', function (err) {
-			console.log('Database error: ${err}');
-		});
-
-		db.once('open', function() {
-			console.log('Connected to the database "mongodb://${mongoose.connection.host}:${mongoose.connection.port}/${mongoose.connection.name}".');
-
-			// var kittySchema = new Schema({
-			// 	name: String,
-			// 	age: untyped Number
-			// });
-
-			// var Kitten = mongoose.model('Kitten', kittySchema);
-
-			// var silence = { name: 'Silence' };
-			// console.log(silence.name); // 'Silence'
-
-
-			// // fluffy.save(function (err, fluffy) {
-			// // 	if (err) return console.error(err);
-			// // 	fluffy.speak();
-			// // });
-
-
-			var kittySchema = new Schema({
-				name: String,
-				date: 'number'
-			});
-
-			var Kitten = mongoose.model('Kitten', kittySchema);
-
-			var silence = untyped __js__ ('new Kitten({ name: \'Silence\' })');
-			console.log(silence.name); // 'Silence'
-
-			var fluffy = untyped __js__ ('new Kitten({ name: \'fluffy\' })');
-
-			fluffy.save(function (err, fluffy) {
-				if (err) return console.error(err);
-				// fluffy.speak();
-			});
-
-
-			Kitten.create({ name: 'jelly beans', date: '133' }, function (err, _created){
-				console.log(_created);
-			});
-		});
-
-	}
 
 	static public function main(){
 		var main = new MainServer();

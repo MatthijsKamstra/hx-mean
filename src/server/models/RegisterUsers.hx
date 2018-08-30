@@ -17,10 +17,9 @@ class RegisterUsers {
 	var schema : Schema;
 	var mongoose : Mongoose;
 
-	public function new(?pMongoose:Mongoose){
+	public function new(){
 
-		if (pMongoose == null) pMongoose = MainServer.mongoose;
-		mongoose = pMongoose;
+		mongoose = MainServer.mongoose;
 
 		schema = new Schema({
 			uid : String,

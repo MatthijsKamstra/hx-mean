@@ -3,6 +3,7 @@ package server;
 import js.Node.console;
 
 import server.models.RegisterUsers;
+import server.models.User;
 
 // Haxe externs
 import js.npm.Faker;
@@ -24,9 +25,42 @@ class DummyData {
 
 	}
 
-	public function registerUsers(mongoose:Mongoose){
-		// trace('registerUsers');
-		var r = new RegisterUsers(mongoose);
+	public function init(){
+		registerUsers();
+		user();
+		trashCollection();
+		chatLog();
+	}
+
+	public function user(){
+		trace('users');
+		// var r = new User();
+		// r.count(function (count){
+		// 	// trace('>>> $count');
+		// 	if(count == 0) {
+		// 		for ( i in 0 ... 10 ) {
+		// 			var obj : RegisterUserObj = {
+		// 				uid : Faker.random.uuid(),
+		// 				street_number : Faker.random.number(),
+		// 				postal_code : Faker.address.zipCode(),
+		// 				ismember : Faker.random.boolean(),
+		// 			};
+		// 			r.add( obj, function (){
+		// 				trace('done');
+		// 			});
+		// 		}
+		// 	}
+		// });
+
+	}
+	public function chatLog(){
+		trace('registerUsers');
+
+	}
+
+	public function registerUsers(){
+		trace('registerUsers');
+		var r = new RegisterUsers();
 		r.count(function (count){
 			// trace('>>> $count');
 			if(count == 0) {
