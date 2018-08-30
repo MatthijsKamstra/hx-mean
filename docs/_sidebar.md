@@ -11,6 +11,8 @@
 
 * [Guide](guide.md)
 	* [start](guide/index.md)
+	* [CRUD](guide/crud.md)
+	* [package.json](guide/package.md)
 
 
 * Getting started
@@ -18,6 +20,17 @@
 
 
 * [Templates](templates/index.md)
+	* [swig](templates/swig.md)
+	* [jade](templates/jade.md)
+	* [es6](templates/es6.md)
+
+* Frontend frameworks
+	* [Angular](frameworks/angular.md)
+	* [React](frameworks/react.md)
+	* [Vue.js](frameworks/vue.md)
+	* [Ember.js](frameworks/ember.md)
+	* [jQuary](frameworks/jquary.md)
+	* [Vanilla.js](frameworks/vamillajs.md)
 
 * [Haxe externs](externs/index.md)
 
