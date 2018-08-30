@@ -173,6 +173,10 @@ class MainServer {
 			res.sendFile(Node.__dirname + '/public/remote.html');
 		});
 
+		app.get('/signin', function (req:Request,res:Response) {
+			res.sendFile(Node.__dirname + '/public/signin.html');
+		});
+
 		/**
 		 * repeating visual test should be done here
 		 */

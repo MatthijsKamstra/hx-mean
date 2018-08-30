@@ -2,14 +2,16 @@
 
 {% block content %}
 
-<main role="main" class="container">
+<main role="main" class="container container-jquery">
 
 	<div class="starter-template">
-		<h1>Bootstrap starter template</h1>
+		<h1>Use jQuery to get data form server</h1>
 		<p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
 	</div>
 
-	<table class="table table-hover">
+	<div id="container-table"></div>
+
+	{# <table class="table table-hover">
 		<thead>
 			<tr>
 				<th scope="col">#</th>
@@ -26,7 +28,7 @@
 			</tr>
 			{% endfor %}
 		</tbody>
-	</table>
+	</table> #}
 
 </main>
 {% endblock %}
