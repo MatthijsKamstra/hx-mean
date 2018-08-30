@@ -38,7 +38,10 @@ class Endpoint {
 		});
 
 		router.get('/id/:id', function(req:Request, res:Response) {
-			var id = untyped req.params.id;
+			// var id = req.params.id; // Computer says NO! // { } has no field id
+			// var id = untyped req.params.id;
+			// var id = req.param('id'); // Deprecated
+			var id = Reflect.getProperty(req.params,'id');
 			var json = { id : id, status:'ok'}
 			res.json(json);
 		});
