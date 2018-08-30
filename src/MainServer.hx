@@ -1,6 +1,7 @@
 package ;
 
 import js.Node;
+import js.Node.*;
 import js.node.Http;
 import js.node.Path;
 import js.Node.console;
@@ -93,15 +94,14 @@ class MainServer {
 
 		// Enable cross-origin access through the CORS middleware
 		// NOTICE: For React development server only!
-		// if (process.env.CORS) {
-		//   app.use(cors());
-		// }
-		app.use(Cors.create());
+		if (process.env.exists("CORS") ) {
+			app.use(Cors.create());
+		}
 
 		// all environments
 		app.set('port', config.PORT);
 		app.set('views', Node.__dirname + '/public/');
-		app.set('json spaces', 2); // create pritty print .json
+		if(isDev) app.set('json spaces', 2); // create pritty print .json
 		// trace(app.get('views'));
 
 		// Templating
@@ -118,11 +118,12 @@ class MainServer {
 		*/
 
 		// Jade templating
-		// app.set('view engine', 'jade');
-		// app.get('/jade', function (req:Request,res:Response) {
-		// 	res.render('index',{title:'Home',h1:'Title'});
-		// });
-
+		/*
+		app.set('view engine', 'jade');
+		app.get('/jade', function (req:Request,res:Response) {
+		 	res.render('index',{title:'Home',h1:'Title'});
+		});
+		*/
 
 		// Swig templating
 		app.engine('html', Swig.renderFile);

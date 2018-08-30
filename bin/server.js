@@ -43,10 +43,14 @@ var MainServer = function() {
 	app["use"](externs_js_npm_mw_BodyParser.json());
 	app["use"](externs_js_npm_mw_BodyParser.urlencoded({ extended : true}));
 	app["use"](externs_js_npm_mw_Morgan("dev"));
-	app["use"](externs_js_npm_mw_Cors());
+	if(Object.prototype.hasOwnProperty.call(process.env,"CORS")) {
+		app["use"](externs_js_npm_mw_Cors());
+	}
 	app.set("port",this.config.PORT);
 	app.set("views",__dirname + "/public/");
-	app.set("json spaces",2);
+	if(isDev) {
+		app.set("json spaces",2);
+	}
 	app.engine("html",swig.renderFile);
 	app.set("view engine","html");
 	app.set("views",__dirname + "/views/swig");
