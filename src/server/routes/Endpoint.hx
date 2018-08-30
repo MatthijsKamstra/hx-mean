@@ -29,7 +29,7 @@ class Endpoint {
 				};
 				arr.push(obj);
 			}
-			res.json(json);
+			res.json( haxe.Json.stringify( arr ) );
 		});
 
 
