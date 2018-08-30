@@ -24,7 +24,7 @@ class Test {
 
 	public static function mtt() : String
 	{
-		// hack haxe because it uses dce and this disappears
+		// hack Haxe because it uses dce and this disappears
 		[].iterator();
 
 		//

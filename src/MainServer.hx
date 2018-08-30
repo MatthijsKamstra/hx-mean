@@ -101,6 +101,7 @@ class MainServer {
 		// all environments
 		app.set('port', config.PORT);
 		app.set('views', Node.__dirname + '/public/');
+		app.set('json spaces', 2); // create pritty print .json
 		// trace(app.get('views'));
 
 		// Templating
@@ -151,8 +152,13 @@ class MainServer {
 
 		app.get('/jquery', function (req:Request,res:Response) {
 			res.render('_jquery', {
-				title:'Swig/jquery Template Example',
-				users:users
+				title:'Swig/jQuery Template Example',
+			});
+		});
+
+		app.get('/vanillajs', function (req:Request,res:Response) {
+			res.render('_vanillajs', {
+				title:'Swig/Vanilla.js Template Example',
 			});
 		});
 

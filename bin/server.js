@@ -46,6 +46,7 @@ var MainServer = function() {
 	app["use"](externs_js_npm_mw_Cors());
 	app.set("port",this.config.PORT);
 	app.set("views",__dirname + "/public/");
+	app.set("json spaces",2);
 	app.engine("html",swig.renderFile);
 	app.set("view engine","html");
 	app.set("views",__dirname + "/views/swig");
@@ -57,30 +58,33 @@ var MainServer = function() {
 		res.render("_index",{ title : "Swig Template Example", users : _gthis.users});
 	});
 	app.get("/jquery",function(req1,res1) {
-		res1.render("_jquery",{ title : "Swig/jquery Template Example", users : _gthis.users});
+		res1.render("_jquery",{ title : "Swig/jQuery Template Example"});
+	});
+	app.get("/vanillajs",function(req2,res2) {
+		res2.render("_vanillajs",{ title : "Swig/Vanilla.js Template Example"});
 	});
 	app["use"]("/index",new server_routes_Index().router);
 	app["use"]("/api",new server_routes_Api().router);
 	app["use"]("/endpoint",new server_routes_Endpoint().router);
 	app["use"]("/users",new server_routes_Users().router);
-	app.get("/",function(req2,res2) {
-		res2.sendFile(__dirname + "/public/index.html");
+	app.get("/",function(req3,res3) {
+		res3.sendFile(__dirname + "/public/index.html");
 	});
-	app.get("/remote",function(req3,res3) {
-		res3.sendFile(__dirname + "/public/remote.html");
+	app.get("/remote",function(req4,res4) {
+		res4.sendFile(__dirname + "/public/remote.html");
 	});
-	app.get("/signin",function(req4,res4) {
-		res4.sendFile(__dirname + "/public/signin.html");
+	app.get("/signin",function(req5,res5) {
+		res5.sendFile(__dirname + "/public/signin.html");
 	});
-	app.get("/test",function(req5,res5) {
-		res5.render("_test",{ title : "Test"});
+	app.get("/test",function(req6,res6) {
+		res6.render("_test",{ title : "Test"});
 	});
-	app.get("/api/users",function(req6,res6) {
-		var username = req6.param("username");
-		res6.send("username: " + username);
+	app.get("/api/users",function(req7,res7) {
+		var username = req7.param("username");
+		res7.send("username: " + username);
 	});
-	app["use"](function(req7,res7,next) {
-		res7.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	app["use"](function(req8,res8,next) {
+		res8.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
 	});
 	var server1 = app.listen(this.config.PORT,null,null,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
@@ -374,7 +378,15 @@ var server_routes_Endpoint = function() {
 			var obj = { uid : faker.random.uuid(), card : faker.helpers.createCard()};
 			arr.push(obj);
 		}
-		res1.json(JSON.stringify(arr));
+		res1.json(JSON.parse(JSON.stringify(arr)));
+	});
+	this.router.get("/superhero",function(req2,res2) {
+		res2.end("superhero");
+	});
+	this.router.get("/id/:id",function(req3,res3) {
+		var id = req3.params.id;
+		var json1 = { id : id, status : "ok"};
+		res3.json(json1);
 	});
 };
 server_routes_Endpoint.__name__ = true;

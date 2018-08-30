@@ -6,8 +6,69 @@ function $extend(from, fields) {
 	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
 	return proto;
 }
+var EReg = function(r,opt) {
+	this.r = new RegExp(r,opt.split("u").join(""));
+};
+EReg.__name__ = true;
+EReg.prototype = {
+	match: function(s) {
+		if(this.r.global) {
+			this.r.lastIndex = 0;
+		}
+		this.r.m = this.r.exec(s);
+		this.r.s = s;
+		return this.r.m != null;
+	}
+	,__class__: EReg
+};
+var Lambda = function() { };
+Lambda.__name__ = true;
+Lambda.exists = function(it,f) {
+	var x = it.iterator();
+	while(x.hasNext()) {
+		var x1 = x.next();
+		if(f(x1)) {
+			return true;
+		}
+	}
+	return false;
+};
+var List = function() {
+	this.length = 0;
+};
+List.__name__ = true;
+List.prototype = {
+	iterator: function() {
+		return new _$List_ListIterator(this.h);
+	}
+	,__class__: List
+};
+var _$List_ListNode = function(item,next) {
+	this.item = item;
+	this.next = next;
+};
+_$List_ListNode.__name__ = true;
+_$List_ListNode.prototype = {
+	__class__: _$List_ListNode
+};
+var _$List_ListIterator = function(head) {
+	this.head = head;
+};
+_$List_ListIterator.__name__ = true;
+_$List_ListIterator.prototype = {
+	hasNext: function() {
+		return this.head != null;
+	}
+	,next: function() {
+		var val = this.head.item;
+		this.head = this.head.next;
+		return val;
+	}
+	,__class__: _$List_ListIterator
+};
 var MainClient = function() {
-	var _gthis = this;
+	this.initJQuery();
+	this.initVanillaJs();
 	if(window.document.getElementById("visitors") == null) {
 		var div = window.document.createElement("div");
 		div.id = "visitors";
@@ -30,22 +91,63 @@ var MainClient = function() {
 			console.log(data);
 		}
 	});
-	$(window.document).ready(function() {
-		if(window.document.getElementsByClassName("container-jquery").length > 0) {
-			console.log("start loading `/endpoint/test`");
-			$.ajax({ url : "/endpoint/test"}).done(function(data1) {
-				var tmp = JSON.parse(data1);
-				_gthis.jqueryTableGen(tmp);
-			});
-		}
-	});
 };
 MainClient.__name__ = true;
 MainClient.main = function() {
 	var app = new MainClient();
 };
 MainClient.prototype = {
-	jqueryTableGen: function(data) {
+	initVanillaJs: function() {
+		var _gthis = this;
+		window.document.addEventListener("DOMContentLoaded",function(event) {
+			window.console.log("> Vanilla.js :: Dom ready");
+			if(window.document.getElementsByClassName("container-vanillajs").length > 0) {
+				_gthis.loadData();
+			}
+		});
+	}
+	,loadData: function() {
+		var _gthis = this;
+		console.log("Vanilla.js loadData");
+		var url = "/endpoint/test";
+		var req = new haxe_Http(url);
+		req.onData = function(data) {
+			try {
+				var json = JSON.parse(data);
+				window.console.log(json);
+				window.console.log(json.length);
+				var html = JSON.parse(data);
+				var html1 = _gthis.generateTable(html);
+				window.document.getElementById("container-table").innerHTML = html1;
+			} catch( e ) {
+				if (e instanceof js__$Boot_HaxeError) e = e.val;
+				console.log(e);
+			}
+		};
+		req.onError = function(error) {
+			console.log("error: " + error);
+		};
+		req.onStatus = function(status) {
+			console.log("status: " + status);
+		};
+		req.request(false);
+	}
+	,initJQuery: function() {
+		var _gthis = this;
+		$(window.document).ready(function() {
+			window.console.log("> JQuery :: Dom ready");
+			if(window.document.getElementsByClassName("container-jquery").length > 0) {
+				window.console.log("start loading `/endpoint/test`");
+				$.ajax({ url : "/endpoint/test", dataType : "json"}).done(function(data) {
+					var json = JSON.parse(JSON.stringify(data));
+					window.console.log(data);
+					var html = _gthis.generateTable(json);
+					$("#container-table").html(html);
+				});
+			}
+		});
+	}
+	,generateTable: function(data) {
 		window.console.log("render table");
 		var html = "";
 		html += "<table class=\"table table-hover\">\n\t\t<thead>\n\t\t<tr>\n\t\t<th scope=\"col\">#</th>\n\t\t<th scope=\"col\">uid</th>\n\t\t<th scope=\"col\">Name</th>\n\t\t<th scope=\"col\">Email</th>\n\t\t<th scope=\"col\">phone</th>\n\t\t</tr>\n\t\t</thead>\n\t\t<tbody>";
@@ -57,7 +159,7 @@ MainClient.prototype = {
 			html += "<tr>\n\t\t\t<th scope=\"row\">" + (i + 1) + "</th>\n\t\t\t<td>" + Std.string(obj.uid) + "</td>\n\t\t\t<td>" + Std.string(obj.card.name) + "</td>\n\t\t\t<td><a href=\"mailto:" + (js_Boot.__cast(obj.card.email , String)).toLowerCase() + "\">" + (js_Boot.__cast(obj.card.email , String)).toLowerCase() + "</a></td>\n\t\t\t<td>" + Std.string(obj.card.phone) + "</td>\n\t\t\t</tr>";
 		}
 		html += "</tbody>\n\t\t</table>";
-		$("#container-table").html(html);
+		return html;
 	}
 	,__class__: MainClient
 };
@@ -66,6 +168,135 @@ var Std = function() { };
 Std.__name__ = true;
 Std.string = function(s) {
 	return js_Boot.__string_rec(s,"");
+};
+var haxe_Http = function(url) {
+	this.url = url;
+	this.headers = new List();
+	this.params = new List();
+	this.async = true;
+	this.withCredentials = false;
+};
+haxe_Http.__name__ = true;
+haxe_Http.prototype = {
+	request: function(post) {
+		var me = this;
+		me.responseData = null;
+		var r = this.req = js_Browser.createXMLHttpRequest();
+		var onreadystatechange = function(_) {
+			if(r.readyState != 4) {
+				return;
+			}
+			var s;
+			try {
+				s = r.status;
+			} catch( e ) {
+				s = null;
+			}
+			if(s != null && "undefined" !== typeof window) {
+				var protocol = window.location.protocol.toLowerCase();
+				var rlocalProtocol = new EReg("^(?:about|app|app-storage|.+-extension|file|res|widget):$","");
+				var isLocal = rlocalProtocol.match(protocol);
+				if(isLocal) {
+					if(r.responseText != null) {
+						s = 200;
+					} else {
+						s = 404;
+					}
+				}
+			}
+			if(s == undefined) {
+				s = null;
+			}
+			if(s != null) {
+				me.onStatus(s);
+			}
+			if(s != null && s >= 200 && s < 400) {
+				me.req = null;
+				me.onData(me.responseData = r.responseText);
+			} else if(s == null) {
+				me.req = null;
+				me.onError("Failed to connect or resolve host");
+			} else {
+				switch(s) {
+				case 12007:
+					me.req = null;
+					me.onError("Unknown host");
+					break;
+				case 12029:
+					me.req = null;
+					me.onError("Failed to connect to host");
+					break;
+				default:
+					me.req = null;
+					me.responseData = r.responseText;
+					me.onError("Http Error #" + r.status);
+				}
+			}
+		};
+		if(this.async) {
+			r.onreadystatechange = onreadystatechange;
+		}
+		var uri = this.postData;
+		if(uri != null) {
+			post = true;
+		} else {
+			var _g_head = this.params.h;
+			while(_g_head != null) {
+				var val = _g_head.item;
+				_g_head = _g_head.next;
+				var p = val;
+				if(uri == null) {
+					uri = "";
+				} else {
+					uri += "&";
+				}
+				var s1 = p.param;
+				var uri1 = encodeURIComponent(s1) + "=";
+				var s2 = p.value;
+				uri += uri1 + encodeURIComponent(s2);
+			}
+		}
+		try {
+			if(post) {
+				r.open("POST",this.url,this.async);
+			} else if(uri != null) {
+				var question = this.url.split("?").length <= 1;
+				r.open("GET",this.url + (question ? "?" : "&") + uri,this.async);
+				uri = null;
+			} else {
+				r.open("GET",this.url,this.async);
+			}
+		} catch( e1 ) {
+			if (e1 instanceof js__$Boot_HaxeError) e1 = e1.val;
+			me.req = null;
+			this.onError(e1.toString());
+			return;
+		}
+		r.withCredentials = this.withCredentials;
+		if(!Lambda.exists(this.headers,function(h) {
+			return h.header == "Content-Type";
+		}) && post && this.postData == null) {
+			r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		}
+		var _g_head1 = this.headers.h;
+		while(_g_head1 != null) {
+			var val1 = _g_head1.item;
+			_g_head1 = _g_head1.next;
+			var h1 = val1;
+			r.setRequestHeader(h1.header,h1.value);
+		}
+		r.send(uri);
+		if(!this.async) {
+			onreadystatechange(null);
+		}
+	}
+	,onData: function(data) {
+	}
+	,onError: function(msg) {
+	}
+	,onStatus: function(status) {
+	}
+	,__class__: haxe_Http
 };
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
@@ -281,6 +512,17 @@ js_Boot.__isNativeObj = function(o) {
 };
 js_Boot.__resolveNativeClass = function(name) {
 	return $global[name];
+};
+var js_Browser = function() { };
+js_Browser.__name__ = true;
+js_Browser.createXMLHttpRequest = function() {
+	if(typeof XMLHttpRequest != "undefined") {
+		return new XMLHttpRequest();
+	}
+	if(typeof ActiveXObject != "undefined") {
+		return new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	throw new js__$Boot_HaxeError("Unable to create XMLHttpRequest object.");
 };
 String.prototype.__class__ = String;
 String.__name__ = true;

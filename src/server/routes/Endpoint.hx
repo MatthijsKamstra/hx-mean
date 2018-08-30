@@ -29,7 +29,18 @@ class Endpoint {
 				};
 				arr.push(obj);
 			}
-			res.json( haxe.Json.stringify( arr ) );
+			// [mck] make sure it's valid json file
+			res.json( haxe.Json.parse(  haxe.Json.stringify( arr ) ) );
+		});
+
+		router.get('/superhero', function(req:Request, res:Response) {
+			res.end("superhero");
+		});
+
+		router.get('/id/:id', function(req:Request, res:Response) {
+			var id = untyped req.params.id;
+			var json = { id : id, status:'ok'}
+			res.json(json);
 		});
 
 
