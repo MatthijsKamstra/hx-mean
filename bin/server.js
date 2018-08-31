@@ -148,6 +148,9 @@ Reflect.getProperty = function(o,field) {
 };
 var Std = function() { };
 Std.__name__ = true;
+Std.string = function(s) {
+	return js_Boot.__string_rec(s,"");
+};
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
 	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) {
@@ -338,41 +341,77 @@ server_DummyData.prototype = {
 	}
 	,user: function() {
 		haxe_Log.trace("users",{ fileName : "DummyData.hx", lineNumber : 36, className : "server.DummyData", methodName : "user"});
+		var r = new server_models_User();
+		r.count(function(err,count) {
+			if(count == 0) {
+				var obj = { username : "matthijskamstra", email : "matthijskamstra@gmail.com", password : "lekkergemeen123!", passwordConfirmation : "lekkergemeen123!", role : "admin"};
+				r.add(obj,function(err1,data) {
+					if(err1 != null) {
+						haxe_Log.trace("err: " + err1 + ")",{ fileName : "DummyData.hx", lineNumber : 50, className : "server.DummyData", methodName : "user"});
+					}
+					haxe_Log.trace("added admin: " + data,{ fileName : "DummyData.hx", lineNumber : 52, className : "server.DummyData", methodName : "user"});
+				});
+				var _g = 0;
+				while(_g < 10) {
+					var i = [_g++];
+					var pass = faker.random.words();
+					var obj1 = { username : faker.name.firstName(), email : faker.internet.email(), password : pass, passwordConfirmation : pass};
+					var tmp = (function(i1) {
+						return function(err2,data1) {
+							if(err2 != null) {
+								haxe_Log.trace("err: " + err2 + ")",{ fileName : "DummyData.hx", lineNumber : 64, className : "server.DummyData", methodName : "user"});
+							}
+							haxe_Log.trace("" + i1[0] + ". user - done: " + data1,{ fileName : "DummyData.hx", lineNumber : 66, className : "server.DummyData", methodName : "user"});
+						};
+					})(i);
+					r.add(obj1,tmp);
+				}
+			}
+		});
 	}
 	,chatLog: function() {
-		haxe_Log.trace("registerUsers",{ fileName : "DummyData.hx", lineNumber : 57, className : "server.DummyData", methodName : "chatLog"});
+		haxe_Log.trace("chatLog",{ fileName : "DummyData.hx", lineNumber : 75, className : "server.DummyData", methodName : "chatLog"});
 	}
 	,registerUsers: function() {
-		haxe_Log.trace("registerUsers",{ fileName : "DummyData.hx", lineNumber : 62, className : "server.DummyData", methodName : "registerUsers"});
+		haxe_Log.trace("registerUsers",{ fileName : "DummyData.hx", lineNumber : 80, className : "server.DummyData", methodName : "registerUsers"});
 		var r = new server_models_RegisterUsers();
 		r.count(function(count) {
 			if(count == 0) {
 				var _g = 0;
 				while(_g < 10) {
-					var i = _g++;
+					var i = [_g++];
 					var obj = { uid : faker.random.uuid(), street_number : faker.random.number(), postal_code : faker.address.zipCode(), ismember : faker.random["boolean"]()};
-					r.add(obj,function() {
-						haxe_Log.trace("done",{ fileName : "DummyData.hx", lineNumber : 75, className : "server.DummyData", methodName : "registerUsers"});
-					});
+					var tmp = (function(i1) {
+						return function(err,data) {
+							if(err != null) {
+								haxe_Log.trace("err: " + err + ")",{ fileName : "DummyData.hx", lineNumber : 94, className : "server.DummyData", methodName : "registerUsers"});
+							}
+							haxe_Log.trace("" + i1[0] + ". registerUser - done: " + data,{ fileName : "DummyData.hx", lineNumber : 96, className : "server.DummyData", methodName : "registerUsers"});
+						};
+					})(i);
+					r.add(obj,tmp);
 				}
 			}
 		});
 	}
 	,trashCollection: function() {
-		haxe_Log.trace("trashCollection",{ fileName : "DummyData.hx", lineNumber : 84, className : "server.DummyData", methodName : "trashCollection"});
+		haxe_Log.trace("trashCollection",{ fileName : "DummyData.hx", lineNumber : 105, className : "server.DummyData", methodName : "trashCollection"});
 	}
 };
 var server_models_RegisterUsers = function() {
 	this.mongoose = MainServer.mongoose;
 	this.schema = new externs_js_node_mongoose_Schema({ uid : String, street_number : "Number", postal_code : String, ismember : "Boolean"});
-	this.model = this.mongoose.model("RegisterUsers",this.schema);
+	try {
+		this.model = this.mongoose.model("RegisterUsers");
+	} catch( error ) {
+		this.model = this.mongoose.model("RegisterUsers",this.schema);
+	}
 };
 server_models_RegisterUsers.__name__ = true;
 server_models_RegisterUsers.prototype = {
 	add: function(obj,callback) {
-		this.model.create(obj,function(err,_created) {
-			callback(_created);
-			haxe_Log.trace(_created,{ fileName : "RegisterUsers.hx", lineNumber : 50, className : "server.models.RegisterUsers", methodName : "add"});
+		this.model.create(obj,function(err,data) {
+			callback(err,data);
 		});
 	}
 	,count: function(callback) {
@@ -383,7 +422,7 @@ server_models_RegisterUsers.prototype = {
 };
 var server_models_User = function() {
 	this.mongoose = MainServer.mongoose;
-	this.userSchema = new externs_js_node_mongoose_Schema({ username : { type : String, unique : true, required : true}, email : { type : String, unique : true, required : true}, passwordHash : { type : String, unique : true, required : true}});
+	this.userSchema = new externs_js_node_mongoose_Schema({ username : { type : String, unique : true, required : true}, email : { type : String, unique : true, required : true}, passwordHash : { type : String, unique : true, required : true}, role : { type : String}});
 	this.userSchema.virtual("password").set(function(password) {
 		this._password = password;
 		this.passwordHash = bcrypt.hashSync(password,bcrypt.genSaltSync(8));
@@ -425,9 +464,20 @@ var server_models_User = function() {
 };
 server_models_User.__name__ = true;
 server_models_User.prototype = {
-	create: function(obj,callback) {
+	add: function(obj,callback) {
+		haxe_Log.trace("ADD ( " + Std.string(obj) + ")",{ fileName : "User.hx", lineNumber : 108, className : "server.models.User", methodName : "add"});
 		this.model.create(obj,function(err,data) {
 			callback(err,data);
+		});
+	}
+	,create: function(obj,callback) {
+		this.model.create(obj,function(err,data) {
+			callback(err,data);
+		});
+	}
+	,count: function(callback) {
+		this.model.countDocuments({ },function(err,count) {
+			callback(err,count);
 		});
 	}
 };

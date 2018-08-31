@@ -14,7 +14,9 @@ import haxe.extern.EitherType;
 typedef UserObj = {
 	username : String,
 	email : String,
-	passwordHash : String,
+	password : String,
+	passwordConfirmation : String,
+	?role : String,
 }
 
 class User {
@@ -42,6 +44,9 @@ class User {
 				type: String,
 				unique: true,
 				required: true
+			},
+			role: {
+				type: String
 			}
 		});
 
@@ -99,12 +104,10 @@ class User {
 		// trace(mongoose.version);
 	}
 
-	public function add( obj : UserObj , callback : haxe.Constraints.Function ){
-		// trace('ADD ( $obj)');
-		model.create( obj , function(err,_created){
-			trace(err);
-			callback(_created);
-			trace(_created);
+	public function add( obj : UserObj , callback: EitherType <Dynamic, Error> ->  Dynamic -> Void ){
+		trace('ADD ( $obj)');
+		model.create( obj , function(err,data){
+			callback(err,data);
 		} );
 	}
 
@@ -115,9 +118,9 @@ class User {
 		} );
 	}
 
-	public function count (callback : haxe.Constraints.Function ) {
+	public function count (callback: EitherType <Dynamic, Error> ->  Dynamic -> Void ){
 		model.countDocuments({}, function (err, count){
-			callback(count);
+			callback(err, count);
 		});
 	}
 

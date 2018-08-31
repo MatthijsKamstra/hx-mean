@@ -3,6 +3,9 @@ package server.models;
 import externs.js.node.mongoose.Schema;
 import externs.js.node.mongoose.Model;
 import externs.js.node.mongoose.Mongoose;
+import externs.js.node.mongoose.Error;
+
+import haxe.extern.EitherType;
 
 typedef RegisterUserObj = {
 	uid : String,
@@ -27,27 +30,21 @@ class RegisterUsers {
 			postal_code : String,
 			ismember : 'Boolean',
 		});
-		model = mongoose.model( 'RegisterUsers', schema );
 
-
-		// trace(mongoose.version);
-
-		// var obj : RegisterUserObj = {
-		// 	uid : 'FOOBAR',
-		// 	street_number : 1005472,
-		// 	postal_code : '9999ZZ'
-		// };
-		// model.create( obj, function (err,_created){
-		// 	trace(_created);
-		// });
-
+		// [mck] prefend: "OverwriteModelError: Cannot overwrite `User` model once compiled."
+		try {
+			model = mongoose.model( 'RegisterUsers' );
+		} catch (error:Dynamic) {
+			model = mongoose.model( 'RegisterUsers', schema );
+		}
+		// trace(mongoose.version);	}
 	}
 
-	public function add( obj : RegisterUserObj , callback : haxe.Constraints.Function ){
+	public function add( obj : RegisterUserObj ,  callback: EitherType <Dynamic, Error> ->  Dynamic -> Void ){
 		// trace('ADD ( $obj)');
-		model.create( obj , function(err,_created){
-			callback(_created);
-			trace(_created);
+		model.create( obj , function(err,data){
+			callback(err, data);
+			// trace(data);
 		} );
 	}
 
