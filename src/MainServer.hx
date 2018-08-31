@@ -173,7 +173,7 @@ class MainServer {
 		app.use('/index', new Index().router);
 		app.use('/api', new Api().router);
 		app.use('/endpoint', new Endpoint().router);
-		app.use('/users', new Users().router);
+		app.use('/users', new UserRouter().router);
 
 
 		// Statics routes
@@ -187,6 +187,10 @@ class MainServer {
 
 		app.get('/signin', function (req:Request,res:Response) {
 			res.sendFile(Node.__dirname + '/public/signin.html');
+		});
+
+		app.get('/register', function (req:Request,res:Response) {
+			res.sendFile(Node.__dirname + '/public/register.html');
 		});
 
 		/**

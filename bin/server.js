@@ -74,7 +74,7 @@ var MainServer = function() {
 	app["use"]("/index",new server_routes_Index().router);
 	app["use"]("/api",new server_routes_Api().router);
 	app["use"]("/endpoint",new server_routes_Endpoint().router);
-	app["use"]("/users",new server_routes_Users().router);
+	app["use"]("/users",new server_routes_UserRouter().router);
 	app.get("/",function(req3,res3) {
 		res3.sendFile(__dirname + "/public/index.html");
 	});
@@ -84,15 +84,18 @@ var MainServer = function() {
 	app.get("/signin",function(req5,res5) {
 		res5.sendFile(__dirname + "/public/signin.html");
 	});
-	app.get("/test",function(req6,res6) {
-		res6.render("_test",{ title : "Test"});
+	app.get("/register",function(req6,res6) {
+		res6.sendFile(__dirname + "/public/register.html");
 	});
-	app.get("/api/users",function(req7,res7) {
-		var username = req7.param("username");
-		res7.send("username: " + username);
+	app.get("/test",function(req7,res7) {
+		res7.render("_test",{ title : "Test"});
 	});
-	app["use"](function(req8,res8,next) {
-		res8.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	app.get("/api/users",function(req8,res8) {
+		var username = req8.param("username");
+		res8.send("username: " + username);
+	});
+	app["use"](function(req9,res9,next) {
+		res9.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
 	});
 	var server1 = app.listen(this.config.PORT,null,null,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
@@ -145,9 +148,6 @@ Reflect.getProperty = function(o,field) {
 };
 var Std = function() { };
 Std.__name__ = true;
-Std.string = function(s) {
-	return js_Boot.__string_rec(s,"");
-};
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
 	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) {
@@ -383,44 +383,51 @@ server_models_RegisterUsers.prototype = {
 };
 var server_models_User = function() {
 	this.mongoose = MainServer.mongoose;
-	this.schema = new externs_js_node_mongoose_Schema({ username : { type : String, unique : true, required : true}, email : { type : String, unique : true, required : true}, passwordHash : { type : String, unique : true, required : true}});
-	this.schema.virtual("password").set($bind(this,this.setPassword));
-	this.schema.virtual("passwordConfirmation").set($bind(this,this.setPasswordConfirmation));
-	this.schema.path("passwordHash").validate($bind(this,this.validatePasswordHash));
-	this.schema.path("email").validate($bind(this,this.validateEmail));
-	this.schema.method("validatePassword",$bind(this,this.validatePassword));
-	this.model = this.mongoose.model("User",this.schema);
-};
-server_models_User.__name__ = true;
-server_models_User.prototype = {
-	setPassword: function(password) {
-		console.log("setPassword - " + password);
+	this.userSchema = new externs_js_node_mongoose_Schema({ username : { type : String, unique : true, required : true}, email : { type : String, unique : true, required : true}, passwordHash : { type : String, unique : true, required : true}});
+	this.userSchema.virtual("password").set(function(password) {
 		this._password = password;
 		this.passwordHash = bcrypt.hashSync(password,bcrypt.genSaltSync(8));
-		console.log("" + Std.string(this._password) + " & " + Std.string(this.passwordHash));
-	}
-	,setPasswordConfirmation: function(passwordConfirmation) {
+	});
+	this.userSchema.virtual("passwordConfirmation").set(function(passwordConfirmation) {
 		this._passwordConfirmation = passwordConfirmation;
-	}
-	,validateEmail: function(email) {
+	});
+	this.userSchema.path("passwordHash").validate(function() {
+		if(this.isNew) {
+			if(this._password == null) {
+				return this.invalidate("password","A password is required.");
+			}
+			if(this._password.length < 6) {
+				return this.invalidate("password","Password must be at least 6 characters.");
+			}
+			if(this._password != this._passwordConfirmation) {
+				return this.invalidate("password","Passwords do not match.");
+			}
+			return true;
+		} else {
+			return false;
+		}
+	});
+	this.userSchema.path("email").validate(function(email) {
 		if(!validator.isEmail(email)) {
 			return this.invalidate("email","A valid e-mail address is required.");
 		} else {
 			return true;
 		}
+	});
+	this.userSchema.method("validatePassword",function(password1) {
+		return bcrypt.compareSync(password1,this.passwordHash);
+	});
+	try {
+		this.model = this.mongoose.model("User");
+	} catch( error ) {
+		this.model = this.mongoose.model("User",this.userSchema);
 	}
-	,validatePassword: function(password) {
-		return bcrypt.compareSync(password,this.passwordHash);
-	}
-	,validatePasswordHash: function() {
-		console.log(this);
-		return true;
-	}
-	,create: function(obj,callback) {
-		haxe_Log.trace("create ( " + Std.string(obj) + ")",{ fileName : "User.hx", lineNumber : 108, className : "server.models.User", methodName : "create"});
-		this.model.create(obj,function(err,_created) {
-			callback(_created);
-			haxe_Log.trace(_created,{ fileName : "User.hx", lineNumber : 111, className : "server.models.User", methodName : "create"});
+};
+server_models_User.__name__ = true;
+server_models_User.prototype = {
+	create: function(obj,callback) {
+		this.model.create(obj,function(err,data) {
+			callback(err,data);
 		});
 	}
 };
@@ -495,7 +502,7 @@ var server_routes_Index = function() {
 	});
 };
 server_routes_Index.__name__ = true;
-var server_routes_Users = function() {
+var server_routes_UserRouter = function() {
 	this.router = externs_js_npm_express_Router();
 	this.router.get("/",function(req,res) {
 		res.end("users");
@@ -503,13 +510,14 @@ var server_routes_Users = function() {
 	this.router.get("/register",function(req1,res1) {
 		var u = new server_models_User();
 		if(!Object.prototype.hasOwnProperty.call(req1.body,"user")) {
-			req1.body["user"] = { username : "Matthijs", email : "matthijs@foo.bar", password : "test"};
+			var pass = faker.random.word();
+			req1.body["user"] = { username : faker.name.firstName(), email : faker.internet.email(), password : pass, passwordConfirmation : pass};
 		}
 		u.create(Reflect.getProperty(req1.body,"user"),function(err,user) {
 			if(err != null) {
 				return res1.status(500).json({ message : "Something went wrong (" + err + ")."});
 			}
-			var token = jwt.sign(user._id,config_Config.SECRET,{ expiresIn : 86400});
+			var token = jwt.sign({ user : user._id},config_Config.SECRET,{ expiresIn : 86400});
 			var tmp = "Welcome " + user.username + "!";
 			return res1.status(201).json({ message : tmp, user : user, token : token});
 		});
@@ -518,9 +526,7 @@ var server_routes_Users = function() {
 		res2.end("users/login");
 	});
 };
-server_routes_Users.__name__ = true;
-var $_, $fid = 0;
-function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
+server_routes_UserRouter.__name__ = true;
 String.__name__ = true;
 Array.__name__ = true;
 Date.__name__ = ["Date"];
