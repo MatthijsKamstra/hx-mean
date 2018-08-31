@@ -2,7 +2,16 @@ package externs.js.node.mongoose;
 
 import js.node.events.EventEmitter;
 import haxe.Constraints.Function;
+import haxe.extern.EitherType;
 
+/**
+ * Haxe externs for mongoose.js v5.2.9
+ * Project: https://mongoosejs.com/
+ * Definitions by:	wiggin77 <https://github.com/wiggin77>
+ * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions: 	<https://github.com/wiggin77/HxMongoNode> (2.0)
+ * 					<https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("mongoose", "Document")
 extern class Document extends EventEmitter<Document>
 {
@@ -289,8 +298,8 @@ extern class Document extends EventEmitter<Document>
 	 * @param {Object|String|Number|any} value optional invalid value
 	 * @api public
 	 */
-	@:overload(function(path:String, err:Error, val:Dynamic) : Void {})
-	public function invalidate(path:String, err:String, val:Dynamic) : Void;
+	// @:overload(function(path:String, err:EitherType<String, Error>, val:Dynamic) : Void {})
+	public function invalidate(path:String, err:EitherType<String,Error>, val:Dynamic) : Void;
 
 	/**
 	 * Converts this document into a plain javascript object, ready for storage in MongoDB.

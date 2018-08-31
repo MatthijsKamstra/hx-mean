@@ -198,7 +198,7 @@ extern class Mongoose
 	 * @param {Boolean} [skipInit] whether to skip initialization (defaults to false)
 	 * @api public
 	 */
-	 public function model(name:String, schema:Schema, ?collection:String, ?skipInit:Bool) : Model;
+	 public function model(name:String, ?schema:Schema, ?collection:String, ?skipInit:Bool) : Model;
 
 	/**
 	 * Returns an array of model names created on this instance of Mongoose.
