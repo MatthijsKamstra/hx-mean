@@ -71,31 +71,43 @@ var MainServer = function() {
 	app.get("/vanillajs",function(req2,res2) {
 		res2.render("_vanillajs",{ title : "Swig/Vanilla.js Template Example"});
 	});
+	app.get("/register",function(req3,res3) {
+		var obj = { title : "Register Template for Bootstrap", style : "text-center page-register"};
+		if(isDev) {
+			obj["username"] = "MatthijsKamstra";
+			obj["email"] = "foo@bar.nl";
+			obj["password"] = "kiplekker!";
+		}
+		res3.render("_register",obj);
+	});
+	app.get("/login",function(req4,res4) {
+		res4.redirect("/users/signin");
+	});
 	app["use"]("/index",new server_routes_Index().router);
 	app["use"]("/api",new server_routes_Api().router);
 	app["use"]("/endpoint",new server_routes_Endpoint().router);
 	app["use"]("/users",new server_routes_UserRouter().router);
-	app.get("/",function(req3,res3) {
-		res3.sendFile(__dirname + "/public/index.html");
+	app.get("/",function(req5,res5) {
+		res5.sendFile(__dirname + "/public/index.html");
 	});
-	app.get("/remote",function(req4,res4) {
-		res4.sendFile(__dirname + "/public/remote.html");
+	app.get("/remote",function(req6,res6) {
+		res6.sendFile(__dirname + "/public/remote.html");
 	});
-	app.get("/signin",function(req5,res5) {
-		res5.sendFile(__dirname + "/public/signin.html");
+	app.get("/signin",function(req7,res7) {
+		res7.sendFile(__dirname + "/public/signin.html");
 	});
-	app.get("/register",function(req6,res6) {
-		res6.sendFile(__dirname + "/public/register.html");
+	app.get("/secure",function(req8,res8) {
+		res8.sendFile(__dirname + "/public/secure.html");
 	});
-	app.get("/test",function(req7,res7) {
-		res7.render("_test",{ title : "Test"});
+	app.get("/test",function(req9,res9) {
+		res9.render("_test",{ title : "Test"});
 	});
-	app.get("/api/users",function(req8,res8) {
-		var username = req8.param("username");
-		res8.send("username: " + username);
+	app.get("/api/users",function(req10,res10) {
+		var username = req10.param("username");
+		res10.send("username: " + username);
 	});
-	app["use"](function(req9,res9,next) {
-		res9.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	app["use"](function(req11,res11,next) {
+		res11.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
 	});
 	var server1 = app.listen(this.config.PORT,null,null,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
@@ -480,6 +492,14 @@ server_models_User.prototype = {
 			callback(err,count);
 		});
 	}
+	,findOne: function(obj,callback) {
+		haxe_Log.trace("FINDONE " + Std.string(obj),{ fileName : "User.hx", lineNumber : 128, className : "server.models.User", methodName : "findOne"});
+		this.model.findOne(obj,function(err,data) {
+			haxe_Log.trace(err,{ fileName : "User.hx", lineNumber : 130, className : "server.models.User", methodName : "findOne"});
+			haxe_Log.trace(data,{ fileName : "User.hx", lineNumber : 131, className : "server.models.User", methodName : "findOne"});
+			callback(err,data);
+		});
+	}
 };
 var server_routes_Api = function() {
 	this.router = externs_js_npm_express_Router();
@@ -558,22 +578,45 @@ var server_routes_UserRouter = function() {
 		res.end("users");
 	});
 	this.router.get("/register",function(req1,res1) {
+		res1.end("users/register");
+	});
+	this.router.post("/register",function(req2,res2) {
+		haxe_Log.trace(Reflect.getProperty(req2.body,"inputUserName"),{ fileName : "UserRouter.hx", lineNumber : 32, className : "server.routes.UserRouter", methodName : "new"});
+		haxe_Log.trace(Reflect.getProperty(req2.body,"inputEmail"),{ fileName : "UserRouter.hx", lineNumber : 33, className : "server.routes.UserRouter", methodName : "new"});
+		haxe_Log.trace(Reflect.getProperty(req2.body,"inputPassword"),{ fileName : "UserRouter.hx", lineNumber : 34, className : "server.routes.UserRouter", methodName : "new"});
+		haxe_Log.trace(Reflect.getProperty(req2.body,"inputPasswordConfirm"),{ fileName : "UserRouter.hx", lineNumber : 35, className : "server.routes.UserRouter", methodName : "new"});
+		var user = { username : Reflect.getProperty(req2.body,"inputUserName"), email : Reflect.getProperty(req2.body,"inputEmail"), password : Reflect.getProperty(req2.body,"inputPassword"), passwordConfirmation : Reflect.getProperty(req2.body,"inputPasswordConfirm")};
+		req2.body["user"] = user;
 		var u = new server_models_User();
-		if(!Object.prototype.hasOwnProperty.call(req1.body,"user")) {
-			var pass = faker.random.word();
-			req1.body["user"] = { username : faker.name.firstName(), email : faker.internet.email(), password : pass, passwordConfirmation : pass};
-		}
-		u.create(Reflect.getProperty(req1.body,"user"),function(err,user) {
+		u.create(Reflect.getProperty(req2.body,"user"),function(err,user1) {
 			if(err != null) {
-				return res1.status(500).json({ message : "Something went wrong (" + err + ")."});
+				return res2.status(500).json({ message : "Something went wrong (" + err + ")."});
 			}
-			var token = jwt.sign({ user : user._id},config_Config.SECRET,{ expiresIn : 86400});
-			var tmp = "Welcome " + user.username + "!";
-			return res1.status(201).json({ message : tmp, user : user, token : token});
+			var token = jwt.sign({ user : user1._id},config_Config.SECRET,{ expiresIn : 86400});
+			var tmp = "Welcome " + user1.username + "!";
+			return res2.status(201).json({ message : tmp, user : user1, token : token});
 		});
 	});
-	this.router.get("/login",function(req2,res2) {
-		res2.end("users/login");
+	this.router.get("/signin",function(req3,res3) {
+		res3.end("users/signin");
+	});
+	this.router.post("/signin",function(req4,res4) {
+		haxe_Log.trace("/sigin",{ fileName : "UserRouter.hx", lineNumber : 65, className : "server.routes.UserRouter", methodName : "new"});
+		var u1 = new server_models_User();
+		haxe_Log.trace(Object.prototype.hasOwnProperty.call(req4.body,"inputEmail"),{ fileName : "UserRouter.hx", lineNumber : 69, className : "server.routes.UserRouter", methodName : "new"});
+		haxe_Log.trace(Reflect.getProperty(req4.body,"inputEmail"),{ fileName : "UserRouter.hx", lineNumber : 70, className : "server.routes.UserRouter", methodName : "new"});
+		var pEmail = Reflect.getProperty(req4.body,"inputEmail");
+		var pPassword = Reflect.getProperty(req4.body,"inputPassword");
+		u1.findOne({ email : pEmail},function(err1,user2) {
+			if(err1 != null) {
+				return res4.status(500).json({ message : "Something went wrong."});
+			}
+			if(user2 == null || !user2.validatePassword(pPassword)) {
+				return res4.status(401).json({ message : "Unauthorised."});
+			}
+			var token1 = jwt.sign({ user : user2._id},config_Config.SECRET,{ expiresIn : 86400});
+			return res4.status(200).json({ message : "Welcome back", user : user2, token : token1});
+		});
 	});
 };
 server_routes_UserRouter.__name__ = true;

@@ -69,35 +69,98 @@ _$List_ListIterator.prototype = {
 var MainClient = function() {
 	this.initJQuery();
 	this.initVanillaJs();
-	if(window.document.getElementById("visitors") == null) {
-		var div = window.document.createElement("div");
-		div.id = "visitors";
-		div.className = "container";
-		window.document.body.appendChild(div);
-	}
-	var socket = typeof io == 'undefined' ? require('socket.io-client') : io();
-	socket.emit("message","hi");
-	socket.emit("send",{ message : "text", username : "_inputName.value"});
-	socket.on("visitor enters",function(msg) {
-		window.console.log("current number of visitors (enters): " + msg);
-		$("#visitors").text("current visitors: " + msg);
-	});
-	socket.on("visitor exits",function(msg1) {
-		window.console.log("current number of visitors (exits): " + msg1);
-		$("#visitors").text("current visitors: " + msg1);
-	});
-	socket.on("message",function(data) {
-		if(data != null) {
-			console.log(data);
-		}
-	});
+	this.initPages();
+	this.initSockets();
 };
 MainClient.__name__ = true;
 MainClient.main = function() {
 	var app = new MainClient();
 };
 MainClient.prototype = {
-	initVanillaJs: function() {
+	initSockets: function() {
+		if(window.document.getElementById("visitors") == null) {
+			var div = window.document.createElement("div");
+			div.id = "visitors";
+			div.className = "container";
+			div.setAttribute("style","display:none;");
+			window.document.body.appendChild(div);
+		}
+		var socket = typeof io == 'undefined' ? require('socket.io-client') : io();
+		socket.emit("message","hi");
+		socket.emit("send",{ message : "text", username : "_inputName.value"});
+		socket.on("visitor enters",function(msg) {
+			window.console.log("current number of visitors (enters): " + msg);
+			$("#visitors").text("current visitors: " + msg);
+		});
+		socket.on("visitor exits",function(msg1) {
+			window.console.log("current number of visitors (exits): " + msg1);
+			$("#visitors").text("current visitors: " + msg1);
+		});
+		socket.on("message",function(data) {
+			if(data != null) {
+				console.log(data);
+			}
+		});
+	}
+	,initPages: function() {
+		var _gthis = this;
+		window.console.debug("initPages");
+		if(window.document.getElementsByClassName("page-signin").length > 0) {
+			console.log("page-signin");
+			$("form").on("submit",null,function(e) {
+				e.preventDefault();
+				console.log($(this));
+				console.log($("form").serialize());
+				console.log($(this).serialize());
+				console.log($(this).attr("action"));
+				console.log($(this).attr("method"));
+				var apiUrl = "/users/";
+				$.ajax({ url : "" + apiUrl + $(this).attr("action"), method : $(this).attr("method"), data : $(this).serialize(), beforeSend : $bind(_gthis,_gthis.setRequestHeader)}).done(function(data) {
+					console.log(data);
+					if(data.token != null) {
+						_gthis.setToken(data.token);
+						window.location.replace("/secure");
+					}
+				});
+			});
+		}
+		if(window.document.getElementsByClassName("page-register").length > 0) {
+			console.log("page-register");
+			$("form").on("submit",null,function(e1) {
+				e1.preventDefault();
+				console.log($(this));
+				console.log($("form").serialize());
+				console.log($(this).serialize());
+				console.log($(this).attr("action"));
+				console.log($(this).attr("method"));
+				var apiUrl1 = "/users/";
+				$.ajax({ url : "" + apiUrl1 + $(this).attr("action"), method : $(this).attr("method"), data : $(this).serialize(), beforeSend : $bind(_gthis,_gthis.setRequestHeader)}).done(function(data1) {
+					console.log(data1);
+					if(data1.token != null) {
+						_gthis.setToken(data1.token);
+						window.location.replace("/secure");
+					}
+				});
+			});
+		}
+		if(window.document.getElementsByClassName("page-homepage").length > 0) {
+			console.log("page-homepage");
+		}
+	}
+	,setToken: function(token) {
+		console.log("setToken " + token);
+		window.localStorage.setItem("token",token);
+		return;
+	}
+	,setRequestHeader: function(xhr) {
+		var tmp = "Bearer " + this.getToken();
+		return xhr.setRequestHeader("Authorization",tmp);
+	}
+	,getToken: function() {
+		console.log("getToken");
+		return window.localStorage.getItem("token");
+	}
+	,initVanillaJs: function() {
 		var _gthis = this;
 		window.document.addEventListener("DOMContentLoaded",function(event) {
 			window.console.log("> Vanilla.js :: Dom ready");
@@ -524,6 +587,8 @@ js_Browser.createXMLHttpRequest = function() {
 	}
 	throw new js__$Boot_HaxeError("Unable to create XMLHttpRequest object.");
 };
+var $_, $fid = 0;
+function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
 String.prototype.__class__ = String;
 String.__name__ = true;
 Array.__name__ = true;

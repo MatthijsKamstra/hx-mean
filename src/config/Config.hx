@@ -15,6 +15,11 @@ class Config {
 	static public var API_KEY : String;
 	static public var SECRET : String = 'something top secret, Haxe related and MEAN';
 
+	// test data
+	public static inline var USERNAME = 'MatthijsKamstra';
+	public static inline var EMAIL = 'foo@bar.nl';
+	public static inline var PASS = 'kiplekker!';
+
 	public function new () {
 		ENVIRONMENT 	= process.env.exists("ENVIRONMENT") 	? process.env["ENVIRONMENT"]		: 'development';
 		PORT 			= process.env.exists("PORT") 			? Std.parseInt(process.env["PORT"]) : 8000;

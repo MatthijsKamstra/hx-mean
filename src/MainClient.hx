@@ -14,15 +14,21 @@ using StringTools;
 class MainClient {
 
 	public function new () {
-
 		initJQuery();
 		initVanillaJs();
+		initPages();
+		initSockets();
+	}
+
+	function initSockets(){
 
 		// check if the id is already in the page, otherwise generate
+		// but hide it them... it might change the layout
 		if(document.getElementById('visitors') == null ){
 			var div = document.createDivElement();
 			div.id = 'visitors';
 			div.className = "container";
+			div.setAttribute('style', 'display:none;');
 			document.body.appendChild(div);
 		}
 
@@ -44,6 +50,97 @@ class MainClient {
 				trace(data);
 			}
 		});
+	}
+
+
+	function initPages(){
+		console.debug('initPages');
+		if(document.getElementsByClassName('page-signin').length > 0 ){
+			trace('page-signin');
+			new JQuery('form').on('submit', function (e){
+				e.preventDefault();
+				trace( new JQuery(js.Lib.nativeThis) );
+				trace( new JQuery('form').serialize() );
+				trace( new JQuery(js.Lib.nativeThis).serialize() );
+				trace( new JQuery(js.Lib.nativeThis).attr('action') );
+				trace( new JQuery(js.Lib.nativeThis).attr('method') );
+				var apiUrl = '/users/';
+				JQuery.ajax({
+					url: '${apiUrl}${new JQuery(js.Lib.nativeThis).attr('action')}',
+					method: new JQuery(js.Lib.nativeThis).attr('method'),
+					data: new JQuery(js.Lib.nativeThis).serialize(),
+					beforeSend: setRequestHeader
+				}).done(function (data) {
+					trace(data);
+					if (data.token != null) {
+						setToken(data.token);
+						window.location.replace("/secure");
+					}
+				});
+			});
+		}
+		if(document.getElementsByClassName('page-register').length > 0 ){
+			trace('page-register');
+			// new JQuery('body').on('submit', 'form', submittedForm);
+			new JQuery('form').on('submit', function (e){
+				e.preventDefault();
+				trace( new JQuery(js.Lib.nativeThis) );
+				trace( new JQuery('form').serialize() );
+				trace( new JQuery(js.Lib.nativeThis).serialize() );
+				trace( new JQuery(js.Lib.nativeThis).attr('action') );
+				trace( new JQuery(js.Lib.nativeThis).attr('method') );
+				var apiUrl = '/users/';
+				JQuery.ajax({
+					url: '${apiUrl}${new JQuery(js.Lib.nativeThis).attr('action')}',
+					method: new JQuery(js.Lib.nativeThis).attr('method'),
+					data: new JQuery(js.Lib.nativeThis).serialize(),
+					beforeSend: setRequestHeader
+				}).done(function (data) {
+					trace(data);
+					if (data.token != null) {
+						setToken(data.token);
+						window.location.replace("/secure");
+					}
+				});
+			});
+		}
+		if(document.getElementsByClassName('page-homepage').length > 0 ){
+			trace('page-homepage');
+		}
+	}
+
+
+	function setToken(token) {
+		trace('setToken $token');
+		return window.localStorage.setItem('token', token);
+	}
+	function setRequestHeader(xhr) {
+		// trace('setRequestHeader ($xhr)');
+		return xhr.setRequestHeader('Authorization', 'Bearer ${getToken()}');
+	}
+	function getToken() {
+		trace('getToken');
+		return window.localStorage.getItem('token');
+	}
+
+	function submittedForm (e) {
+		e.preventDefault();
+		// trace(e);
+		var apiUrl = '/users/';
+		var scope = new JQuery(e.currentTarget);
+		var action = scope.attr('action');
+		trace(scope);
+		trace(action);
+		trace(new JQuery(scope).serialize());
+		// JQuery.ajax({
+		// 	url: '${apiUrl}${action}',
+		// 	method: new JQuery(scope).attr('method'),
+		// 	data: new JQuery(scope).serialize(),
+		// 	// beforeSend: setRequestHeader
+		// }).done(function (data) {
+		// 	trace(data);
+		// 	// if (data.token) setToken(data.token);
+		// });
 	}
 
 	/**

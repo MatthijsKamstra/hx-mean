@@ -124,6 +124,15 @@ class User {
 		});
 	}
 
+	public function findOne (obj : {}, callback:Error->{} -> Void){
+		trace('FINDONE $obj');
+		model.findOne(obj, function (err, data){
+			trace(err);
+			trace(data);
+			callback(err, data);
+		});
+	}
+
 	// public function history( callback : haxe.Constraints.Function ){
 	// 	model.find({})
 	// 		.sort('date')

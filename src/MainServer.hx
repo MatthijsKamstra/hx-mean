@@ -168,6 +168,31 @@ class MainServer {
 			});
 		});
 
+		app.get('/register', function (req:Request,res:Response) {
+			// res.sendFile(Node.__dirname + '/public/register.html');
+			var obj = {
+				title:'Register Template for Bootstrap',
+				style:'text-center page-register'
+		 	};
+			if (isDev){
+				Reflect.setField(obj, 'username', Config.USERNAME);
+				Reflect.setField(obj, 'email', Config.EMAIL);
+				Reflect.setField(obj, 'password', Config.PASS);
+			}
+			res.render('_register', obj );
+		});
+
+		app.get('/login', function(req:Request, res:Response) {
+			res.redirect("/users/signin");
+			// res.end("users/login");
+		});
+
+		// app.get('/signin', function (req:Request,res:Response) {
+		// 	// res.sendFile(Node.__dirname + '/public/signin.html');
+		// 	res.render('_signin', {
+		// 		title:'Swig/Vanilla.js Template Example',
+		// 	});
+		// });
 
 		// Initialize routes middleware
 		app.use('/index', new Index().router);
@@ -189,8 +214,12 @@ class MainServer {
 			res.sendFile(Node.__dirname + '/public/signin.html');
 		});
 
-		app.get('/register', function (req:Request,res:Response) {
-			res.sendFile(Node.__dirname + '/public/register.html');
+		// app.get('/register', function (req:Request,res:Response) {
+		// 	res.sendFile(Node.__dirname + '/public/register.html');
+		// });
+
+		app.get('/secure', function (req:Request,res:Response) {
+			res.sendFile(Node.__dirname + '/public/secure.html');
 		});
 
 		/**

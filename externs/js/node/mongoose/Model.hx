@@ -5,6 +5,14 @@ import js.node.mongodb.MongoCollection;
 
 typedef Id = EitherType<String,EitherType<Int,{}>>;
 
+/**
+ * Haxe externs for mongoose.js v5.2.9
+ * Project: https://mongoosejs.com/
+ * Definitions by:	wiggin77 <https://github.com/wiggin77>
+ * 					Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
+ * Definitions: 	<https://github.com/wiggin77/HxMongoNode> (2.0)
+ * 					<https://github.com/matthijskamstra/hx-mean>
+ */
 @:jsRequire("mongoose", "Model")
 extern class Model
 {
@@ -323,6 +331,7 @@ extern class Model
 	@:overload(function (conditions:{}, projection:{}, options:{}) : Query {})
 	@:overload(function (conditions:{}, projection:{}, callback:Error->{}) : Query {})
 	@:overload(function (conditions:{}, callback:Error->{}) : Query {})
+	@:overload(function (conditions:{}, callback:Error->{}->Void) : Query {})
 	public function findOne(conditions:{}, projection:{}, options:{}, callback:Error->{}->Void) : Query;
 
 	/**
