@@ -12,8 +12,8 @@ class Config {
 	public var MONGO_PASS : String;
 
   	// extra variables
-	static public var API_KEY : String;
-	static public var SECRET : String = 'something top secret, Haxe related and MEAN';
+	public static var API_KEY : String;
+	public static inline var SECRET : String = 'something top secret, Haxe related and MEAN';
 
 	// test data
 	public static inline var USERNAME = 'MatthijsKamstra';

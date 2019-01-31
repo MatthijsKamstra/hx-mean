@@ -83,31 +83,42 @@ var MainServer = function() {
 	app.get("/login",function(req4,res4) {
 		res4.redirect("/users/signin");
 	});
+	app.get("/protected",externs_js_npm_mw_Jwt({ secret : "something top secret, Haxe related and MEAN"}),function(req5,res5) {
+		haxe_Log.trace(req5,{ fileName : "MainServer.hx", lineNumber : 201, className : "MainServer", methodName : "new"});
+		haxe_Log.trace(res5,{ fileName : "MainServer.hx", lineNumber : 202, className : "MainServer", methodName : "new"});
+		res5.sendStatus(200);
+	});
 	app["use"]("/index",new server_routes_Index().router);
 	app["use"]("/api",new server_routes_Api().router);
 	app["use"]("/endpoint",new server_routes_Endpoint().router);
 	app["use"]("/users",new server_routes_UserRouter().router);
-	app.get("/",function(req5,res5) {
-		res5.sendFile(__dirname + "/public/index.html");
+	app.get("/",function(req6,res6) {
+		res6.sendFile(__dirname + "/public/index.html");
 	});
-	app.get("/remote",function(req6,res6) {
-		res6.sendFile(__dirname + "/public/remote.html");
+	app.get("/remote",function(req7,res7) {
+		res7.sendFile(__dirname + "/public/remote.html");
 	});
-	app.get("/signin",function(req7,res7) {
-		res7.sendFile(__dirname + "/public/signin.html");
+	app.get("/signin",function(req8,res8) {
+		res8.sendFile(__dirname + "/public/signin.html");
 	});
-	app.get("/secure",function(req8,res8) {
-		res8.sendFile(__dirname + "/public/secure.html");
+	app.get("/secure",function(req9,res9) {
+		res9.sendFile(__dirname + "/public/secure.html");
 	});
-	app.get("/test",function(req9,res9) {
-		res9.render("_test",{ title : "Test"});
+	app.get("/test",function(req10,res10) {
+		res10.render("_test",{ title : "Test"});
 	});
-	app.get("/api/users",function(req10,res10) {
-		var username = req10.param("username");
-		res10.send("username: " + username);
+	app.get("/api/users",function(req11,res11) {
+		var username = req11.param("username");
+		res11.send("username: " + username);
 	});
-	app["use"](function(req11,res11,next) {
-		res11.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	app["use"](function(req12,res12,next) {
+		res12.status(404).send("404");
+	});
+	app["use"](function(req13,res13,next1) {
+		res13.sendFile(js_node_Path.resolve(__dirname,"public/400.html"));
+	});
+	app["use"](function(err1,req14,res14,next2) {
+		res14.sendFile(js_node_Path.resolve(__dirname,"public/500.html"));
 	});
 	var server1 = app.listen(this.config.PORT,null,null,function() {
 		console.info(">>> 🌎 Open http://localhost:" + _gthis.config.PORT + "/ in your browser.");
@@ -192,13 +203,14 @@ var externs_js_node_mongoose_Mongoose = require("mongoose").Mongoose;
 var externs_js_node_mongoose_Schema = require("mongoose").Schema;
 var externs_js_node_socketio_Server = require("socket.io");
 var bcrypt = require("Bcrypt");
-var jwt = require("jsonwebtoken");
+var externs_js_npm_JsonWebToken = require("jsonwebtoken");
 var swig = require("swig-templates");
 var validator = require("validator");
 var externs_js_npm_express_Express = require("express");
 var externs_js_npm_express_Router = require("express").Router;
 var externs_js_npm_mw_BodyParser = require("body-parser");
 var externs_js_npm_mw_Cors = require("cors");
+var externs_js_npm_mw_Jwt = require("express-jwt");
 var externs_js_npm_mw_Morgan = require("morgan");
 var haxe_Log = function() { };
 haxe_Log.__name__ = true;
@@ -592,7 +604,7 @@ var server_routes_UserRouter = function() {
 			if(err != null) {
 				return res2.status(500).json({ message : "Something went wrong (" + err + ")."});
 			}
-			var token = jwt.sign({ user : user1._id},config_Config.SECRET,{ expiresIn : 86400});
+			var token = externs_js_npm_JsonWebToken.sign({ user : user1._id},"something top secret, Haxe related and MEAN",{ expiresIn : 86400});
 			var tmp = "Welcome " + user1.username + "!";
 			return res2.status(201).json({ message : tmp, user : user1, token : token});
 		});
@@ -614,7 +626,7 @@ var server_routes_UserRouter = function() {
 			if(user2 == null || !user2.validatePassword(pPassword)) {
 				return res4.status(401).json({ message : "Unauthorised."});
 			}
-			var token1 = jwt.sign({ user : user2._id},config_Config.SECRET,{ expiresIn : 86400});
+			var token1 = externs_js_npm_JsonWebToken.sign({ user : user2._id},"something top secret, Haxe related and MEAN",{ expiresIn : 86400});
 			return res4.status(200).json({ message : "Welcome back", user : user2, token : token1});
 		});
 	});
@@ -623,6 +635,5 @@ server_routes_UserRouter.__name__ = true;
 String.__name__ = true;
 Array.__name__ = true;
 Date.__name__ = ["Date"];
-config_Config.SECRET = "something top secret, Haxe related and MEAN";
 MainServer.main();
 })();

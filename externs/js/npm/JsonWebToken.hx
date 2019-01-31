@@ -12,7 +12,7 @@ import js.node.Buffer;
  * Definitions by: Matthijs Kamstra aka [mck] <https://github.com/MatthijsKamstra>
  * Definitions: <https://github.com/matthijskamstra/hx-mean>
  */
-@:native('jwt')
+// @:native('jwt')
 @:jsRequire("jsonwebtoken")
 extern class JsonWebToken{
 
@@ -26,8 +26,6 @@ extern class JsonWebToken{
 	static function verify(token:String, secretOrPublicKey:EitherType<String, Buffer>, ?options:VerifyOptions, ?callback:VerifyCallback):Void;
 
 	static function decode(token:String, ?options:DecodeOptions):EitherType<Null, haxe.extern.EitherType<{ }, String>>;
-
-
 
 }
 

@@ -16,6 +16,7 @@ import externs.js.node.mongoose.Mongoose;
 import externs.js.node.mongoose.Schema;
 import externs.js.node.mongoose.Model;
 import externs.js.node.mongoose.Mongoose;
+import externs.js.npm.mw.Jwt;
 
 import config.Config;
 import server.routes.*;
@@ -194,11 +195,52 @@ class MainServer {
 		// 	});
 		// });
 
+		app.get("/protected",
+			Jwt.create({secret: Config.SECRET}),
+			function(req:Request, res:Response) {
+				trace (req);
+				trace (res);
+				// if (!req.user.admin) return res.sendStatus(401);
+				res.sendStatus(200);
+				// res.sendFile(Node.__dirname + '/public/secure.html');
+		});
+		// app.use(function (err, req:Request, res:Response, next){
+		// 	if (err.name != 'UnauthorizedError') return next();
+		// 	return res.status(401).json({ message: 'Unauthorized request.' });
+		// 	}
+		// );
+
+		/**
+		 *
+
+		const apiRouter   = require('./config/apiRoutes');
+		const expressJWT = require('express-jwt');
+		const secret = 'Something top secret.';
+		app.use('/api', expressJWT({ secret })
+		.unless({
+			path: [
+			{ url: '/api/register', methods: ['POST'] },
+			{ url: '/api/login',    methods: ['POST'] }
+			]
+		}));
+		app.use(jwtErrorHandler);
+		function jwtErrorHandler(err, req, res, next){
+			if (err.name !== 'UnauthorizedError') return next();
+			return res.status(401).json({ message: 'Unauthorized request.' });
+		}
+		app.use('/api', apiRouter);
+
+		 */
+
+
 		// Initialize routes middleware
 		app.use('/index', new Index().router);
 		app.use('/api', new Api().router);
 		app.use('/endpoint', new Endpoint().router);
 		app.use('/users', new UserRouter().router);
+
+
+
 
 
 		// Statics routes
@@ -247,20 +289,21 @@ class MainServer {
 		// 	res.send('_username: ' + _username);
 		// });
 
+		// 404
+		app.use(function(req:Request,res:Response, next) {
+			res.status(404).send('404');
+			// res.status(404).send(output);
+		});
 
-
-		// app.use(function(req, res, next) {
-		// 	res.status(404).send('404');
-		// 	// res.status(404).send(output);
-		// });
-
+		// 400
 		app.use(function (req:Request,res:Response, next) {
 			res.sendFile( Path.resolve(Node.__dirname , 'public/400.html'));
 		});
 
-		// app.use(function (err, req, res, next) {
-		// 	res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
-		// });
+		// 500
+		app.use(function (err, req:Request,res:Response, next) {
+			res.sendFile( Path.resolve(Node.__dirname , 'public/500.html'));
+		});
 
 		var server = app.listen(config.PORT, function(){
 			// trace('Express server listening on port ' + app.get('port'));

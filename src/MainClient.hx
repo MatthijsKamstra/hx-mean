@@ -122,6 +122,9 @@ class MainClient {
 		trace('getToken');
 		return window.localStorage.getItem('token');
 	}
+	function removeToken() {
+		return window.localStorage.clear();
+	}
 
 	function submittedForm (e) {
 		e.preventDefault();
