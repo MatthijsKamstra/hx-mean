@@ -7,16 +7,14 @@ import js.node.mongodb.ReadPreference;
 import externs.js.node.mongoose.Promise.Reason;
 import js.node.stream.Readable;
 
-typedef Number = EitherType<Int,Float>;
+typedef Number = EitherType<Int, Float>;
 typedef Geometry = {type:String, coordinates:Array<Number>};
 typedef QueryInfo = {collectionName:String, conditions:{}, options:{}, doc:{}};
 typedef TraceFuncCallback = Error->Dynamic->Float;
-typedef TraceFunc = {}->QueryInfo->{}->TraceFuncCallback;
-
+typedef TraceFunc = {}-> QueryInfo -> {}->TraceFuncCallback;
 
 @:jsRequire("mongoose", "Query")
-extern class Query
-{
+extern class Query {
 	/**
 	 * Converts this query to a customized, reusable query constructor with all arguments and options retained.
 	 *
@@ -56,7 +54,7 @@ extern class Query
 	 * @return {Query} subclass-of-Query
 	 * @api public
 	 */
-	public function toConstructor() : Query;
+	public function toConstructor():Query;
 
 	/**
 	 * Sets query options.
@@ -83,7 +81,7 @@ extern class Query
 	 * @return {this}
 	 * @api public
 	 */
-	public function setOptions(options:{}) : Query;
+	public function setOptions(options:{}):Query;
 
 	/**
 	 * Specifies a `$where` condition
@@ -104,9 +102,8 @@ extern class Query
 	 * @method $where
 	 * @api public
 	 */
-	@:overload(function (js:Function) : Query {})
-	public inline function _where(js:String) : Query
-	{
+	@:overload(function(js:Function):Query {})
+	public /*inline*/ function _where(js:String):Query {
 		return untyped this["$where"](js);
 	}
 
@@ -136,8 +133,8 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (val:{}) : Query {})
-	public function where(path:String, val:Rest<Dynamic>) : Query;
+	@:overload(function(val:{}):Query {})
+	public function where(path:String, val:Rest<Dynamic>):Query;
 
 	/**
 	 * Specifies the complementary comparison value for paths specified with `where()`
@@ -154,7 +151,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function equals(val:Dynamic) : Query;
+	public function equals(val:Dynamic):Query;
 
 	/**
 	 * Specifies arguments for an `$or` condition.
@@ -167,7 +164,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function or(array:Array<{}>) : Query;
+	public function or(array:Array<{}>):Query;
 
 	/**
 	 * Specifies arguments for a `$nor` condition.
@@ -180,7 +177,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function nor(array:Array<{}>) : Query;
+	public function nor(array:Array<{}>):Query;
 
 	/**
 	 * Specifies arguments for a `$and` condition.
@@ -194,7 +191,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function and(array:Array<{}>) : Query;
+	public function and(array:Array<{}>):Query;
 
 	/**
 	 * Specifies a $gt query condition.
@@ -214,7 +211,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	 public function gt(?path:String, val:Number) : Query;
+	public function gt(?path:String, val:Number):Query;
 
 	/**
 	 * Specifies a $gte query condition.
@@ -227,7 +224,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function gte(?path:String, val:Number) : Query;
+	public function gte(?path:String, val:Number):Query;
 
 	/**
 	 * Specifies a $lt query condition.
@@ -240,7 +237,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function lt(?path:String, val:Number) : Query;
+	public function lt(?path:String, val:Number):Query;
 
 	/**
 	 * Specifies a $lte query condition.
@@ -253,7 +250,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function lte(?path:String, val:Number) : Query;
+	public function lte(?path:String, val:Number):Query;
 
 	/**
 	 * Specifies a $ne query condition.
@@ -266,7 +263,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function ne(?path:String, val:Dynamic) : Query;
+	public function ne(?path:String, val:Dynamic):Query;
 
 	/**
 	 * Specifies an $in query condition.
@@ -279,15 +276,11 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public inline function in_(?path:String, val:Dynamic) : Query
-	{
-		if(path == null)
-		{
+	public inline function in_(?path:String, val:Dynamic):Query {
+		if (path == null) {
 			return untyped this["in"](val);
-		}
-		else
-		{
-			return untyped this["in"](path,val);
+		} else {
+			return untyped this["in"](path, val);
 		}
 	}
 
@@ -302,7 +295,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function nin(?path:String, val:Dynamic) : Query;
+	public function nin(?path:String, val:Dynamic):Query;
 
 	/**
 	 * Specifies an $all query condition.
@@ -315,7 +308,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function all(?path:String, val:Dynamic) : Query;
+	public function all(?path:String, val:Dynamic):Query;
 
 	/**
 	 * Specifies a $size query condition.
@@ -328,7 +321,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function size(?path:String, val:Dynamic) : Query;
+	public function size(?path:String, val:Dynamic):Query;
 
 	/**
 	 * Specifies a $regex query condition.
@@ -341,7 +334,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function regex(?path:String, val:Dynamic) : Query;
+	public function regex(?path:String, val:Dynamic):Query;
 
 	/**
 	 * Specifies a $maxDistance query condition.
@@ -354,7 +347,7 @@ extern class Query
 	 * @param {Number} val
 	 * @api public
 	 */
-	public function maxDistance(?path:String, val:Dynamic) : Query;
+	public function maxDistance(?path:String, val:Dynamic):Query;
 
 	/**
 	 * Specifies a `$mod` condition
@@ -364,8 +357,8 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (?path:String, val:Array<Number>) : Query {})
-	public function mod(?path:String, val:Number) : Query;
+	@:overload(function(?path:String, val:Array<Number>):Query {})
+	public function mod(?path:String, val:Number):Query;
 
 	/**
 	 * Specifies an `$exists` condition
@@ -386,7 +379,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function exists(?path:String, val:Bool) : Query;
+	public function exists(?path:String, val:Bool):Query;
 
 	/**
 	 * Specifies an `$elemMatch` condition
@@ -412,12 +405,12 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (path:Function, fn:Function) : Query {})
-	@:overload(function (path:Function, criteria:{}) : Query {})
-	@:overload(function (path:{}, fn:Function) : Query {})
-	@:overload(function (path:{}, criteria:{}) : Query {})
-	@:overload(function (path:String, fn:Function) : Query {})
-	public function elemMatch(path:String, criteria:{}) : Query;
+	@:overload(function(path:Function, fn:Function):Query {})
+	@:overload(function(path:Function, criteria:{}):Query {})
+	@:overload(function(path:{}, fn:Function):Query {})
+	@:overload(function(path:{}, criteria:{}):Query {})
+	@:overload(function(path:String, fn:Function):Query {})
+	public function elemMatch(path:String, criteria:{}):Query;
 
 	/**
 	 * Sugar for geo-spatial queries.
@@ -444,9 +437,9 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (area:Rest<Array<Number>>) : Query {})
-	public function within(area:{}) : Query;
+	@:overload(function():Query {})
+	@:overload(function(area:Rest<Array<Number>>):Query {})
+	public function within(area:{}):Query;
 
 	/**
 	 * Specifies a $box condition
@@ -466,8 +459,8 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (lowerLeft:Array<Number>, upperRight:Array<Number>) : Query {})
-	public function box(path:String, lowerLeft:Array<Number>, upperRight:Array<Number>) : Query;
+	@:overload(function(lowerLeft:Array<Number>, upperRight:Array<Number>):Query {})
+	public function box(path:String, lowerLeft:Array<Number>, upperRight:Array<Number>):Query;
 
 	/**
 	 * Specifies a $polygon condition
@@ -483,8 +476,8 @@ extern class Query
 	 * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
 	 * @api public
 	 */
-	@:overload(function (val:Rest<Array<Number>>) : Query {})
-	public function polygon(path:String, val:Rest<Array<Number>>) : Query;
+	@:overload(function(val:Rest<Array<Number>>):Query {})
+	public function polygon(path:String, val:Rest<Array<Number>>):Query;
 
 	/**
 	 * Specifies a $center or $centerSphere condition.
@@ -506,8 +499,8 @@ extern class Query
 	 * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
 	 * @api public
 	 */
-	@:overload(function (area:{}) : Query {})
-	public function circle(path:String, area:{}) : Query;
+	@:overload(function(area:{}):Query {})
+	public function circle(path:String, area:{}):Query;
 
 	/**
 	 * Specifies a `$near` or `$nearSphere` condition
@@ -529,8 +522,8 @@ extern class Query
 	 * @see http://www.mongodb.org/display/DOCS/Geospatial+Indexing
 	 * @api public
 	 */
-	@:overload(function (val:{}) : Query {})
-	public function near(path:String, val:{}) : Query;
+	@:overload(function(val:{}):Query {})
+	public function near(path:String, val:{}):Query;
 
 	/**
 	 * Declares an intersects query for `geometry()`.
@@ -551,7 +544,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function intersects(?arg:{}) : Query;
+	public function intersects(?arg:{}):Query;
 
 	/**
 	 * Specifies a `$geometry` condition
@@ -589,7 +582,7 @@ extern class Query
 	 * @see $geometry http://docs.mongodb.org/manual/reference/operator/geometry/
 	 * @api public
 	 */
-	public function geometry(geom:Geometry) : Query;
+	public function geometry(geom:Geometry):Query;
 
 	/**
 	 * Specifies which document fields to include or exclude
@@ -616,8 +609,8 @@ extern class Query
 	 * @see SchemaType
 	 * @api public
 	 */
-	@:overload(function (arg:String) : Query {})
-	public function select(arg:{}) : Query;
+	@:overload(function(arg:String):Query {})
+	public function select(arg:{}):Query;
 
 	/**
 	 * Specifies a $slice condition for a `path`
@@ -636,10 +629,10 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Retrieving+a+Subset+of+Fields#RetrievingaSubsetofFields-RetrievingaSubrangeofArrayElements
 	 * @api public
 	 */
-	@:overload(function (val:Int) : Query {})
-	@:overload(function (val:Array<Int>) : Query {})
-	@:overload(function (path:String, val:Array<Int>) : Query {})
-	public function slice(path:String, val:Int) : Query;
+	@:overload(function(val:Int):Query {})
+	@:overload(function(val:Array<Int>):Query {})
+	@:overload(function(path:String, val:Array<Int>):Query {})
+	public function slice(path:String, val:Int):Query;
 
 	/**
 	 * Sets the sort order
@@ -662,8 +655,8 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (arg:String) : Query {})
-	public function sort(arg:{}) : Query;
+	@:overload(function(arg:String):Query {})
+	public function sort(arg:{}):Query;
 
 	/**
 	 * Specifies the limit option.
@@ -682,7 +675,7 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7Blimit%28%29%7D%7D
 	 * @api public
 	 */
-	public function limit(val:Int) : Query;
+	public function limit(val:Int):Query;
 
 	/**
 	 * Specifies the skip option.
@@ -701,7 +694,7 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7Bskip%28%29%7D%7D
 	 * @api public
 	 */
-	public function skip(val:Int) : Query;
+	public function skip(val:Int):Query;
 
 	/**
 	 * Specifies the maxScan option.
@@ -720,7 +713,7 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24maxScan
 	 * @api public
 	 */
-	public function maxScan(val:Int) : Query;
+	public function maxScan(val:Int):Query;
 
 	/**
 	 * Specifies the batchSize option.
@@ -739,7 +732,7 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%7B%7BbatchSize%28%29%7D%7D
 	 * @api public
 	 */
-	 public function batchSize(val:Int) : Query;
+	public function batchSize(val:Int):Query;
 
 	/**
 	 * Specifies the `comment` option.
@@ -758,7 +751,7 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24comment
 	 * @api public
 	 */
-	 public function comment(val:String) : Query;
+	public function comment(val:String):Query;
 
 	/**
 	 * Specifies the maxTimeMS option.
@@ -773,7 +766,7 @@ extern class Query
 	 * @see mongodb http://docs.mongodb.org/manual/reference/operator/meta/maxTimeMS/#op._S_maxTimeMS
 	 * @api public
 	 */
-	public function maxTime(val:Number) : Query;
+	public function maxTime(val:Number):Query;
 
 	/**
 	 * Specifies this query as a `snapshot` query.
@@ -792,7 +785,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function snapshot(?b:Bool) : Query;
+	public function snapshot(?b:Bool):Query;
 
 	/**
 	 * Sets query hints.
@@ -810,7 +803,7 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/Advanced+Queries#AdvancedQueries-%24hint
 	 * @api public
 	 */
-	public function hint(val:{}) : Query;
+	public function hint(val:{}):Query;
 
 	/**
 	 * Determines the MongoDB nodes from which to read.
@@ -862,8 +855,8 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (pref:ReadPreference, ?tags:Array<String>) : Query {})
-	public function read(pref:String, ?tags:Array<String>) : Query;
+	@:overload(function(pref:ReadPreference, ?tags:Array<String>):Query {})
+	public function read(pref:String, ?tags:Array<String>):Query;
 
 	/**
 	 * Returns the current query conditions as a JSON object.
@@ -877,7 +870,7 @@ extern class Query
 	 * @return {Object} current query conditions
 	 * @api public
 	 */
-	public function getQuery() : {};
+	public function getQuery():{};
 
 	/**
 	 * Returns the current update operations as a JSON object.
@@ -891,7 +884,7 @@ extern class Query
 	 * @return {Object} current update operations
 	 * @api public
 	 */
-	public function getUpdate() : {};
+	public function getUpdate():{};
 
 	/**
 	 * Sets the lean option.
@@ -914,7 +907,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function lean(?v:Bool) : Query;
+	public function lean(?v:Bool):Query;
 
 	/**
 	 * Sets the tailable option (for use with capped collections).
@@ -933,7 +926,7 @@ extern class Query
 	 * @see tailable http://docs.mongodb.org/manual/tutorial/create-tailable-cursor/
 	 * @api public
 	 */
-	public function tailable(?b:Bool) : Query;
+	public function tailable(?b:Bool):Query;
 
 	/**
 	 * Merges another Query or conditions object into this one.
@@ -943,8 +936,8 @@ extern class Query
 	 * @param {Query|Object} source
 	 * @return {Query} this
 	 */
-	@:overload(function (source:{}) : Query {})
-	public function merge(source:Query) : Query;
+	@:overload(function(source:{}):Query {})
+	public function merge(source:Query):Query;
 
 	/**
 	 * Finds documents.
@@ -960,9 +953,9 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	@:overload(function (conditions:{}) : Query {})
-	public function find(conditions:{}, callback:Error->{}->Void) : Query;
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	@:overload(function(conditions:{}):Query {})
+	public function find(conditions:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Declares the query a findOne operation. When executed, the first found document is passed to the callback.
@@ -986,11 +979,11 @@ extern class Query
 	 * @see findOne http://docs.mongodb.org/manual/reference/method/db.collection.findOne/
 	 * @api public
 	 */
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	@:overload(function (options:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (projection:{}, options:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (conditions:Query, projection:{}, options:{}, callback:Error->{}->Void) : Query {})
-	public function findOne(conditions:{}, projection:{}, options:{}, callback:Error->{}->Void) : Query;
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	@:overload(function(options:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(projection:{}, options:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(conditions:Query, projection:{}, options:{}, callback:Error -> {}->Void):Query {})
+	public function findOne(conditions:{}, projection:{}, options:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Specifying this query as a `count` query.
@@ -1016,10 +1009,10 @@ extern class Query
 	 * @see count http://docs.mongodb.org/manual/reference/method/db.collection.count/
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (callback:Error->Int->Void) : Query {})
-	@:overload(function (conditions:{}) : Query {})
-	public function count(conditions:{}, callback:Error->Int->Void) : Query;
+	@:overload(function():Query {})
+	@:overload(function(callback:Error->Int->Void):Query {})
+	@:overload(function(conditions:{}):Query {})
+	public function count(conditions:{}, callback:Error->Int->Void):Query;
 
 	/**
 	 * Declares or executes a distict() operation.
@@ -1042,13 +1035,13 @@ extern class Query
 	 * @see distinct http://docs.mongodb.org/manual/reference/method/db.collection.distinct/
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (field:String, conditions:Query, callback:Error->{}->Void) : Query {})
-	@:overload(function (conditions:Query, callback:Error->{}->Void) : Query {})
-	@:overload(function (conditions:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (field:String, callback:Error->{}->Void) : Query {})
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	public function distinct(field:String, conditions:{}, callback:Error->{}->Void) : Query;
+	@:overload(function():Query {})
+	@:overload(function(field:String, conditions:Query, callback:Error -> {}->Void):Query {})
+	@:overload(function(conditions:Query, callback:Error -> {}->Void):Query {})
+	@:overload(function(conditions:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(field:String, callback:Error -> {}->Void):Query {})
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	public function distinct(field:String, conditions:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Declare and/or execute this query as an update() operation.
@@ -1129,15 +1122,15 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (b:Bool) : Query {})
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	@:overload(function (doc:{}) : Query {})
-	@:overload(function (doc:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (criteria:{}, doc:{}) : Query {})
-	@:overload(function (criteria:{}, doc:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (criteria:{}, doc:{}, options:{}) : Query {})
-	public function update(criteria:{}, doc:{}, options:{}, callback:Error->{}->Void) : Query;
+	@:overload(function():Query {})
+	@:overload(function(b:Bool):Query {})
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	@:overload(function(doc:{}):Query {})
+	@:overload(function(doc:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(criteria:{}, doc:{}):Query {})
+	@:overload(function(criteria:{}, doc:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(criteria:{}, doc:{}, options:{}):Query {})
+	public function update(criteria:{}, doc:{}, options:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Declare and/or execute this query as a remove() operation.
@@ -1172,12 +1165,12 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (cond:{}) : Query {})
-	@:overload(function (cond:Query) : Query {})
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	@:overload(function (cond:Query, callback:Error->{}->Void) : Query {})
-	public function remove(cond:{}, callback:Error->{}->Void) : Query;
+	@:overload(function():Query {})
+	@:overload(function(cond:{}):Query {})
+	@:overload(function(cond:Query):Query {})
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	@:overload(function(cond:Query, callback:Error -> {}->Void):Query {})
+	public function remove(cond:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Issues a mongodb [findAndModify](http://www.mongodb.org/display/DOCS/findAndModify+Command) update command.
@@ -1210,18 +1203,18 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (b:Bool) : Query {})
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	@:overload(function (doc:{}) : Query {})
-	@:overload(function (doc:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (criteria:Query, doc:{}) : Query {})
-	@:overload(function (criteria:Query, doc:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (criteria:Query, doc:{}, options:{}) : Query {})
-	@:overload(function (criteria:{}, doc:{}) : Query {})
-	@:overload(function (criteria:{}, doc:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (criteria:{}, doc:{}, options:{}) : Query {})
-	public function findOneAndUpdate(criteria:{}, doc:{}, options:{}, callback:Error->{}->Void) : Query;
+	@:overload(function():Query {})
+	@:overload(function(b:Bool):Query {})
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	@:overload(function(doc:{}):Query {})
+	@:overload(function(doc:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(criteria:Query, doc:{}):Query {})
+	@:overload(function(criteria:Query, doc:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(criteria:Query, doc:{}, options:{}):Query {})
+	@:overload(function(criteria:{}, doc:{}):Query {})
+	@:overload(function(criteria:{}, doc:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(criteria:{}, doc:{}, options:{}):Query {})
+	public function findOneAndUpdate(criteria:{}, doc:{}, options:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Issues a mongodb [findAndModify](http://www.mongodb.org/display/DOCS/findAndModify+Command) remove command.
@@ -1249,12 +1242,12 @@ extern class Query
 	 * @see mongodb http://www.mongodb.org/display/DOCS/findAndModify+Command
 	 * @api public
 	 */
-	@:overload(function () : Query {})
-	@:overload(function (callback:Error->{}->Void) : Query {})
-	@:overload(function (conditions:{}) : Query {})
-	@:overload(function (conditions:{}, callback:Error->{}->Void) : Query {})
-	@:overload(function (conditions:{}, options:{}) : Query {})
-	public function findOneAndRemove(conditions:{}, options:{}, callback:Error->{}->Void) : Query;
+	@:overload(function():Query {})
+	@:overload(function(callback:Error -> {}->Void):Query {})
+	@:overload(function(conditions:{}):Query {})
+	@:overload(function(conditions:{}, callback:Error -> {}->Void):Query {})
+	@:overload(function(conditions:{}, options:{}):Query {})
+	public function findOneAndRemove(conditions:{}, options:{}, callback:Error -> {}->Void):Query;
 
 	/**
 	 * Add trace function that gets called when the query is executed.
@@ -1275,7 +1268,7 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	public function setTraceFunction(traceFunction:TraceFunc) : Query;
+	public function setTraceFunction(traceFunction:TraceFunc):Query;
 
 	/**
 	 * Executes the query
@@ -1293,11 +1286,11 @@ extern class Query
 	 * @return {Promise}
 	 * @api public
 	 */
-	@:overload(function (callback:Error->{}->Void) : Promise {})
-	@:overload(function (op:String) : Promise {})
-	@:overload(function (op:Function) : Promise {})
-	@:overload(function (op:Function, callback:Error->{}->Void) : Promise {})
-	public function exec(op:String, callback:Error->{}->Void) : Promise;
+	@:overload(function(callback:Error -> {}->Void):Promise {})
+	@:overload(function(op:String):Promise {})
+	@:overload(function(op:Function):Promise {})
+	@:overload(function(op:Function, callback:Error -> {}->Void):Promise {})
+	public function exec(op:String, callback:Error -> {}->Void):Promise;
 
 	/**
 	 * Executes the query returning a `Promise` which will be
@@ -1308,7 +1301,7 @@ extern class Query
 	 * @return {Promise}
 	 * @api public
 	 */
-	public function then(resolve:Rest<Dynamic>->Void, reject:Reason->Void) : Promise;
+	public function then(resolve:Rest<Dynamic>->Void, reject:Reason->Void):Promise;
 
 	/**
 	 * Returns a stream for the given find query.
@@ -1316,7 +1309,7 @@ extern class Query
 	 * @throws Error if operation is not a find
 	 * @returns {Stream} Node 0.8 style
 	 */
-	public function stream(?streamOptions:{}) : IReadable;
+	public function stream(?streamOptions:{}):IReadable;
 
 	/**
 	 * Specifies paths which should be populated with other documents.
@@ -1354,12 +1347,12 @@ extern class Query
 	 * @return {Query} this
 	 * @api public
 	 */
-	@:overload(function (params:{}) : Query {})
-	@:overload(function (path:String, options:{}) : Query {})
-	@:overload(function (path:String, match:{}, options:{}) : Query {})
-	@:overload(function (path:String, model:Model, match:{}, options:{}) : Query {})
-	@:overload(function (path:String, select:String, model:Model, match:{}, options:{}) : Query {})
-	public function populate(path:String, select:String, model:Model, match:{}, options:{}) : Query;
+	@:overload(function(params:{}):Query {})
+	@:overload(function(path:String, options:{}):Query {})
+	@:overload(function(path:String, match:{}, options:{}):Query {})
+	@:overload(function(path:String, model:Model, match:{}, options:{}):Query {})
+	@:overload(function(path:String, select:String, model:Model, match:{}, options:{}):Query {})
+	public function populate(path:String, select:String, model:Model, match:{}, options:{}):Query;
 
 	/**
 	 * Casts this query to the schema of `model`
@@ -1373,9 +1366,7 @@ extern class Query
 	 * @return {Object}
 	 * @api public
 	 */
-	public inline function cast_(model:Model, ?obj:{}) : {}
-	{
+	public inline function cast_(model:Model, ?obj:{}):{} {
 		return untyped this['cast'](model, obj);
 	}
-
 } // End of Query class

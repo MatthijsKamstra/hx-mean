@@ -67,7 +67,7 @@ extern class SchemaType
 	 * @api public
 	 */
 	@:overload(function(val:Void->Dynamic) : SchemaType {})
-	public inline function default_(val:Dynamic) : SchemaType
+	public /*inline*/ function default_(val:Dynamic) : SchemaType
 	{
 		return untyped this['default'].apply(this, arguments);
 	}

@@ -5,26 +5,42 @@ import haxe.Constraints.Function;
 import js.node.events.EventEmitter;
 
 typedef SchemaOptions = {
-	?autoIndex: Bool, // - defaults to null (which means use the connection's autoIndex option)
-	?bufferCommands: Bool, // - defaults to true
-	?capped: Bool, // - defaults to false
-	?collection: String, // - no default
-	?id: Bool, // - defaults to true
-	?_id: Bool, // - defaults to true
-	?minimize: Bool, // - controls document#toObject behavior when called manually - defaults to true
-	?read: EitherType<String, js.node.mongodb.ReadPreference>, //
-	?writeConcern: Dynamic, // - defaults to null, use to override the MongoDB server's default write concern settings
-	?shardKey: Bool, // - defaults to null
-	?strict: Bool, // - defaults to true
-	?toJSON : Dynamic, // - no default
-	?toObject : Dynamic, // - no default
-	?typeKey : String, // - defaults to 'type'
-	?useNestedStrict : Bool, //ean - defaults to false
-	?validateBeforeSave : Bool, // - defaults to true
-	?versionKey: String, // - defaults to "__v"
-	?collation: Dynamic, // - defaults to null (which means use no collation)
-
-
+	?autoIndex:Bool,
+	// - defaults to null (which means use the connection's autoIndex option)
+	?bufferCommands:Bool,
+	// - defaults to true
+	?capped:Bool,
+	// - defaults to false
+	?collection:String,
+	// - no default
+	?id:Bool,
+	// - defaults to true
+	?_id:Bool,
+	// - defaults to true
+	?minimize:Bool,
+	// - controls document#toObject behavior when called manually - defaults to true
+	?read:EitherType<String, js.node.mongodb.ReadPreference>,
+	//
+	?writeConcern:Dynamic,
+	// - defaults to null, use to override the MongoDB server's default write concern settings
+	?shardKey:Bool,
+	// - defaults to null
+	?strict:Bool,
+	// - defaults to true
+	?toJSON:Dynamic,
+	// - no default
+	?toObject:Dynamic,
+	// - no default
+	?typeKey:String,
+	// - defaults to 'type'
+	?useNestedStrict:Bool,
+	// ean - defaults to false
+	?validateBeforeSave:Bool,
+	// - defaults to true
+	?versionKey:String,
+	// - defaults to "__v"
+	?collation:Dynamic,
+	// - defaults to null (which means use no collation)
 	// ?strict : Bool,
 	// ?bufferCommands : Bool,
 	// ?capped : Bool, // { size, max, autoIndexId }
@@ -38,9 +54,6 @@ typedef SchemaOptions = {
 	// the following are only applied at construction time
 	// ?_id : Bool,
 	// ?id : Bool,
-
-
-
 }
 
 /**
@@ -53,11 +66,11 @@ typedef SchemaOptions = {
  */
 @:jsRequire("mongoose", "Schema")
 // @:jsRequire("Schema")
-extern class Schema extends EventEmitter<Schema>
-{
-	public var indexTypes(default,null) : Array<String>;
+extern class Schema extends EventEmitter<Schema> {
+	public var indexTypes(default, null):Array<String>;
 
 	// https://mongoosejs.com/docs/api.html#Schema
+
 	/**
 	 * Schema constructor.
 	 *
@@ -106,7 +119,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @return {Object}
 	 * @api private
 	 */
-	 public function defaultOptions(?options:SchemaOptions) : SchemaOptions;
+	public function defaultOptions(?options:SchemaOptions):SchemaOptions;
 
 	/**
 	 * Adds key path / schema type pairs to this schema.
@@ -120,7 +133,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {String} prefix
 	 * @api public
 	 */
-	public function add(obj:{}, ?prefix:String) : Void;
+	public function add(obj:{}, ?prefix:String):Void;
 
 	/**
 	 * Gets/sets schema paths.
@@ -137,9 +150,8 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Object} constructor
 	 * @api public
 	 */
-	@:overload(function (path:String) : SchemaType {})
-	public function path(path:String, obj:{}) : Schema;
-
+	@:overload(function(path:String):SchemaType {})
+	public function path(path:String, obj:{}):Schema;
 
 	/**
 	 * Iterates the schemas paths similar to Array#forEach.
@@ -150,7 +162,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @return {Schema} this
 	 * @api public
 	 */
-	public function eachPath(fn:String->SchemaType->Void) : Schema;
+	public function eachPath(fn:String->SchemaType->Void):Schema;
 
 	/**
 	 * Returns an Array of path strings that are required by this schema.
@@ -159,7 +171,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Boolean} invalidate refresh the cache
 	 * @return {Array}
 	 */
-	public function requiredPaths(invalidate:Bool) : Array<String>;
+	public function requiredPaths(invalidate:Bool):Array<String>;
 
 	/**
 	 * Returns the pathType of `path` for this schema.
@@ -170,7 +182,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @return {String}
 	 * @api public
 	 */
-	public function pathType(path:String) : String;
+	public function pathType(path:String):String;
 
 	/**
 	 * Adds a method call to the queue.
@@ -179,7 +191,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Array} args arguments to pass to the method
 	 * @api public
 	 */
-	public function queue(name:String, args:Array<Dynamic>) : Schema;
+	public function queue(name:String, args:Array<Dynamic>):Schema;
 
 	/**
 	 * Defines a pre hook for the document.
@@ -203,8 +215,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @see hooks.js https://github.com/bnoguchi/hooks-js/tree/31ec571cef0332e21121ee7157e0cf9728572cc3
 	 * @api public
 	 */
-
-	public function pre(method:String, callback:Function) : Schema;
+	public function pre(method:String, callback:Function):Schema;
 
 	/**
 	 * Defines a post hook for the document
@@ -228,7 +239,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @see hooks.js https://github.com/bnoguchi/hooks-js/tree/31ec571cef0332e21121ee7157e0cf9728572cc3
 	 * @api public
 	 */
-	public function post(method:String, fn:Function) : Schema;
+	public function post(method:String, fn:Function):Schema;
 
 	/**
 	 * Registers a plugin for this schema.
@@ -238,7 +249,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @see plugins
 	 * @api public
 	 */
-	public function plugin(fn:Function, opts:{}) : Schema;
+	public function plugin(fn:Function, opts:{}):Schema;
 
 	/**
 	 * Adds an instance method to documents constructed from Models compiled from this schema.
@@ -271,8 +282,8 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Function} [fn]
 	 * @api public
 	 */
-	@:overload(function(map:{}) : Schema {})
-	public function method(name:String, fn:Function) : Schema;
+	@:overload(function(map:{}):Schema {})
+	public function method(name:String, fn:Function):Schema;
 
 	/**
 	 * Adds static "class" methods to Models compiled from this schema.
@@ -295,9 +306,8 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Function} fn
 	 * @api public
 	 */
-	@:overload(function(map:{}) : Schema {})
-	public inline function static_(name:String, fn:Function) : Schema
-	{
+	@:overload(function(map:{}):Schema {})
+	public /*inline*/ function static_(name:String, fn:Function):Schema {
 		return untyped this['static'].apply(this, arguments);
 	}
 
@@ -310,13 +320,13 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param options
 	 * @return VirtualType
 	 */
-	public function virtual(name:String, ?options : Dynamic):VirtualType;
+	public function virtual(name:String, ?options:Dynamic):VirtualType;
 
 	/**
-	 * Returns the virtual type with the given `name`.
+		* Returns the virtual type with the given `name`.
 
-	 * @param name
-	 * @return VirtualType
+		* @param name
+		* @return VirtualType
 	 */
 	public function virtualpath(name:String):VirtualType;
 
@@ -331,7 +341,7 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Object} [options]
 	 * @api public
 	 */
-	public function index(fields:{}, ?options:{}) : Schema;
+	public function index(fields:{}, ?options:{}):Schema;
 
 	/**
 	 * Sets/gets a schema option.
@@ -340,8 +350,8 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {Object} [value] if not passed, the current option value is returned
 	 * @api public
 	 */
-	@:overload(function(key:String) : Dynamic {})
-	public function set(key:String, value:Dynamic) : Schema;
+	@:overload(function(key:String):Dynamic {})
+	public function set(key:String, value:Dynamic):Schema;
 
 	/**
 	 * Gets a schema option.
@@ -349,14 +359,14 @@ extern class Schema extends EventEmitter<Schema>
 	 * @param {String} key option name
 	 * @api public
 	 */
-	public function get(key:String) : Dynamic;
+	public function get(key:String):Dynamic;
 
 	/**
 	 * Compiles indexes from fields and schema-level indexes
 	 *
 	 * @api public
 	 */
-	public function indexes() : Array<Array<Dynamic>>;
+	public function indexes():Array<Array<Dynamic>>;
 
 	/**
 	 * Removes the given `path` (or [`paths`]).
@@ -365,6 +375,5 @@ extern class Schema extends EventEmitter<Schema>
 	 *
 	 * @api public
 	 */
-	public function remove(path:String) : Void;
-
+	public function remove(path:String):Void;
 } // End of Schema class
