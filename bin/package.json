@@ -9,7 +9,7 @@
 		"body-parser": "^1.18.3",
 		"cors": "^2.8.4",
 		"express": "^4.16.3",
-		"express-jwt": "^5.3.1",
+		"express-jwt": "^6.0.0",
 		"faker": "^4.1.0",
 		"jsonwebtoken": "^8.3.0",
 		"mongoose": "^5.2.12",
