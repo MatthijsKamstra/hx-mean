@@ -20,7 +20,7 @@
 		"socket.io": "^2.4.0",
 		"string-capitalize-name": "^1.0.3",
 		"swig-templates": "^2.0.3",
-		"validator": "^10.7.0"
+		"validator": "^13.7.0"
 	},
 	"devDependencies": {},
 	"scripts": {
